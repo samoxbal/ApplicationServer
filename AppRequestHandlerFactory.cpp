@@ -5,6 +5,10 @@
 #include "AppRequestHandlerFactory.h"
 #include "AppRequestHandler.h"
 
+AppRequestHandlerFactory::AppRequestHandlerFactory() {
+
+}
+
 Poco::Net::HTTPRequestHandler* AppRequestHandlerFactory::createRequestHandler(
         const Poco::Net::HTTPServerRequest &request)
 {
