@@ -12,8 +12,12 @@ void AppRequestHandler::handleRequest(
     auto reqBody = bodyParser.extract<Poco::JSON::Object::Ptr>();
     auto command = reqBody->get("command");
 
+    Poco::JSON::Object::Ptr result = new Poco::JSON::Object;
+    result->set("status", "ok");
+    result->set("data", command);
+
     response.setContentType("application/json");
     response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
     std::ostream& responseStream = response.send();
-    responseStream << command.toString() << std::endl;
+    result->stringify(responseStream);
 }

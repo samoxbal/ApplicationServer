@@ -9,6 +9,7 @@
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/JSON/Parser.h>
+#include <Poco/JSON/Object.h>
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {
 public:
