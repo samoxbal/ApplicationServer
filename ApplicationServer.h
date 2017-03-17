@@ -6,6 +6,8 @@
 #define VASCAN_APPLICATIONSERVER_H
 
 #include <Poco/Util/ServerApplication.h>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/client.hpp>
 
 class ApplicationServer : public Poco::Util::ServerApplication {
 protected:

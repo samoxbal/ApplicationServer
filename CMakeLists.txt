@@ -13,7 +13,9 @@ set(POCO_LIBS
         "${POCO_LIB_DIR}/libPocoNet.so"
         "${POCO_LIB_DIR}/libPocoUtil.so"
         "${POCO_LIB_DIR}/libPocoJSON.so"
-        "${POCO_LIB_DIR}/libPocoFoundation.so")
+        "${POCO_LIB_DIR}/libPocoFoundation.so"
+        "${POCO_LIB_DIR}/libbsoncxx.so"
+        "${POCO_LIB_DIR}/libmongocxx.so")
 
 target_include_directories(VaScan PRIVATE $(POCO_INCLUDE_DIR))
 target_link_libraries(VaScan "${POCO_LIBS}")

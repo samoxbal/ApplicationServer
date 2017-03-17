@@ -6,10 +6,12 @@
 #define VASCAN_APPREQUESTHANDLERFACTORY_H
 
 #include <Poco/Net/HTTPRequestHandlerFactory.h>
+#include <mongocxx/database.hpp>
 
 class AppRequestHandlerFactory : public Poco::Net::HTTPRequestHandlerFactory {
 public:
-    AppRequestHandlerFactory();
+    mongocxx::database database;
+    AppRequestHandlerFactory(mongocxx::database& database);
     Poco::Net::HTTPRequestHandler* createRequestHandler(const Poco::Net::HTTPServerRequest& request);
 };
 

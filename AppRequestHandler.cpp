@@ -4,6 +4,10 @@
 
 #include "AppRequestHandler.h"
 
+AppRequestHandler::AppRequestHandler(mongocxx::database& db) {
+    this->database = db;
+}
+
 void AppRequestHandler::handleRequest(
         Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response)
 {
@@ -12,12 +16,22 @@ void AppRequestHandler::handleRequest(
     auto reqBody = bodyParser.extract<Poco::JSON::Object::Ptr>();
     auto command = reqBody->get("command");
 
-    Poco::JSON::Object::Ptr result = new Poco::JSON::Object;
-    result->set("status", "ok");
-    result->set("data", command);
+    auto db = this->database;
+    auto collection = db.collection("users");
+    auto cursor = collection.find({});
+    auto document = bsoncxx::builder::stream::document{};
+    auto users = bsoncxx::builder::stream::array{};
+
+    for (auto&& doc : cursor) {
+        users << doc;
+    }
+
+    std::string ok = "ok";
+    document << "status" << ok;
+    document << "users" << users;
 
     response.setContentType("application/json");
     response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
     std::ostream& responseStream = response.send();
-    result->stringify(responseStream);
+    responseStream << bsoncxx::to_json(document);
 }
