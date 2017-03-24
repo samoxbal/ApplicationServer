@@ -18,17 +18,22 @@
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {
 public:
-    typedef void(AppRequestHandler::*function)(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    typedef void(AppRequestHandler::*function)(Poco::Net::HTTPServerRequest&, Poco::Net::HTTPServerResponse&);
     std::string ok = "ok";
     std::string failed = "failed";
     mongocxx::database database;
+    Poco::JSON::Object::Ptr messageBody;
     AppRequestHandler(mongocxx::database& db);
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void createUser(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void createExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void fetchExperiments(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
 
 private:
     std::map<std::string, function> api = {
-        {"createUser", &AppRequestHandler::createUser}
+        {"createUser", &AppRequestHandler::createUser},
+        {"createExperiment", &AppRequestHandler::createExperiment},
+        {"fetchExperiments", &AppRequestHandler::fetchExperiments}
     };
 };
 
