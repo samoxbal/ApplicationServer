@@ -10,11 +10,13 @@
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
+#include <Poco/Net/HTMLForm.h>
 #include <mongocxx/client.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types.hpp>
+#include "FileHandler.h"
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {
 public:

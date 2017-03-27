@@ -11,26 +11,37 @@ AppRequestHandler::AppRequestHandler(mongocxx::database& db) {
 void AppRequestHandler::handleRequest(
         Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response)
 {
-    Poco::JSON::Parser parser;
-    auto bodyParser = parser.parse(request.stream());
-    auto reqBody = bodyParser.extract<Poco::JSON::Object::Ptr>();
-    auto command = reqBody->get("command");
-    auto bodyRaw = reqBody->get("body");
-    this->messageBody = bodyRaw.extract<Poco::JSON::Object::Ptr>();
-    auto api = this->api;
-
-    auto iterator = api.find(command);
-
     response.setContentType("application/json");
     response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
 
-    if (iterator == api.end()) {
+    FileHandler multipartHandler;
+    Poco::Net::HTMLForm form(request, request.stream(), multipartHandler);
+
+    if(!multipartHandler.filename.empty()) {
         auto json_response = bsoncxx::builder::stream::document{};
-        json_response << "status" << this->failed;
+        json_response << "status" << this->ok;
+        json_response << "filename" << multipartHandler.filename;
         std::ostream& responseStream = response.send();
         responseStream << bsoncxx::to_json(json_response);
     } else {
-        (this->*(iterator->second))(request, response);
+        Poco::JSON::Parser parser;
+        auto bodyParser = parser.parse(request.stream());
+        auto reqBody = bodyParser.extract<Poco::JSON::Object::Ptr>();
+        auto command = reqBody->get("command");
+        auto bodyRaw = reqBody->get("body");
+        this->messageBody = bodyRaw.extract<Poco::JSON::Object::Ptr>();
+        auto api = this->api;
+
+        auto iterator = api.find(command);
+
+        if (iterator == api.end()) {
+            auto json_response = bsoncxx::builder::stream::document{};
+            json_response << "status" << this->failed;
+            std::ostream& responseStream = response.send();
+            responseStream << bsoncxx::to_json(json_response);
+        } else {
+            (this->*(iterator->second))(request, response);
+        }
     }
 }
 
