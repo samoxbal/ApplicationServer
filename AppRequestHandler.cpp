@@ -42,6 +42,9 @@ void AppRequestHandler::handleRequest(
             auto points = bsoncxx::builder::stream::array{};
             json_response << "status" << this->ok;
             json_response << "filename" << multipartHandler.filename;
+            if (form.has("scan_id")) {
+                json_response << "scan_id" << form.get("scan_id");
+            }
             for (auto& p : multipartHandler.data) {
                 points << bsoncxx::builder::stream::open_array
                        << p.first << p.second
