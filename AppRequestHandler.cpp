@@ -14,16 +14,7 @@ void AppRequestHandler::handleRequest(
     response.setContentType("application/json");
     response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
 
-    FileHandler multipartHandler;
-    Poco::Net::HTMLForm form(request, request.stream(), multipartHandler);
-
-    if(!multipartHandler.filename.empty()) {
-        auto json_response = bsoncxx::builder::stream::document{};
-        json_response << "status" << this->ok;
-        json_response << "filename" << multipartHandler.filename;
-        std::ostream& responseStream = response.send();
-        responseStream << bsoncxx::to_json(json_response);
-    } else {
+    if (request.getContentType() == "application/json") {
         Poco::JSON::Parser parser;
         auto bodyParser = parser.parse(request.stream());
         auto reqBody = bodyParser.extract<Poco::JSON::Object::Ptr>();
@@ -42,6 +33,24 @@ void AppRequestHandler::handleRequest(
         } else {
             (this->*(iterator->second))(request, response);
         }
+    } else {
+        FileHandler multipartHandler;
+        Poco::Net::HTMLForm form(request, request.stream(), multipartHandler);
+
+        if(!multipartHandler.filename.empty()) {
+            auto json_response = bsoncxx::builder::stream::document{};
+            auto points = bsoncxx::builder::stream::array{};
+            json_response << "status" << this->ok;
+            json_response << "filename" << multipartHandler.filename;
+            for (auto& p : multipartHandler.data) {
+                points << bsoncxx::builder::stream::open_array
+                       << p.first << p.second
+                       << bsoncxx::builder::stream::close_array;
+            }
+            json_response << "points" << points;
+            std::ostream& responseStream = response.send();
+            responseStream << bsoncxx::to_json(json_response);
+        }
     }
 }
 
@@ -52,19 +61,6 @@ void AppRequestHandler::createUser(
 {
     auto db = this->database;
     auto collection = db.collection("users");
-    auto cursor = collection.find({});
-    auto document = bsoncxx::builder::stream::document{};
-    auto users = bsoncxx::builder::stream::array{};
-
-    for (auto&& doc : cursor) {
-        users << doc;
-    }
-
-    document << "status" << this->ok;
-    document << "users" << users;
-
-    std::ostream& responseStream = response.send();
-    responseStream << bsoncxx::to_json(document);
 }
 
 void AppRequestHandler::createExperiment(

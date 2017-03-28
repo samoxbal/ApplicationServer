@@ -10,6 +10,12 @@ void FileHandler::handlePart(const Poco::Net::MessageHeader &header, std::istrea
         Poco::Net::NameValueCollection params;
         std::string disposition;
         Poco::Net::MessageHeader::splitParameters(header["Content-Disposition"], disposition, params);
+        std::string content, line, x_str, y_str;
         filename = params.get("filename");
+        Poco::StreamCopier::copyToString(stream, content);
+        std::istringstream data_stream(content);
+        while(std::getline(data_stream, line, '\n') >> x_str >> y_str) {
+            data.push_back({ x_str, y_str });
+        }
     }
 }
