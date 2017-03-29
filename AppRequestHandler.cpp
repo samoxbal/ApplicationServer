@@ -57,13 +57,40 @@ void AppRequestHandler::handleRequest(
     }
 }
 
+std::string AppRequestHandler::createHash(std::string& password_str)
+{
+    Poco::MD5Engine md5;
+    md5.update(password_str);
+    return Poco::DigestEngine::digestToHex(md5.digest());
+}
+
 void AppRequestHandler::createUser(
         Poco::Net::HTTPServerRequest &request,
         Poco::Net::HTTPServerResponse &response
 )
 {
     auto db = this->database;
+    auto messageBody = this->messageBody;
     auto collection = db.collection("users");
+    auto user = bsoncxx::builder::stream::document{};
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto password_str = (messageBody->get("password")).toString();
+
+    Poco::Timestamp now;
+
+    user << "email" << (messageBody->get("email")).toString()
+         << "username" << (messageBody->get("username")).toString()
+         << "password" << AppRequestHandler::createHash(password_str)
+         << "date_register" << Poco::DateTimeFormatter::format(now, Poco::DateTimeFormat::ISO8601_FORMAT);
+
+    auto result = collection.insert_one(user.view());
+    auto inserted_id = result->inserted_id().get_oid().value;
+
+    json_response << "status" << this->ok;
+    json_response << "data" << inserted_id.to_string();
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
 }
 
 void AppRequestHandler::createExperiment(

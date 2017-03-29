@@ -11,6 +11,10 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/JSON/Object.h>
 #include <Poco/Net/HTMLForm.h>
+#include "Poco/Timestamp.h"
+#include "Poco/DateTimeFormatter.h"
+#include "Poco/DateTimeFormat.h"
+#include "Poco/MD5Engine.h"
 #include <mongocxx/client.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
@@ -30,6 +34,7 @@ public:
     void createUser(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void createExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void fetchExperiments(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    std::string createHash(std::string& password_str);
 
 private:
     std::map<std::string, function> api = {
