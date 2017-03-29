@@ -1,0 +1,136 @@
+body {
+    background-color: #f5f5f5 !important;
+}
+
+.AddScan__inputFileUpload {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    border: 2px dashed #169F85;
+}
+
+.AddScan__inputFileUpload_over {
+    border: 2px dashed #e3e3e3;
+}
+
+.AddScan__labelFileUpload {
+    color: #3c763d;
+}
+
+.AddScan__labelFileUpload_over {
+    color: #e3e3e3;
+}
+
+.AddScan__inputFileUpload h3 {
+    padding-top: 25px;
+}
+
+.switch {
+    border: 1px solid #ccc;
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+}
+
+.switch-toggle {
+    border: 1px solid #999;
+    box-shadow: 1px 1px 1px #ccc;
+    width: 25px;
+    height: 24px;
+    left: 0;
+    border-radius: 12px;
+    background: white;
+    position: relative;
+    transition: left .2s ease-in-out;
+}
+
+.switch.on {
+    background: #26B99A;
+}
+
+.switch.on .switch-toggle {
+    left: 23px;
+}
+
+.switch.disabled {
+    cursor: not-allowed;
+}
+
+.ExperimentTree__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: rgb(157, 165, 171);
+    font-family: Ubuntu;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+.ExperimentTree__listItem_li {
+    position: relative;
+
+}
+
+.ExperimentTree__listItem_div {
+    cursor: pointer;
+    position: relative;
+    padding: 0 5px;
+    display: block;
+}
+
+.ExperimentTree__listItem_item {
+    display: inline-block;
+    vertical-align: top;
+    color: rgb(157, 165, 171);
+}
+
+.ExperimentTree__listItem_name {
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+.ExperimentTree__listItem_name_bold {
+    line-height: 24px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.ExperimentTree__listItem_icon {
+    margin-right: 5px;
+}
+
+.Header {
+    background-color: #2A3F54 !important;
+}
+
+.ExperimentsPage, .AddExperment, .VoltamogrammPage {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+
+.ExperimentsPage__Tree, .VoltamogrammPage__Tree {
+    width: 30%;
+    min-height: 460px;
+}
+
+.ExperimentsPage__Item, .VoltamogrammPage__Scan {
+    width: 60%;
+    min-height: 460px;
+}
+
+.Experiment__Voltamogramm {
+    padding: 10px 10px;
+    border-bottom: 2px solid #73879C;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.Experiment__Voltamogramm__Icon {
+    font-size: 17px;
+    margin-right: 8px;
+}
