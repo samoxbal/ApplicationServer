@@ -20,6 +20,7 @@
 #include <bsoncxx/builder/stream/array.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types.hpp>
+//#include <jwtxx/jwt.h>
 #include "FileHandler.h"
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {
@@ -34,11 +35,14 @@ public:
     void createUser(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void createExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void fetchExperiments(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void createToken(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     std::string createHash(std::string& password_str);
 
 private:
+    std::string secret = "secret";
     std::map<std::string, function> api = {
         {"createUser", &AppRequestHandler::createUser},
+        {"createToken", &AppRequestHandler::createToken},
         {"createExperiment", &AppRequestHandler::createExperiment},
         {"fetchExperiments", &AppRequestHandler::fetchExperiments}
     };

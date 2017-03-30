@@ -74,20 +74,36 @@ void AppRequestHandler::createUser(
     auto collection = db.collection("users");
     auto user = bsoncxx::builder::stream::document{};
     auto json_response = bsoncxx::builder::stream::document{};
+    auto email_str = (messageBody->get("email")).toString();
     auto password_str = (messageBody->get("password")).toString();
 
-    Poco::Timestamp now;
+    if (email_str.empty() || password_str.empty()) {
+        json_response << "status" << this->failed;
+        json_response << "data" << std::string{"Please enter email and password"};
+    } else if (!email_str.empty() && !password_str.empty()) {
+        auto query_filter = bsoncxx::builder::stream::document{};
+        query_filter << "email" << email_str;
 
-    user << "email" << (messageBody->get("email")).toString()
-         << "username" << (messageBody->get("username")).toString()
-         << "password" << AppRequestHandler::createHash(password_str)
-         << "date_register" << Poco::DateTimeFormatter::format(now, Poco::DateTimeFormat::ISO8601_FORMAT);
+        auto cursor = collection.find(query_filter.view());
 
-    auto result = collection.insert_one(user.view());
-    auto inserted_id = result->inserted_id().get_oid().value;
+        if (cursor.begin() == cursor.end()) {
+            Poco::Timestamp now;
 
-    json_response << "status" << this->ok;
-    json_response << "data" << inserted_id.to_string();
+            user << "email" << email_str
+                 << "username" << (messageBody->get("username")).toString()
+                 << "password" << AppRequestHandler::createHash(password_str)
+                 << "date_register" << Poco::DateTimeFormatter::format(now, Poco::DateTimeFormat::ISO8601_FORMAT);
+
+            auto result = collection.insert_one(user.view());
+            auto inserted_id = result->inserted_id().get_oid().value;
+
+            json_response << "status" << this->ok;
+            json_response << "data" << inserted_id.to_string();
+        } else {
+            json_response << "status" << this->failed;
+            json_response << "data" << std::string{"This email already used"};
+        }
+    }
 
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
@@ -143,6 +159,44 @@ void AppRequestHandler::fetchExperiments(
 
     json_response << "status" << this->ok;
     json_response << "data" << experiments;
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}
+
+void AppRequestHandler::createToken(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto collection = db.collection("users");
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto query_filter = bsoncxx::builder::stream::document{};
+    auto email_str = (messageBody->get("email")).toString();
+    auto password_str = (messageBody->get("password")).toString();
+
+    if (email_str.empty() || password_str.empty()) {
+        json_response << "status" << this->failed;
+        json_response << "data" << std::string{"Please enter email and password"};
+    } else if (!email_str.empty() && !password_str.empty()) {
+        query_filter << "email" << email_str;
+
+        auto user_raw = collection.find_one(query_filter.view());
+        auto user_doc = (user_raw.value()).view();
+
+        if (user_doc.length() > 0) {
+            //JWTXX::JWT jwt(JWTXX::Algorithm::HS256, {{"email", email_str}});
+            //auto token = jwt.token(this->secret);
+
+            json_response << "status" << this->ok;
+            //json_response << "data" << token;
+        } else {
+            json_response << "status" << this->failed;
+            json_response << "data" << "User not exist";
+        }
+    }
 
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
