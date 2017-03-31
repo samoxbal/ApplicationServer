@@ -40,9 +40,12 @@ public:
 
 private:
     std::string secret = "secret";
-    std::map<std::string, function> api = {
+    std::string _user;
+    std::map<std::string, function> public_api = {
         {"createUser", &AppRequestHandler::createUser},
-        {"createToken", &AppRequestHandler::createToken},
+        {"createToken", &AppRequestHandler::createToken}
+    };
+    std::map<std::string, function> lock_api = {
         {"createExperiment", &AppRequestHandler::createExperiment},
         {"fetchExperiments", &AppRequestHandler::fetchExperiments}
     };

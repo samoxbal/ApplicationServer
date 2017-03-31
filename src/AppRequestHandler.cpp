@@ -21,17 +21,40 @@ void AppRequestHandler::handleRequest(
         auto command = reqBody->get("command");
         auto bodyRaw = reqBody->get("body");
         this->messageBody = bodyRaw.extract<Poco::JSON::Object::Ptr>();
-        auto api = this->api;
+        auto json_response = bsoncxx::builder::stream::document{};
 
-        auto iterator = api.find(command);
+        auto public_api = this->public_api;
+        auto lock_api = this->lock_api;
 
-        if (iterator == api.end()) {
-            auto json_response = bsoncxx::builder::stream::document{};
+        auto iterator_pub = public_api.find(command.toString());
+        auto iterator_lock = lock_api.find(command.toString());
+
+        if (iterator_pub == public_api.end() && iterator_lock == lock_api.end()) {
             json_response << "status" << this->failed;
+            json_response << "data" << "Unknown command";
             std::ostream& responseStream = response.send();
             responseStream << bsoncxx::to_json(json_response);
-        } else {
-            (this->*(iterator->second))(request, response);
+        } else if (iterator_pub != public_api.end()) {
+            (this->*(iterator_pub->second))(request, response);
+        } else if (iterator_lock != lock_api.end()) {
+            if (request.has("Authorization")) {
+                auto token = request.get("Authorization");
+                try {
+                    JWTXX::JWT jwt(token, JWTXX::Key(JWTXX::Algorithm::HS256, this->secret));
+                    this->_user = jwt.claim("_user");
+                    (this->*(iterator_lock->second))(request, response);
+                } catch(const JWTXX::JWT::Error& error) {
+                    json_response << "status" << this->failed;
+                    json_response << "data" << error.what();
+                    std::ostream& responseStream = response.send();
+                    responseStream << bsoncxx::to_json(json_response);
+                }
+            } else {
+                json_response << "status" << this->failed;
+                json_response << "data" << "Not authorized";
+                std::ostream& responseStream = response.send();
+                responseStream << bsoncxx::to_json(json_response);
+            }
         }
     } else {
         FileHandler multipartHandler;
@@ -121,7 +144,7 @@ void AppRequestHandler::createExperiment(
     auto json_response = bsoncxx::builder::stream::document{};
 
     experiment
-            << "_user" << (messageBody->get("_user")).toString()
+            << "_user" << this->_user
             << "name" << (messageBody->get("name")).toString()
             << "description" << (messageBody->get("description")).toString()
             << "start_date" << (messageBody->get("start_date")).toString()
@@ -149,7 +172,7 @@ void AppRequestHandler::fetchExperiments(
     auto json_response = bsoncxx::builder::stream::document{};
     auto query_filter = bsoncxx::builder::stream::document{};
 
-    query_filter << "_user" << (messageBody->get("_user")).toString();
+    query_filter << "_user" << this->_user;
 
     auto cursor = collection.find(query_filter.view());
 
