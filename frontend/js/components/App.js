@@ -8,7 +8,7 @@ import {Auth} from './Auth';
 const App = () => (
     <BrowserRouter>
         <div>
-            <Route path="/" component={Login} />
+            <Route exact path="/" component={Login} />
             <Route path="/add" component={Auth(AddExperiment)} />
             <Route path="/all" component={Auth(ExperimentsPage)} />
             <Route path="/voltamogramm/:id" component={Auth(VoltamogrammPage)} />

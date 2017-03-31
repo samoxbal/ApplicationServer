@@ -1,6 +1,5 @@
 import {Component, PropTypes} from 'react';
 import {CommandBar} from 'office-ui-fabric-react/lib/CommandBar';
-import {IconName} from 'office-ui-fabric-react/lib/Icon';
 
 export default class Header extends Component {
 
@@ -20,9 +19,9 @@ export default class Header extends Component {
                 style: {
                     color: '#fff'
                 },
-                onClick: () => this.context.router.push("/all"),
+                onClick: () => this.context.router.history.push("/all"),
                 iconProps: {
-                    iconName: IconName.Financial,
+                    iconName: 'Financial',
                     style: {
                         color: '#fff'
                     }
@@ -34,9 +33,9 @@ export default class Header extends Component {
                 style: {
                     color: '#fff'
                 },
-                onClick: () => this.context.router.push("/add"),
+                onClick: () => this.context.router.history.push("/add"),
                 iconProps: {
-                    iconName: IconName.CalculatorAddition,
+                    iconName: 'CalculatorAddition',
                     style: {
                         color: '#fff'
                     }
