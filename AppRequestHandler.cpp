@@ -190,9 +190,10 @@ void AppRequestHandler::createToken(
 
         if (!user_doc.empty()) {
             auto password = user_doc["password"].get_utf8().value.to_string();
+            auto oid = user_doc["_id"].get_oid().value.to_string();
 
-            if (password == password_str) {
-                JWTXX::JWT jwt(JWTXX::Algorithm::HS256, {{"email", email_str}});
+            if (password == AppRequestHandler::createHash(password_str)) {
+                JWTXX::JWT jwt(JWTXX::Algorithm::HS256, {{"email", email_str}, {"_user", oid}});
                 auto token = jwt.token(this->secret);
 
                 response_status = this->ok;
