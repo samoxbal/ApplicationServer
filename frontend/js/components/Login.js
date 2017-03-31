@@ -59,15 +59,18 @@ class Login extends Component {
         e.preventDefault();
         if (this.validateForm()) {
             $.ajax({
-                url: "/token",
+                url: "/api",
                 method: "POST",
                 contentType: "application/json",
-                data: JSON.stringify(this.state.loginData)
+                data: JSON.stringify({
+                    command: "createToken",
+                    body: this.state.loginData
+                })
             }).done((response) => {
-                if (response.status == "success") {
-                    localStorage.setItem("token", response.token);
+                if (response.status == "ok") {
+                    localStorage.setItem("token", response.data);
                     $('body').removeClass('login').addClass('nav-md');
-                    this.context.router.push("/all");
+                    this.context.router.history.push("/all");
                 }
             })
         }

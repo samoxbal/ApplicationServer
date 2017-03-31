@@ -20,7 +20,7 @@
 #include <bsoncxx/builder/stream/array.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types.hpp>
-//#include <jwtxx/jwt.h>
+#include <jwtxx/jwt.h>
 #include "FileHandler.h"
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {

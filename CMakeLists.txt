@@ -15,7 +15,9 @@ set(POCO_LIBS
         "${POCO_LIB_DIR}/libPocoJSON.so"
         "${POCO_LIB_DIR}/libPocoFoundation.so"
         "${POCO_LIB_DIR}/libbsoncxx.so"
-        "${POCO_LIB_DIR}/libmongocxx.so")
+        "${POCO_LIB_DIR}/libmongocxx.so"
+        "${POCO_LIB_DIR}/libjwtxx.a"
+        "${POCO_LIB_DIR}/libjansson.a")
 
 target_include_directories(VaScan PRIVATE $(POCO_INCLUDE_DIR))
-target_link_libraries(VaScan "${POCO_LIBS}")
+target_link_libraries(VaScan "${POCO_LIBS}" crypto)

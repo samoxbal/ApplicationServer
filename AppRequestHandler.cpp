@@ -176,27 +176,39 @@ void AppRequestHandler::createToken(
     auto query_filter = bsoncxx::builder::stream::document{};
     auto email_str = (messageBody->get("email")).toString();
     auto password_str = (messageBody->get("password")).toString();
+    std::string response_status, response_data;
 
     if (email_str.empty() || password_str.empty()) {
-        json_response << "status" << this->failed;
-        json_response << "data" << std::string{"Please enter email and password"};
+        response_status = this->failed;
+        response_data = std::string{"Please enter email and password"};
     } else if (!email_str.empty() && !password_str.empty()) {
         query_filter << "email" << email_str;
 
         auto user_raw = collection.find_one(query_filter.view());
-        auto user_doc = (user_raw.value()).view();
+        auto user_opt = user_raw.value_or(bsoncxx::builder::stream::document{}.extract());
+        auto user_doc = user_opt.view();
 
-        if (user_doc.length() > 0) {
-            //JWTXX::JWT jwt(JWTXX::Algorithm::HS256, {{"email", email_str}});
-            //auto token = jwt.token(this->secret);
+        if (!user_doc.empty()) {
+            auto password = user_doc["password"].get_utf8().value.to_string();
 
-            json_response << "status" << this->ok;
-            //json_response << "data" << token;
+            if (password == password_str) {
+                JWTXX::JWT jwt(JWTXX::Algorithm::HS256, {{"email", email_str}});
+                auto token = jwt.token(this->secret);
+
+                response_status = this->ok;
+                response_data = token;
+            } else {
+                response_status = this->failed;
+                response_data = "Incorrect password";
+            }
         } else {
-            json_response << "status" << this->failed;
-            json_response << "data" << "User not exist";
+            response_status = this->failed;
+            response_data = "User not exist";
         }
     }
+
+    json_response << "status" << response_status;
+    json_response << "data" << response_data;
 
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
