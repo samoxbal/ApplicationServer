@@ -5,6 +5,13 @@
 #ifndef VASCAN_APPREQUESTHANDLER_H
 #define VASCAN_APPREQUESTHANDLER_H
 
+#define ERROR_INCORRECT_PASSWORD "Incorrect password"
+#define ERROR_USER_NOT_EXIST "User not exist"
+#define ERROR_EMAIL_ALREADY_USED "This email already used"
+#define ERROR_NOT_AUTHORIZED "Not authorized"
+#define ERROR_UNKNOWN_COMMAND "Unknown command"
+#define ERROR_ENTER_EMAIL "Please enter email and password"
+
 #include <Poco/Net/HTTPRequestHandler.h>
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>

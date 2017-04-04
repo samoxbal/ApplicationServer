@@ -20,7 +20,9 @@ void AppRequestHandler::handleRequest(
         auto reqBody = bodyParser.extract<Poco::JSON::Object::Ptr>();
         auto command = reqBody->get("command");
         auto bodyRaw = reqBody->get("body");
-        this->messageBody = bodyRaw.extract<Poco::JSON::Object::Ptr>();
+        if (!bodyRaw.isEmpty()) {
+            this->messageBody = bodyRaw.extract<Poco::JSON::Object::Ptr>();
+        }
         auto json_response = bsoncxx::builder::stream::document{};
 
         auto public_api = this->public_api;
@@ -31,7 +33,7 @@ void AppRequestHandler::handleRequest(
 
         if (iterator_pub == public_api.end() && iterator_lock == lock_api.end()) {
             json_response << "status" << this->failed;
-            json_response << "data" << "Unknown command";
+            json_response << "data" << ERROR_UNKNOWN_COMMAND;
             std::ostream& responseStream = response.send();
             responseStream << bsoncxx::to_json(json_response);
         } else if (iterator_pub != public_api.end()) {
@@ -51,7 +53,7 @@ void AppRequestHandler::handleRequest(
                 }
             } else {
                 json_response << "status" << this->failed;
-                json_response << "data" << "Not authorized";
+                json_response << "data" << ERROR_NOT_AUTHORIZED;
                 std::ostream& responseStream = response.send();
                 responseStream << bsoncxx::to_json(json_response);
             }
@@ -124,7 +126,7 @@ void AppRequestHandler::createUser(
             json_response << "data" << inserted_id.to_string();
         } else {
             json_response << "status" << this->failed;
-            json_response << "data" << std::string{"This email already used"};
+            json_response << "data" << ERROR_EMAIL_ALREADY_USED;
         }
     }
 
@@ -203,7 +205,7 @@ void AppRequestHandler::createToken(
 
     if (email_str.empty() || password_str.empty()) {
         response_status = this->failed;
-        response_data = std::string{"Please enter email and password"};
+        response_data = ERROR_ENTER_EMAIL;
     } else if (!email_str.empty() && !password_str.empty()) {
         query_filter << "email" << email_str;
 
@@ -223,11 +225,11 @@ void AppRequestHandler::createToken(
                 response_data = token;
             } else {
                 response_status = this->failed;
-                response_data = "Incorrect password";
+                response_data = ERROR_INCORRECT_PASSWORD;
             }
         } else {
             response_status = this->failed;
-            response_data = "User not exist";
+            response_data = ERROR_USER_NOT_EXIST;
         }
     }
 

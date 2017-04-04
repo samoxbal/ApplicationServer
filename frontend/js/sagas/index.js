@@ -10,7 +10,7 @@ function* fetchExperiments() {
         const data = yield call(api.fetch_experiments);
         yield put({
             type: ACTION_TYPES.FETCH_EXPERIMENTS_SUCCESS,
-            payload: data['data']
+            payload: data['data']['data']
         });
     }
 }

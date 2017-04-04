@@ -7,7 +7,7 @@ export const api = {
             url: '/api',
             data: {
                 command: "createExperiment",
-                data: experiment
+                body: experiment
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const api = {
             },
             data: {
                 command: "createScan",
-                data: restData
+                body: restData
             }
         };
         axios(options)
@@ -64,7 +64,7 @@ export const api = {
             },
             data: {
                 command: "fetchVoltamogramms",
-                data
+                body: data
             }
         };
         return axios(options);
@@ -79,7 +79,7 @@ export const api = {
             },
             data: {
                 command: "fetchSingleVoltamogramm",
-                data
+                body: data
             }
         };
         return axios(options);
