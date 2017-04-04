@@ -10,6 +10,7 @@
 class ModelValidator {
 public:
     bool valid;
+    void validateVoltamogramm(Poco::JSON::Object::Ptr& voltamogramm);
 };
 
 

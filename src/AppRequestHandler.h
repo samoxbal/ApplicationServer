@@ -29,6 +29,7 @@
 #include <bsoncxx/types.hpp>
 #include <jwtxx/jwt.h>
 #include "FileHandler.h"
+#include "ModelValidator.h"
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {
 public:

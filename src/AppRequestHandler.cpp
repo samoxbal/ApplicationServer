@@ -64,6 +64,7 @@ void AppRequestHandler::handleRequest(
 
         if(!multipartHandler.filename.empty()) {
             auto json_response = bsoncxx::builder::stream::document{};
+            auto measure = bsoncxx::builder::stream::document{};
             auto points = bsoncxx::builder::stream::array{};
             json_response << "status" << this->ok;
             json_response << "filename" << multipartHandler.filename;
@@ -291,6 +292,15 @@ void AppRequestHandler::createScan(
 
     auto result_volt = volt_collection.insert_one(voltamogramm.view());
     auto voltamogramm_id = result_volt->inserted_id().get_oid().value;
+    auto measure_mode = bsoncxx::builder::stream::document{};
+    auto measure_mode_src = (scan_src->get("measure_mode")).extract<Poco::JSON::Object::Ptr>();
+
+    measure_mode << "regime" << (scan_src->get("regime")).toString();
+
+    for(auto it = measure_mode_src->begin(); it != measure_mode_src->end(); it++) {
+        auto key = it->first;
+        measure_mode << key << measure_mode_src->getValue<double>(key);
+    }
 
     scan << "_voltamogramm" << voltamogramm_id.to_string()
          << "scan_datetime" << (scan_src->get("scan_datetime")).toString()
@@ -302,7 +312,8 @@ void AppRequestHandler::createScan(
          << "channel_id" << (scan_src->get("channel_id")).toString()
          << "channel_label" << (scan_src->get("channel_label")).toString()
          << "temperature" << scan_src->getValue<double>("temperature")
-         << "pressure" << scan_src->getValue<double>("pressure");
+         << "pressure" << scan_src->getValue<double>("pressure")
+         << "measure_mode" << measure_mode;
 
     if (!(scan_src->get("stirring_speed")).isEmpty()) {
         scan << "stirring_speed" << scan_src->getValue<double>("stirring_speed");

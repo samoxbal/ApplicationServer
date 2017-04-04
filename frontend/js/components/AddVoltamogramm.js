@@ -69,8 +69,8 @@ class AddScan extends Component {
                 channel_label: this._nameChannel.value,
                 temperature: this._temperature.value,
                 pressure: this._pressure.value,
+                regime: this.state.regime,
                 measure_mode: {
-                    ...{regime: this.state.regime},
                     ...this._regime.getRegime()
                 }
             },
