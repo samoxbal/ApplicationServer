@@ -10,7 +10,10 @@ function* fetchExperiments() {
         const data = yield call(api.fetch_experiments);
         yield put({
             type: ACTION_TYPES.FETCH_EXPERIMENTS_SUCCESS,
-            payload: data['data']['data']
+            payload: data['data']['data'].map(item => {
+                const { _id: { $oid }, ...rest } = item;
+                return { ...{ _id: $oid }, ...rest };
+            })
         });
     }
 }
@@ -46,7 +49,7 @@ function* fetchVoltamogramms() {
         const data = yield call(api.fetch_voltamogramms, payload);
         yield put({
             type: ACTION_TYPES.FETCH_VOLTAMOGRAMMS_SUCCESS,
-            payload: data['data']
+            payload: data['data']['data']
         });
     }
 }

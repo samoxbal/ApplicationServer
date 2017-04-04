@@ -37,7 +37,9 @@ export function openAddVoltamogramm(state) {
 export function fetchVoltamogramms(id) {
     return {
         type: ACTION_TYPES.FETCH_VOLTAMOGRAMMS,
-        payload: id
+        payload: {
+            experiment: id
+        }
     }
 }
 

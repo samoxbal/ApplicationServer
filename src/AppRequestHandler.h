@@ -43,6 +43,8 @@ public:
     void createExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void fetchExperiments(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void createToken(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void fetchVoltamogramms(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void createScan(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     std::string createHash(std::string& password_str);
 
 private:
@@ -54,7 +56,9 @@ private:
     };
     std::map<std::string, function> lock_api = {
         {"createExperiment", &AppRequestHandler::createExperiment},
-        {"fetchExperiments", &AppRequestHandler::fetchExperiments}
+        {"fetchExperiments", &AppRequestHandler::fetchExperiments},
+        {"fetchVoltamogramms", &AppRequestHandler::fetchVoltamogramms},
+        {"createScan", &AppRequestHandler::createScan}
     };
 };
 

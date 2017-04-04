@@ -239,3 +239,89 @@ void AppRequestHandler::createToken(
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
 }
+
+void AppRequestHandler::fetchVoltamogramms(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto collection = db.collection("voltamogramms");
+    auto voltamogramms = bsoncxx::builder::stream::array{};
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto query_filter = bsoncxx::builder::stream::document{};
+
+    query_filter << "_experiment" << (messageBody->get("experiment")).toString();
+
+    auto cursor = collection.find(query_filter.view());
+
+    for (auto&& doc : cursor) {
+        voltamogramms << doc;
+    }
+
+    json_response << "status" << this->ok;
+    json_response << "data" << voltamogramms;
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}
+
+void AppRequestHandler::createScan(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto volt_collection = db["voltamogramms"];
+    auto scan_collection = db["scans"];
+    auto voltamogramm = bsoncxx::builder::stream::document{};
+    auto scan = bsoncxx::builder::stream::document{};
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto voltamogramm_src = (messageBody->get("voltamogramm")).extract<Poco::JSON::Object::Ptr>();
+    auto scan_src = (messageBody->get("scan")).extract<Poco::JSON::Object::Ptr>();
+
+    voltamogramm << "_experiment" << (messageBody->get("experiment_id")).toString()
+                 << "cyclic" << voltamogramm_src->getValue<bool>("cyclic")
+                 << "va_cycle_datetime" << (voltamogramm_src->get("va_cycle_datetime")).toString()
+                 << "description" << (voltamogramm_src->get("description")).toString()
+                 << "solution" << (voltamogramm_src->get("solution")).toString()
+                 << "number_of_electrodes" << voltamogramm_src->getValue<int>("number_of_electrodes")
+                 << "equipment_id" << (voltamogramm_src->get("equipment_id")).toString();
+
+    auto result_volt = volt_collection.insert_one(voltamogramm.view());
+    auto voltamogramm_id = result_volt->inserted_id().get_oid().value;
+
+    scan << "_voltamogramm" << voltamogramm_id.to_string()
+         << "scan_datetime" << (scan_src->get("scan_datetime")).toString()
+         << "start_potential" << scan_src->getValue<double>("start_potential")
+         << "end_potential" << scan_src->getValue<double>("end_potential")
+         << "reverse_direction" << scan_src->getValue<bool>("reverse_direction")
+         << "stirring" << scan_src->getValue<bool>("stirring")
+         << "rotation" << scan_src->getValue<bool>("rotation")
+         << "channel_id" << (scan_src->get("channel_id")).toString()
+         << "channel_label" << (scan_src->get("channel_label")).toString()
+         << "temperature" << scan_src->getValue<double>("temperature")
+         << "pressure" << scan_src->getValue<double>("pressure");
+
+    if (!(scan_src->get("stirring_speed")).isEmpty()) {
+        scan << "stirring_speed" << scan_src->getValue<double>("stirring_speed");
+    } else {
+        scan << "stirring_speed" << bsoncxx::types::b_null{};
+    }
+
+    if (!(scan_src->get("rotation_speed")).isEmpty()) {
+        scan << "rotation_speed" << scan_src->getValue<double>("rotation_speed");
+    } else {
+        scan << "rotation_speed" << bsoncxx::types::b_null{};
+    }
+
+    auto result_scan = scan_collection.insert_one(scan.view());
+    auto scan_id = result_scan->inserted_id().get_oid().value;
+
+    json_response << "status" << this->ok;
+    json_response << "data" << scan_id.to_string();
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}
