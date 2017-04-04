@@ -46,12 +46,12 @@ export const api = {
         };
         axios(options)
             .then(response => {
-                file.set('scan_id', response.data, {
+                file.append('scan_id', response.data.data);
+                return axios.post('/api', file, {
                     headers: {
                         'Authorization': localStorage.getItem("token")
                     }
                 });
-                return axios.post('/upload', file);
             });
     },
     fetch_voltamogramms: data => {

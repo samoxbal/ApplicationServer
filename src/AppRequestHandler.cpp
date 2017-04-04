@@ -63,20 +63,30 @@ void AppRequestHandler::handleRequest(
         Poco::Net::HTMLForm form(request, request.stream(), multipartHandler);
 
         if(!multipartHandler.filename.empty()) {
+            auto db = this->database;
+            auto collection = db["measures"];
             auto json_response = bsoncxx::builder::stream::document{};
             auto measure = bsoncxx::builder::stream::document{};
             auto points = bsoncxx::builder::stream::array{};
-            json_response << "status" << this->ok;
-            json_response << "filename" << multipartHandler.filename;
+
             if (form.has("scan_id")) {
-                json_response << "scan_id" << form.get("scan_id");
+                measure << "_scan" << form.get("scan_id");
+
+                for (auto& p : multipartHandler.data) {
+                    points << bsoncxx::builder::stream::open_array
+                           << p.first << p.second
+                           << bsoncxx::builder::stream::close_array;
+                }
+
+                measure << "points" << points;
+                collection.insert_one(measure.view());
+
+                json_response << "status" << this->ok;
+            } else {
+                json_response << "status" << this->failed;
+                json_response << "data" << ERROR_NO_SCAN_ID;
             }
-            for (auto& p : multipartHandler.data) {
-                points << bsoncxx::builder::stream::open_array
-                       << p.first << p.second
-                       << bsoncxx::builder::stream::close_array;
-            }
-            json_response << "points" << points;
+
             std::ostream& responseStream = response.send();
             responseStream << bsoncxx::to_json(json_response);
         }

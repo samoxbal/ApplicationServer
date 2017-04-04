@@ -11,6 +11,7 @@
 #define ERROR_NOT_AUTHORIZED "Not authorized"
 #define ERROR_UNKNOWN_COMMAND "Unknown command"
 #define ERROR_ENTER_EMAIL "Please enter email and password"
+#define ERROR_NO_SCAN_ID "Scan id not received"
 
 #include <Poco/Net/HTTPRequestHandler.h>
 #include <Poco/Net/HTTPServerRequest.h>
