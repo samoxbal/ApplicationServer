@@ -1,5 +1,5 @@
 import {Component, PropTypes} from 'react';
-import $ from 'jquery';
+import axios from 'axios';
 
 class Login extends Component {
 
@@ -14,7 +14,6 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        $('body').removeClass('nav-md').addClass('login');
         this.state.form = {
             email: {
                 el: this._email,
@@ -58,18 +57,20 @@ class Login extends Component {
     login(e) {
         e.preventDefault();
         if (this.validateForm()) {
-            $.ajax({
+            axios({
                 url: "/api",
                 method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
                     command: "createToken",
                     body: this.state.loginData
-                })
-            }).done((response) => {
+                }
+            }).then(response => {
                 if (response.status == "ok") {
                     localStorage.setItem("token", response.data);
-                    $('body').removeClass('login').addClass('nav-md');
+                    localStorage.setItem("email", this.state.loginData.email);
                     this.context.router.history.push("/all");
                 }
             })

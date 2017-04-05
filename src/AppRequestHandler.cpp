@@ -346,3 +346,52 @@ void AppRequestHandler::createScan(
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
 }
+
+void AppRequestHandler::fetchSingleVoltamogramm(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto volt_collection = db["voltamogramms"];
+    auto scan_collection = db["scans"];
+    auto scans = bsoncxx::builder::stream::array{};
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto query_filter = bsoncxx::builder::stream::document{};
+    auto voltamogramm = bsoncxx::builder::stream::document{};
+    auto voltamogramm_id = (messageBody->get("voltamogramm")).toString();
+
+    query_filter << "_id" << bsoncxx::oid{voltamogramm_id};
+
+    auto voltamogramm_src = volt_collection.find_one(query_filter.view());
+    auto voltamogramm_opt = voltamogramm_src.value_or(bsoncxx::builder::stream::document{}.extract());
+    auto voltamogramm_doc = voltamogramm_opt.view();
+
+    if(!voltamogramm_doc.empty()) {
+        query_filter.clear();
+        query_filter << "_voltamogramm" << voltamogramm_id;
+
+        auto scans_src = scan_collection.find(query_filter.view());
+
+        for (auto&& doc : scans_src) {
+            scans << doc;
+        }
+
+        for (auto& field : voltamogramm_doc) {
+            voltamogramm << field.key() << field.get_value();
+        }
+
+        voltamogramm << "scans" << scans;
+
+        json_response << "status" << this->ok;
+        json_response << "data" << voltamogramm;
+
+    } else {
+        json_response << "status" << this->failed;
+        json_response << "data" << ERROR_VOLTAMOGRAMM_NOT_EXIST;
+    }
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}

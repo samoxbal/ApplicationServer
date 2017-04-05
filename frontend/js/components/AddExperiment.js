@@ -34,7 +34,7 @@ class AddExperiment extends Component {
     }
 
     render() {
-        return <div className="main_container">
+        return <div>
             <Header />
             <div className="AddExperment">
                 <div className="x_panel" style={{ width: '90%' }}>

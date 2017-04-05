@@ -46,6 +46,8 @@ export function fetchVoltamogramms(id) {
 export function fetchSingleVoltamogramm(id) {
     return {
         type: ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM,
-        payload: id
+        payload: {
+            voltamogramm: id
+        }
     }
 }

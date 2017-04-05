@@ -15,13 +15,12 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 class VoltamogrammPage extends Component {
     componentWillMount() {
-        const {routeParams: {id}, fetchSingleVoltamogramm} = this.props;
+        const {match: { params: { id } }, fetchSingleVoltamogramm} = this.props;
         fetchSingleVoltamogramm(id);
     }
 
     renderTree(voltamogramm) {
-        const {scans} = voltamogramm;
-
+        const { scans } = voltamogramm;
 
     }
 

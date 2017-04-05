@@ -69,6 +69,7 @@ export default class Header extends Component {
 
     logout() {
         localStorage.removeItem("token");
+        localStorage.removeItem("email");
         this.context.router.history.push("/");
     }
 

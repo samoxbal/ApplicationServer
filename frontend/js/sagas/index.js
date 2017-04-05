@@ -2,6 +2,7 @@ import {take, put, fork, call} from 'redux-saga/effects';
 import is from 'is';
 import validator from '../utils/validator';
 import {api} from '../utils/api';
+import {mapOid} from '../utils/utils';
 import ACTION_TYPES from '../constants/actionTypes';
 
 function* fetchExperiments() {
@@ -10,10 +11,7 @@ function* fetchExperiments() {
         const data = yield call(api.fetch_experiments);
         yield put({
             type: ACTION_TYPES.FETCH_EXPERIMENTS_SUCCESS,
-            payload: data['data']['data'].map(item => {
-                const { _id: { $oid }, ...rest } = item;
-                return { ...{ _id: $oid }, ...rest };
-            })
+            payload: data['data']['data'].map(mapOid)
         });
     }
 }
@@ -49,7 +47,7 @@ function* fetchVoltamogramms() {
         const data = yield call(api.fetch_voltamogramms, payload);
         yield put({
             type: ACTION_TYPES.FETCH_VOLTAMOGRAMMS_SUCCESS,
-            payload: data['data']['data']
+            payload: data['data']['data'].map(mapOid)
         });
     }
 }
