@@ -32,6 +32,22 @@ function* createExperiment() {
     }
 }
 
+function* editExperiment() {
+    while(true) {
+        const action = yield take(ACTION_TYPES.EDIT_EXPERIMENT);
+        const { payload: { _id, ...restObj } } = action;
+        const [invalidFields, experimentObj] = validator(restObj);
+        if(is.empty(invalidFields)) {
+            const experiment_updated = yield call(api.edit_experiment, {_id, ...experimentObj});
+        } else {
+            yield put({
+                type: ACTION_TYPES.SET_ERROR,
+                payload: invalidFields
+            })
+        }
+    }
+}
+
 function* createScan() {
     while(true) {
         const action = yield take(ACTION_TYPES.ADD_SCAN);
@@ -70,4 +86,5 @@ export default function* root() {
     yield fork(createScan);
     yield fork(fetchVoltamogramms);
     yield fork(fetchSingleVoltamogramm);
+    yield fork(editExperiment);
 }

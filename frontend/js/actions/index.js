@@ -20,6 +20,13 @@ export function createExperiment(experiment) {
     }
 }
 
+export function editExperiment(experiment) {
+    return {
+        type: ACTION_TYPES.EDIT_EXPERIMENT,
+        payload: experiment
+    }
+}
+
 export function createScan(data) {
     return {
         type: ACTION_TYPES.ADD_SCAN,

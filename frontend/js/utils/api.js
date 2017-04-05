@@ -16,6 +16,21 @@ export const api = {
         };
         return axios(options);
     },
+    edit_experiment: experiment => {
+        const options = {
+            method: 'post',
+            url: '/api',
+            data: {
+                command: "editExperiment",
+                body: experiment
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
+            }
+        };
+        return axios(options);
+    },
     fetch_experiments: () => {
         const options = {
             method: 'post',

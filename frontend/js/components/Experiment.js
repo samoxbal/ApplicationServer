@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
 import AddVoltamogramm from './AddVoltamogramm';
 import {getSelectedExperiment} from '../selectors/experiment';
-import {openAddVoltamogramm} from '../actions';
+import {openAddVoltamogramm, editExperiment} from '../actions/index';
 import {Button, ButtonType} from 'office-ui-fabric-react/lib/Button';
 import AddExperimentForm from './AddExperimentForm';
 
@@ -15,7 +15,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    openAddVoltamogramm
+    openAddVoltamogramm,
+    editExperiment
 }, dispatch);
 
 class Experiment extends Component {
@@ -32,6 +33,14 @@ class Experiment extends Component {
 
     deactiveEditExperiment = () => this.setState({ activeEdit: false })
 
+    editExperiment = experiment_update => {
+        const { experiment: { _id }, editExperiment } = this.props;
+        editExperiment({
+            _id,
+            ...experiment_update
+        })
+    }
+
     renderExperiment() {
         const {experiment, errors} = this.props;
 
@@ -42,6 +51,7 @@ class Experiment extends Component {
                     errors={errors}
                     active={this.state.activeEdit}
                     onCancel={this.deactiveEditExperiment}
+                    onSubmit={this.editExperiment}
                 />
             </div>
         )

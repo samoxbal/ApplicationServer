@@ -23,28 +23,44 @@ export default class AddExperimentForm extends Component {
         }
     }
 
-    renderPickerBegin(errors) {
+    renderPickerBegin(errors, experiment, active) {
         const PickerBeginStyle = {
             className: classNames(
                 "form-control has-feedback-left",
                 {"parsley-error": errors.start_date}
             ),
             placeholder: "Дата начала",
-            ref: ref => this._beginDate = ref
+            ref: ref => this._beginDate = ref,
+            disabled: !active
         };
-        return <Datetime inputProps={PickerBeginStyle} closeOnSelect={true} timeFormat={false} />;
+        return (
+            <Datetime
+                inputProps={PickerBeginStyle}
+                closeOnSelect={true}
+                timeFormat={false}
+                defaultValue={experiment ? experiment.start_date : ""}
+            />
+        );
     }
 
-    renderPickerEnd(errors) {
+    renderPickerEnd(errors, experiment, active) {
         const PickerEndStyle = {
             className: classNames(
                 "form-control has-feedback-left",
                 {"parsley-error": errors.end_date}
             ),
             placeholder: "Дата начала",
-            ref: ref => this._endDate = ref
+            ref: ref => this._endDate = ref,
+            disabled: !active
         };
-        return <Datetime inputProps={PickerEndStyle} closeOnSelect={true} timeFormat={false} />;
+        return (
+            <Datetime
+                inputProps={PickerEndStyle}
+                closeOnSelect={true}
+                timeFormat={false}
+                defaultValue={experiment ? experiment.end_date : ""}
+            />
+        );
     }
 
     submitExperiment = event => {
@@ -88,22 +104,36 @@ export default class AddExperimentForm extends Component {
                     <br />
                     <div className="row">
                         <div className="form-group col-md-3">
-                            {this.renderPickerBegin(errors)}
+                            {this.renderPickerBegin(errors, experiment, active)}
                             <span className="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div className="form-group col-md-3">
-                            {this.renderPickerEnd(errors)}
+                            {this.renderPickerEnd(errors, experiment, active)}
                             <span className="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
                     </div>
                     <div className="row">
                         <div className="form-group col-md-8">
-                            <input type="text" className={nameClass} placeholder="Название эксперимента" ref={ref => this._name = ref} />
+                            <input
+                                type="text"
+                                className={nameClass}
+                                placeholder="Название эксперимента"
+                                ref={ref => this._name = ref}
+                                defaultValue={experiment ? experiment.name : ""}
+                                disabled={!active}
+                            />
                         </div>
                     </div>
                     <div className="row">
                         <div className="form-group col-md-8">
-                            <textarea className={descriptionClass} placeholder="Описание эксперимента" rows="4" ref={ref => this._description = ref} />
+                            <textarea
+                                className={descriptionClass}
+                                placeholder="Описание эксперимента"
+                                rows="4"
+                                ref={ref => this._description = ref}
+                                defaultValue={experiment ? experiment.description : ""}
+                                disabled={!active}
+                            />
                         </div>
                     </div>
                     {active && <div className="text-left">
