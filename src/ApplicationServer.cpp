@@ -24,6 +24,14 @@ int ApplicationServer::main(const std::vector<std::string> &args) {
             db.create_collection("voltamogramms", validationSchema.createVoltamogrammSchema());
         }
 
+        if(!db.has_collection("scans")) {
+            db.create_collection("scans", validationSchema.createScanSchema());
+        }
+
+        if(!db.has_collection("measures")) {
+            db.create_collection("measures", validationSchema.createMeasureSchema());
+        }
+
         Poco::Net::ServerSocket socket(3000);
         Poco::Net::HTTPServerParams* params = new Poco::Net::HTTPServerParams();
 

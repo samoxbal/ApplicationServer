@@ -13,6 +13,8 @@ class ValidationSchema {
 public:
     mongocxx::options::create_collection createExperimentSchema();
     mongocxx::options::create_collection createVoltamogrammSchema();
+    mongocxx::options::create_collection createScanSchema();
+    mongocxx::options::create_collection createMeasureSchema();
 };
 
 
