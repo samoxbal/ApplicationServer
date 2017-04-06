@@ -395,3 +395,50 @@ void AppRequestHandler::fetchSingleVoltamogramm(
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
 }
+
+void AppRequestHandler::editExperiment(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto collection = db["experiments"];
+    auto filter_builder = bsoncxx::builder::stream::document{};
+    auto update_builder = bsoncxx::builder::stream::document{};
+    auto experiment_updated = bsoncxx::builder::stream::document{};
+    auto json_response = bsoncxx::builder::stream::document{};
+
+    filter_builder << "_id" << bsoncxx::oid{(messageBody->get("_id")).toString()};
+    auto filter_view = filter_builder.view();
+
+    update_builder
+        << "_user" << this->_user
+        << "name" << (messageBody->get("name")).toString()
+        << "description" << (messageBody->get("description")).toString()
+        << "start_date" << (messageBody->get("start_date")).toString()
+        << "end_date" << (messageBody->get("end_date")).toString();
+
+    auto result_src = collection.find_one_and_update(filter_view, update_builder.view());
+    auto result_opt = result_src.value_or(bsoncxx::builder::stream::document{}.extract());
+    auto result_doc = result_opt.view();
+
+    if (!result_doc.empty()) {
+        auto updated_experiment = collection.find_one(filter_view);
+        auto updated_doc = updated_experiment.value().view();
+
+        for (auto& field : updated_doc) {
+            experiment_updated << field.key() << field.get_value();
+        }
+
+        json_response << "status" << this->ok;
+        json_response << "data" << experiment_updated;
+
+    } else {
+        json_response << "status" << this->failed;
+        json_response << "data" << ERROR_EXPERIMENT_NOT_EXIST;
+    }
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}

@@ -13,6 +13,7 @@
 #define ERROR_ENTER_EMAIL "Please enter email and password"
 #define ERROR_NO_SCAN_ID "Scan id not received"
 #define ERROR_VOLTAMOGRAMM_NOT_EXIST "Voltamogramm id not exist"
+#define ERROR_EXPERIMENT_NOT_EXIST "Experiment id not exist"
 
 #include <Poco/Net/HTTPRequestHandler.h>
 #include <Poco/Net/HTTPServerRequest.h>
@@ -49,6 +50,7 @@ public:
     void fetchVoltamogramms(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void createScan(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void fetchSingleVoltamogramm(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void editExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     std::string createHash(std::string& password_str);
 
 private:
@@ -63,7 +65,8 @@ private:
         {"fetchExperiments", &AppRequestHandler::fetchExperiments},
         {"fetchVoltamogramms", &AppRequestHandler::fetchVoltamogramms},
         {"createScan", &AppRequestHandler::createScan},
-        {"fetchSingleVoltamogramm", &AppRequestHandler::fetchSingleVoltamogramm}
+        {"fetchSingleVoltamogramm", &AppRequestHandler::fetchSingleVoltamogramm},
+        {"editExperiment", &AppRequestHandler::editExperiment}
     };
 };
 
