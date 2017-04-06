@@ -3,7 +3,7 @@ project(VaScan)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lrt -lpthread")
-set(SOURCE_FILES main.cpp src/ApplicationServer.cpp src/ApplicationServer.h src/AppRequestHandlerFactory.cpp src/AppRequestHandlerFactory.h src/AppRequestHandler.cpp src/AppRequestHandler.h src/FileHandler.cpp src/FileHandler.h src/ModelValidator.cpp src/ModelValidator.h)
+set(SOURCE_FILES main.cpp src/ApplicationServer.cpp src/ApplicationServer.h src/AppRequestHandlerFactory.cpp src/AppRequestHandlerFactory.h src/AppRequestHandler.cpp src/AppRequestHandler.h src/FileHandler.cpp src/FileHandler.h src/ValidationSchema.cpp src/ValidationSchema.h)
 add_executable(VaScan ${SOURCE_FILES})
 
 set(POCO_PREFIX "/usr/local")

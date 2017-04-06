@@ -8,6 +8,7 @@
 #include <Poco/Util/ServerApplication.h>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/client.hpp>
+#include "ValidationSchema.h"
 
 class ApplicationServer : public Poco::Util::ServerApplication {
 protected:
