@@ -15,7 +15,7 @@ void FileHandler::handlePart(const Poco::Net::MessageHeader &header, std::istrea
         Poco::StreamCopier::copyToString(stream, content);
         std::istringstream data_stream(content);
         while(std::getline(data_stream, line, '\n') >> x_str >> y_str) {
-            data.push_back({ x_str, y_str });
+            data.push_back({ std::stod(x_str), std::stod(y_str) });
         }
     }
 }

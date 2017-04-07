@@ -3,7 +3,7 @@ project(VaScan)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lrt -lpthread")
-set(SOURCE_FILES main.cpp src/ApplicationServer.cpp src/ApplicationServer.h src/AppRequestHandlerFactory.cpp src/AppRequestHandlerFactory.h src/AppRequestHandler.cpp src/AppRequestHandler.h src/FileHandler.cpp src/FileHandler.h src/ValidationSchema.cpp src/ValidationSchema.h)
+set(SOURCE_FILES main.cpp src/ApplicationServer.cpp src/ApplicationServer.h src/AppRequestHandlerFactory.cpp src/AppRequestHandlerFactory.h src/AppRequestHandler.cpp src/AppRequestHandler.h src/FileHandler.cpp src/FileHandler.h src/ValidationSchema.cpp src/ValidationSchema.h src/LinearRegression.cpp src/LinearRegression.h)
 add_executable(VaScan ${SOURCE_FILES})
 
 set(POCO_PREFIX "/usr/local")
@@ -20,4 +20,4 @@ set(POCO_LIBS
         "${POCO_LIB_DIR}/libjansson.a")
 
 target_include_directories(VaScan PRIVATE $(POCO_INCLUDE_DIR))
-target_link_libraries(VaScan "${POCO_LIBS}" crypto)
+target_link_libraries(VaScan "${POCO_LIBS}" crypto mlpack armadillo)

@@ -13,7 +13,7 @@
 class FileHandler : public Poco::Net::PartHandler {
 public:
     std::string filename;
-    std::vector<std::pair<std::string, std::string>> data;
+    std::vector<std::pair<double, double>> data;
     void handlePart(const Poco::Net::MessageHeader& header, std::istream& stream);
 };
 

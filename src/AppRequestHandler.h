@@ -32,6 +32,7 @@
 #include <bsoncxx/types.hpp>
 #include <jwtxx/jwt.h>
 #include "FileHandler.h"
+#include "LinearRegression.h"
 
 class AppRequestHandler : public Poco::Net::HTTPRequestHandler {
 public:
@@ -50,6 +51,7 @@ public:
     void createScan(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void fetchSingleVoltamogramm(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void editExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void computeRegression(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     std::string createHash(std::string& password_str);
 
 private:
@@ -65,7 +67,8 @@ private:
         {"fetchVoltamogramms", &AppRequestHandler::fetchVoltamogramms},
         {"createScan", &AppRequestHandler::createScan},
         {"fetchSingleVoltamogramm", &AppRequestHandler::fetchSingleVoltamogramm},
-        {"editExperiment", &AppRequestHandler::editExperiment}
+        {"editExperiment", &AppRequestHandler::editExperiment},
+        {"computeRegression", &AppRequestHandler::computeRegression}
     };
 };
 

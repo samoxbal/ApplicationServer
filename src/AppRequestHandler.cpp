@@ -442,3 +442,35 @@ void AppRequestHandler::editExperiment(
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
 }
+
+void AppRequestHandler::computeRegression(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto collection = db["measures"];
+    auto query_filter = bsoncxx::builder::stream::document{};
+    auto json_response = bsoncxx::builder::stream::document{};
+
+    query_filter << "_id" << bsoncxx::oid{(messageBody->get("_id")).toString()};
+
+    auto measure_src = collection.find_one(query_filter.view());
+    auto measure_opt = measure_src.value_or(bsoncxx::builder::stream::document{}.extract());
+    auto measure_doc = measure_opt.view();
+
+    if(!measure_doc.empty()) {
+        LinearRegression regressor;
+
+        auto params = regressor.getParameters(measure_doc);
+
+        json_response << "status" << "ok";
+
+    } else {
+        json_response << "status" << this->failed;
+    }
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}
