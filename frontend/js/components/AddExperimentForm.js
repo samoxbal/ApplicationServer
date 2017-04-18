@@ -1,5 +1,5 @@
 import {Component, PropTypes} from 'react';
-import {Button} from 'semantic-ui-react';
+import {Form} from 'semantic-ui-react';
 import Datetime from 'react-datetime';
 import classNames from 'classnames';
 import is from 'is';
@@ -35,7 +35,8 @@ export default class AddExperimentForm extends Component {
             disabled: !active
         };
         return (
-            <Datetime
+            <Form.Field
+                control={Datetime}
                 inputProps={PickerBeginStyle}
                 closeOnSelect={true}
                 timeFormat={false}
@@ -55,7 +56,8 @@ export default class AddExperimentForm extends Component {
             disabled: !active
         };
         return (
-            <Datetime
+            <Form.Field
+                control={Datetime}
                 inputProps={PickerEndStyle}
                 closeOnSelect={true}
                 timeFormat={false}
@@ -89,64 +91,37 @@ export default class AddExperimentForm extends Component {
     render() {
         const {errors, experiment, active} = this.props;
 
-        const nameClass = classNames(
-            "form-control",
-            {"parsley-error": errors.name}
-        );
-
-        const descriptionClass = classNames(
-            "form-control",
-            {"parsley-error": errors.description}
-        );
-
         return (
-            <form className="form-horizontal" onSubmit={this.submitExperiment}>
-                <div className="x_content">
-                    <br />
-                    <div className="row">
-                        <div className="form-group col-md-3">
-                            {this.renderPickerBegin(errors, experiment, active)}
-                            <span className="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                        <div className="form-group col-md-3">
-                            {this.renderPickerEnd(errors, experiment, active)}
-                            <span className="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="form-group col-md-8">
-                            <input
-                                type="text"
-                                className={nameClass}
-                                placeholder="Название эксперимента"
-                                ref={ref => this._name = ref}
-                                defaultValue={experiment ? experiment.name : ""}
-                                disabled={!active}
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="form-group col-md-8">
-                            <textarea
-                                className={descriptionClass}
-                                placeholder="Описание эксперимента"
-                                rows="4"
-                                ref={ref => this._description = ref}
-                                defaultValue={experiment ? experiment.description : ""}
-                                disabled={!active}
-                            />
-                        </div>
-                    </div>
-                    {active && <div>
-                        <Button primary={true}>
-                            {experiment ? 'Редактировать' : 'Создать'}
-                        </Button>
-                        <Button onClick={this.onCancelClick}>
-                            Отмена
-                        </Button>
-                    </div>}
-                </div>
-            </form>
+            <Form onSubmit={this.submitExperiment}>
+                <Form.Group inline>
+                    {this.renderPickerBegin(errors, experiment, active)}
+                    {this.renderPickerEnd(errors, experiment, active)}
+                </Form.Group>
+                <Form.Input
+                    type="text"
+                    error={!!errors.name}
+                    placeholder="Название эксперимента"
+                    ref={ref => this._name = ref}
+                    defaultValue={experiment ? experiment.name : ""}
+                    disabled={!active}
+                />
+                <Form.TextArea
+                    error={!!errors.description}
+                    placeholder="Описание эксперимента"
+                    rows="4"
+                    ref={ref => this._description = ref}
+                    defaultValue={experiment ? experiment.description : ""}
+                    disabled={!active}
+                />
+                {active && <Form.Group inline>
+                    <Form.Button primary={true}>
+                        {experiment ? 'Редактировать' : 'Создать'}
+                    </Form.Button>
+                    <Form.Button onClick={this.onCancelClick}>
+                        Отмена
+                    </Form.Button>
+                </Form.Group>}
+            </Form>
         )
     }
 }
