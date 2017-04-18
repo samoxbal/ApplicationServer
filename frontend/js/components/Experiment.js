@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import AddVoltamogramm from './AddVoltamogramm';
 import {getSelectedExperiment} from '../selectors/experiment';
 import {openAddVoltamogramm, editExperiment} from '../actions/index';
-import {Button, ButtonType} from 'office-ui-fabric-react/lib/Button';
+import {Button} from 'semantic-ui-react';
 import AddExperimentForm from './AddExperimentForm';
 
 const mapStateToProps = state => ({
@@ -73,19 +73,19 @@ class Experiment extends Component {
             <div>
                 {experiment && <div>
                     <Button
-                        buttonType={ButtonType.command}
-                        icon='Add'
+                        icon='plus'
                         onClick={this.openAddVoltamogramm}
-                    >
-                        Создать вольтамограмму
-                    </Button>
+                        content='Создать вольтамограмму'
+                        labelPosition='left'
+                        basic={true}
+                    />
                     <Button
-                        buttonType={ButtonType.command}
-                        icon='Edit'
+                        icon='edit'
                         onClick={this.activeEditExperiment}
-                    >
-                        Редактировать эксперимент
-                    </Button>
+                        content='Редактировать эксперимент'
+                        labelPosition='left'
+                        basic={true}
+                    />
                     {this.renderExperiment()}
                     {!!voltamogramms.length && this.renderVoltamogramms(voltamogramms)}
                     <AddVoltamogramm/>

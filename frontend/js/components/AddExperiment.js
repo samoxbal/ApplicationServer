@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createExperiment} from '../actions';
 import AddExperimentForm from './AddExperimentForm';
+import {Card} from 'semantic-ui-react';
 
 const mapStateToProps = state => ({
     errors: state.errors
@@ -34,18 +35,22 @@ class AddExperiment extends Component {
     }
 
     render() {
-        return <div>
-            <Header />
-            <div className="AddExperment">
-                <div className="x_panel" style={{ width: '90%' }}>
-                    <AddExperimentForm
-                        isEdit={false}
-                        onSubmit={this.submitExperiment}
-                        errors={this.props.errors}
-                    />
+        return (
+            <div>
+                <Header />
+                <div className="AddExperment">
+                    <Card style={{ width: '90%' }}>
+                        <Card.Content>
+                            <AddExperimentForm
+                                isEdit={false}
+                                onSubmit={this.submitExperiment}
+                                errors={this.props.errors}
+                            />
+                        </Card.Content>
+                    </Card>
                 </div>
             </div>
-        </div>
+        )
     }
 }
 

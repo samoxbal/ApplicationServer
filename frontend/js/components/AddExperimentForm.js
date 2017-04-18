@@ -1,4 +1,5 @@
 import {Component, PropTypes} from 'react';
+import {Button} from 'semantic-ui-react';
 import Datetime from 'react-datetime';
 import classNames from 'classnames';
 import is from 'is';
@@ -136,13 +137,13 @@ export default class AddExperimentForm extends Component {
                             />
                         </div>
                     </div>
-                    {active && <div className="text-left">
-                        <button type="submit" className="btn btn-success">
+                    {active && <div>
+                        <Button primary={true}>
                             {experiment ? 'Редактировать' : 'Создать'}
-                        </button>
-                        <button type="btn" className="btn btn-primary" onClick={this.onCancelClick}>
+                        </Button>
+                        <Button onClick={this.onCancelClick}>
                             Отмена
-                        </button>
+                        </Button>
                     </div>}
                 </div>
             </form>

@@ -1,66 +1,11 @@
-import {Component, PropTypes} from 'react';
-import {CommandBar} from 'office-ui-fabric-react/lib/CommandBar';
+import { Component, PropTypes } from 'react';
+import { Menu, Dropdown } from 'semantic-ui-react';
 
 export default class Header extends Component {
 
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);
-        this.items = [
-            {
-                key: 'logo',
-                name: 'VASCAN',
-                style: {
-                    color: '#fff'
-                },
-            },
-            {
-                key: 'all',
-                style: {
-                    color: '#fff'
-                },
-                onClick: () => this.context.router.history.push("/all"),
-                iconProps: {
-                    iconName: 'Financial',
-                    style: {
-                        color: '#fff'
-                    }
-                },
-                name: 'Все эксперименты'
-            },
-            {
-                key: 'add',
-                style: {
-                    color: '#fff'
-                },
-                onClick: () => this.context.router.history.push("/add"),
-                iconProps: {
-                    iconName: 'CalculatorAddition',
-                    style: {
-                        color: '#fff'
-                    }
-                },
-                name: 'Добавить эксперимент'
-            }
-        ];
-        this.farItems = [
-            {
-                key: 'menu',
-                style: {
-                    color: '#fff'
-                },
-                subMenuProps: {
-                    items: [
-                        {
-                            key: 'logout',
-                            name: 'Выйти из системы',
-                            onClick: this.logout
-                        }
-                    ]
-                },
-                name: localStorage.getItem('email')
-            }
-        ]
     }
 
     static contextTypes = {
@@ -74,13 +19,24 @@ export default class Header extends Component {
     }
 
     render() {
-        return <div>
-            <CommandBar
-                isSearchBoxVisible={false}
-                items={this.items}
-                farItems={this.farItems}
-                className="Header"
-            />
-        </div>
+        return (
+            <Menu inverted={true}>
+                <Menu.Item
+                    name="Добавить эксперимент"
+                    onClick={() => this.context.router.history.push("/add")}
+                />
+                <Menu.Item
+                    name="Все эксперименты"
+                    onClick={() => this.context.router.history.push("/all")}
+                />
+                <Menu.Menu position="right">
+                    <Dropdown item={true} text={localStorage.getItem("email")}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item>Выйти из системы</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Menu.Menu>
+            </Menu>
+        )
     }
 }

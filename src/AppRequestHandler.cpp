@@ -464,8 +464,10 @@ void AppRequestHandler::computeRegression(
         LinearRegression regressor;
 
         auto params = regressor.getParameters(measure_doc);
+        std::string result{};
+        params.print(result);
 
-        json_response << "status" << "ok";
+        json_response << "status" << this->ok;
 
     } else {
         json_response << "status" << this->failed;
