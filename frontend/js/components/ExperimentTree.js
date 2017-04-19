@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {List} from 'semantic-ui-react';
 import {FetchExperiments, selectExperiment, fetchVoltamogramms} from '../actions';
 
 const mapStateToProps = state => ({
@@ -25,27 +26,24 @@ class ExperimentTree extends Component {
     }
 
     render() {
-        const { experiments, selectedExperimentId } = this.props;
+        const { experiments } = this.props;
 
         return (
-            <ul className="ExperimentTree__list">
+            <List>
                 {experiments.map((item, index) =>
-                    <li
+                    <List.Item
                         key={index}
-                        className="ExperimentTree__listItem_li"
                         onClick={() => this.onClickExperiment(item._id)}
                     >
-                        <div className="ExperimentTree__listItem_div">
-                            <div className="ExperimentTree__listItem_item">
-                                <div className={`ExperimentTree__listItem_name${selectedExperimentId == item._id ? '_bold' : ''}`}>
-                                    <i className="fa fa-folder-o ExperimentTree__listItem_icon" />
-                                    {item.name}
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                        <List.Icon name="folder" />
+                        <List.Content>
+                            <List.Header>
+                                {item.name}
+                            </List.Header>
+                        </List.Content>
+                    </List.Item>
                 )}
-            </ul>
+            </List>
         )
     }
 }

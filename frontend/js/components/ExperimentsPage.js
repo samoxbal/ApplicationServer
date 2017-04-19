@@ -2,7 +2,7 @@ import {Component} from 'react';
 import Header from './Header';
 import ExperimentTree from './ExperimentTree';
 import Experiment from './Experiment';
-
+import {Card} from 'semantic-ui-react';
 
 export default class ExperimentsPage extends Component {
 
@@ -10,16 +10,16 @@ export default class ExperimentsPage extends Component {
         return <div className="main_container">
             <Header />
             <div className="ExperimentsPage">
-                <div className="x_panel ExperimentsPage__Tree">
-                    <div className="x_content">
+                <Card className="ExperimentsPage__Tree">
+                    <Card.Content>
                         <ExperimentTree/>
-                    </div>
-                </div>
-                <div className="x_panel ExperimentsPage__Item">
-                    <div className="x_content">
+                    </Card.Content>
+                </Card>
+                <Card className="ExperimentsPage__Item">
+                    <Card.Content>
                         <Experiment/>
-                    </div>
-                </div>
+                    </Card.Content>
+                </Card>
             </div>
         </div>
     }

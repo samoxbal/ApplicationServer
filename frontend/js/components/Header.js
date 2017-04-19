@@ -32,7 +32,9 @@ export default class Header extends Component {
                 <Menu.Menu position="right">
                     <Dropdown item={true} text={localStorage.getItem("email")}>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Выйти из системы</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.logout()}>
+                                Выйти из системы
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Menu>

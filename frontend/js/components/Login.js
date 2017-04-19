@@ -1,5 +1,6 @@
 import {Component, PropTypes} from 'react';
 import axios from 'axios';
+import {Form} from 'semantic-ui-react';
 
 class Login extends Component {
 
@@ -78,18 +79,15 @@ class Login extends Component {
     }
 
     render() {
-        return <div className="login_wrapper">
-            <div className="form login_form">
-                <section className="login_content">
-                    <form onSubmit={this.login}>
-                        <h1>Вход в систему</h1>
-                        <input type="text" className="form-control email" placeholder="Имя пользователя" onChange={this.onChangeEmail} ref={(ref) => this._email = ref} />
-                        <input type="password" className="form-control password" placeholder="Пароль" onChange={this.onChangePassword} ref={(ref) => this._password = ref} />
-                        <button type="submit" className="btn btn-default">Войти</button>
-                    </form>
-                </section>
+        return (
+            <div className="login_wrapper">
+                <Form onSubmit={this.login}>
+                    <Form.Input placeholder="Имя пользователя" onChange={this.onChangeEmail} ref={(ref) => this._email = ref} />
+                    <Form.Input type="password" placeholder="Пароль" onChange={this.onChangePassword} ref={(ref) => this._password = ref} />
+                    <Form.Button type="submit" basic>Войти</Form.Button>
+                </Form>
             </div>
-        </div>
+        )
     }
 }
 

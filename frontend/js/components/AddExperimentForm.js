@@ -114,10 +114,10 @@ export default class AddExperimentForm extends Component {
                     disabled={!active}
                 />
                 {active && <Form.Group inline>
-                    <Form.Button primary={true}>
+                    <Form.Button primary basic>
                         {experiment ? 'Редактировать' : 'Создать'}
                     </Form.Button>
-                    <Form.Button onClick={this.onCancelClick}>
+                    <Form.Button basic onClick={this.onCancelClick}>
                         Отмена
                     </Form.Button>
                 </Form.Group>}

@@ -2,6 +2,7 @@ import {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
+import {List} from 'semantic-ui-react';
 import AddVoltamogramm from './AddVoltamogramm';
 import {getSelectedExperiment} from '../selectors/experiment';
 import {openAddVoltamogramm, editExperiment} from '../actions/index';
@@ -45,7 +46,7 @@ class Experiment extends Component {
         const {experiment, errors} = this.props;
 
         return (
-            <div>
+            <div style={{ clear: 'both', paddingTop: 10 }}>
                 <AddExperimentForm
                     experiment={experiment}
                     errors={errors}
@@ -58,12 +59,20 @@ class Experiment extends Component {
     }
 
     renderVoltamogramms(voltamogramms) {
-        return voltamogramms.map(item => (
-            <div key={item._id} className="Experiment__Voltamogramm">
-                <i className="fa fa-file-text-o Experiment__Voltamogramm__Icon"></i>
-                <Link to={`/voltamogramm/${item._id}`}>{item._id}</Link>
-            </div>
-        ))
+        return (
+            <List divided relaxed>
+                {voltamogramms.map(item => (
+                    <List.Item key={item._id}>
+                        <List.Icon name="file" />
+                        <List.Content>
+                            <List.Header as="a">
+                                <Link to={`/voltamogramm/${item._id}`}>{item._id}</Link>
+                            </List.Header>
+                        </List.Content>
+                    </List.Item>
+                ))}
+            </List>
+        )
     }
 
     render() {
