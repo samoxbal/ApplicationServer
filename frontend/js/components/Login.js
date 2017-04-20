@@ -27,14 +27,14 @@ class Login extends Component {
         }
     }
 
-    onChangeEmail(e) {
-        var value = e.target.value;
+    onChangeEmail(e, data) {
+        const { value } = data;
         this.state.form.email.value = value;
         this.state.form.email.valid = value.length > 0
     }
 
-    onChangePassword(e) {
-        var value = e.target.value;
+    onChangePassword(e, data) {
+        const { value } = data;
         this.state.form.password.value = value;
         this.state.form.password.valid = value.length > 0
     }
@@ -69,8 +69,9 @@ class Login extends Component {
                     body: this.state.loginData
                 }
             }).then(response => {
-                if (response.status == "ok") {
-                    localStorage.setItem("token", response.data);
+                const { data } = response;
+                if (data.status == "ok") {
+                    localStorage.setItem("token", data.data);
                     localStorage.setItem("email", this.state.loginData.email);
                     this.context.router.history.push("/all");
                 }

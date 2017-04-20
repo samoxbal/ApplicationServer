@@ -2,6 +2,7 @@ import {Component} from 'react';
 import {connect} from 'react-redux';
 import is from 'is';
 import {bindActionCreators} from 'redux';
+import {Card} from 'semantic-ui-react';
 import Header from './Header';
 import {fetchSingleVoltamogramm} from '../actions';
 
@@ -31,16 +32,14 @@ class VoltamogrammPage extends Component {
             <div className="main_container">
                 <Header/>
                 <div className="VoltamogrammPage">
-                    <div className="x_panel VoltamogrammPage__Tree">
-                        <div className="x_content">
+                    <Card className="VoltamogrammPage__Tree">
+                        <Card.Content>
                             {!is.empty(voltamogramm) && this.renderTree(voltamogramm)}
-                        </div>
-                    </div>
-                    <div className="x_panel VoltamogrammPage__Scan">
-                        <div className="x_content">
+                        </Card.Content>
+                    </Card>
+                    <Card className="x_panel VoltamogrammPage__Scan">
 
-                        </div>
-                    </div>
+                    </Card>
                 </div>
             </div>
         )

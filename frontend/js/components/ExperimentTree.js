@@ -32,6 +32,7 @@ class ExperimentTree extends Component {
             <List>
                 {experiments.map((item, index) =>
                     <List.Item
+                        as="a"
                         key={index}
                         onClick={() => this.onClickExperiment(item._id)}
                     >

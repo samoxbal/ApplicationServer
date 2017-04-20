@@ -1,11 +1,10 @@
 import {Component, PropTypes} from 'react';
 import Datetime from 'react-datetime';
 import FileUpload from './FileUpload';
-import Switch from 'react-toggle-switch';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createScan, openAddVoltamogramm} from '../actions';
-import {Modal} from 'semantic-ui-react';
+import {Modal, Form, Segment, Header} from 'semantic-ui-react';
 import Regime from './Regime';
 
 const mapStateToProps = state => ({
@@ -126,166 +125,92 @@ class AddScan extends Component {
             >
                 <Modal.Header>Создать вольтамограмму</Modal.Header>
                 <Modal.Content>
-                    <form className="form-horizontal" onSubmit={this.handleSubmit}>
-                        <div className="x_panel">
-                            <div className="x_title">
-                                <h2>Параметры вольтаммограммы</h2>
-                                <div className="clearfix"></div>
-                            </div>
-                            <div className="x_content">
-                                <div className="row">
-                                    <div className="form-group col-md-6">
-                                        <Datetime
-                                            inputProps={PickerStyleVoltamogramm}
-                                            closeOnSelect={true}
-                                            timeFormat={false}
-                                        />
-                                        <span className="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                        <br/>
-                                        <label className="col-md-4">Цикличная вольтамперограмма</label>
-                                        <div className="col-md-8">
-                                            <Switch
-                                                on={cyclic}
-                                                onClick={this.handleCyclic}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <textarea className="form-control" placeholder="Описание" rows="4" ref={ref => this._description = ref} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-6">
-                                        <input type="text" className="form-control" placeholder="Раствор" ref={ref => this._solution = ref} />
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <input type="text" className="form-control" placeholder="Серийный номер электрода" ref={ref => this._serialNumber = ref} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-6">
-                                        <select className="form-control" ref={ref => this._count = ref}>
-                                            <option disabled="" defaultChecked="">Количество электродов</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="x_panel">
-                            <div className="x_title">
-                                <h2>Параметры измерения</h2>
-                                <div className="clearfix"></div>
-                            </div>
-                            <div className="x_content">
-                                <br />
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <Datetime
-                                            inputProps={PickerStyleScan}
-                                            closeOnSelect={true}
-                                            timeFormat={false}
-                                        />
-                                        <span className="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                    </div>
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Начальный потенциал" ref={ref => this._startPotential = ref} />
-                                    </div>
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Конечный потенциал" ref={ref => this._endPotential = ref} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Номер канала" ref={ref => this._numberChannel = ref} />
-                                    </div>
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Имя канала" ref={ref => this._nameChannel = ref} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Температура" ref={ref => this._temperature = ref} />
-                                    </div>
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Давление" ref={ref => this._pressure = ref} />
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <label className="col-md-4">Прямая развертка</label>
-                                        <div className="col-md-8">
-                                            <Switch
-                                                on={directDirection}
-                                                onClick={this.handleDirection}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Скорость развертки" ref={ref => this._speedDirection = ref} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <label className="col-md-4">Мешалка</label>
-                                        <div className="col-md-8">
-                                            <Switch
-                                                on={visibleStirring}
-                                                onClick={this.handleStirring}
-                                            />
-                                        </div>
-                                    </div>
-                                    {visibleStirring &&
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Скорость перемешивания" ref={ref => this._speedStirring = ref} />
-                                    </div>}
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <label className="col-md-4">Вращение электрода</label>
-                                        <div className="col-md-8">
-                                            <Switch
-                                                on={visibleRotate}
-                                                onClick={this.handleRotate}
-                                            />
-                                        </div>
-                                    </div>
-                                    {visibleRotate &&
-                                    <div className="form-group col-md-4">
-                                        <input type="text" className="form-control" placeholder="Скорость вращения" ref={ref => this._speedRotate = ref} />
-                                    </div>}
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-4">
-                                        <select className="form-control" onChange={this.handleRegime}>
-                                            <option disabled="" defaultChecked="">Тип измерения</option>
-                                            <option value="normal">Normal</option>
-                                            <option value="differential">Differential</option>
-                                            <option value="square_wave">Square wave</option>
-                                            <option value="staircase">Staircase</option>
-                                            <option value="ac">Ac</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <Regime
-                                    regime={regime}
-                                    ref={ref => this._regime = ref}
-                                />
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <FileUpload ref={ref => this._file = ref} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="text-right">
-                            <button type="submit" className="btn btn-success">Создать</button>
-                        </div>
-                    </form>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Segment>
+                            <Header as="h2">Параметры вольтаммограммы</Header>
+                            <Form.Field
+                                control={Datetime}
+                                inputProps={PickerStyleVoltamogramm}
+                                closeOnSelect={true}
+                                timeFormat={false}
+                            />
+                            <Form.Checkbox label="Цикличная вольтамперограмма" toggle />
+                            <Form.TextArea
+                                placeholder="Описание"
+                                rows="4"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Раствор"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Серийный номер электрода"
+                            />
+                            <Form.Select
+                                placeholder="Количество электродов"
+                            />
+                        </Segment>
+                        <Segment>
+                            <Header as="h2">Параметры измерения</Header>
+                            <Form.Field
+                                control={Datetime}
+                                inputProps={PickerStyleScan}
+                                closeOnSelect={true}
+                                timeFormat={false}
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Начальный потенциал"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Конечный потенциал"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Номер канала"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Имя канала"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Температура"
+                            />
+                            <Form.Input
+                                type="text"
+                                placeholder="Давление"
+                            />
+                            <Form.Checkbox label="Прямая развертка" toggle />
+                            <Form.Input
+                                type="text"
+                                placeholder="Скорость развертки"
+                            />
+                            <Form.Checkbox label="Мешалка" toggle />
+                            {visibleStirring &&
+                            <Form.Input
+                                type="text"
+                                placeholder="Скорость перемешивания"
+                            />}
+                            <Form.Checkbox label="Вращение электрода" toggle />
+                            {visibleRotate &&
+                            <Form.Input
+                                type="text"
+                                placeholder="Скорость вращения"
+                            />}
+                            <Form.Select
+                                placeholder="Тип измерения"
+                            />
+                            <Regime
+                                regime={regime}
+                                ref={ref => this._regime = ref}
+                            />
+                            <FileUpload ref={ref => this._file = ref} />
+                        </Segment>
+                        <Form.Button primary basic>Создать</Form.Button>
+                    </Form>
                 </Modal.Content>
             </Modal>
         )

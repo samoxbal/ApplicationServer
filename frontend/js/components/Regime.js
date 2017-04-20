@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import {Form} from 'semantic-ui-react';
 
 export default class Regime extends Component {
     getRegime() {
@@ -37,72 +38,84 @@ export default class Regime extends Component {
 
     renderNormal() {
         return (
-            <div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Normal pulse life" ref={ref => this._normal_pulse_life = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Normal pulse period" ref={ref => this._normal_pulse_period = ref} />
-                </div>
-            </div>
+            <Form.Group inline>
+                <Form.Input
+                    type="text"
+                    placeholder="Normal pulse life"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Normal pulse period"
+                />
+            </Form.Group>
         )
     }
 
     renderDifferential() {
         return (
-            <div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Differential pulse amplitude" ref={ref => this._differential_pulse_amplitude = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Differential pulse pulsewidth" ref={ref => this._differential_pulse_pulsewidth = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Differential pulse period" ref={ref => this._differential_pulse_period = ref} />
-                </div>
-            </div>
+            <Form.Group inline>
+                <Form.Input
+                    type="text"
+                    placeholder="Differential pulse amplitude"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Differential pulse pulsewidth"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Differential pulse period"
+                />
+            </Form.Group>
         )
     }
 
     renderSquare() {
         return (
-            <div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Square wave amplitude" ref={ref => this._square_wave_amplitude = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Square wave estep" ref={ref => this._square_wave_estep = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Square wave time period" ref={ref => this._square_wave_time_period = ref} />
-                </div>
-            </div>
+            <Form.Group inline>
+                <Form.Input
+                    type="text"
+                    placeholder="Square wave amplitude"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Square wave estep"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Square wave time period"
+                />
+            </Form.Group>
         )
     }
 
     renderStairCase() {
         return (
-            <div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Staircase time step" ref={ref => this._staircase_time_step = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Staircase estep" ref={ref => this._staircase_estep = ref} />
-                </div>
-            </div>
+            <Form.Group inline>
+                <Form.Input
+                    type="text"
+                    placeholder="Staircase time step"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Staircase estep"
+                />
+            </Form.Group>
         )
     }
 
     renderAc() {
         return (
-            <div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Ac amplitude" ref={ref => this._ac_amplitude = ref} />
-                </div>
-                <div className="form-group col-md-4">
-                    <input type="text" className="form-control" placeholder="Ac frequency" ref={ref => this._ac_frequency = ref} />
-                </div>
-            </div>
+            <Form.Group inline>
+                <Form.Input
+                    type="text"
+                    placeholder="Ac amplitude"
+                />
+                <Form.Input
+                    type="text"
+                    placeholder="Ac frequency"
+                />
+            </Form.Group>
         )
     }
 
@@ -125,7 +138,7 @@ export default class Regime extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div>
                 {this.renderRegime(this.props.regime)}
             </div>
         )

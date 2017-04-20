@@ -65,7 +65,7 @@ class Experiment extends Component {
                     <List.Item key={item._id}>
                         <List.Icon name="file" />
                         <List.Content>
-                            <List.Header as="a">
+                            <List.Header>
                                 <Link to={`/voltamogramm/${item._id}`}>{item._id}</Link>
                             </List.Header>
                         </List.Content>
