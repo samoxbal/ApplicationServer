@@ -128,66 +128,78 @@ class AddScan extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <Segment>
                             <Header as="h2">Параметры вольтаммограммы</Header>
-                            <Form.Field
-                                control={Datetime}
-                                inputProps={PickerStyleVoltamogramm}
-                                closeOnSelect={true}
-                                timeFormat={false}
-                            />
-                            <Form.Checkbox label="Цикличная вольтамперограмма" toggle />
+                            <Form.Group widths="equal">
+                                <Form.Field
+                                    control={Datetime}
+                                    inputProps={PickerStyleVoltamogramm}
+                                    closeOnSelect={true}
+                                    timeFormat={false}
+                                />
+                                <Form.Checkbox label="Цикличная вольтамперограмма" toggle />
+                            </Form.Group>
                             <Form.TextArea
                                 placeholder="Описание"
                                 rows="4"
                             />
-                            <Form.Input
-                                type="text"
-                                placeholder="Раствор"
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Серийный номер электрода"
-                            />
-                            <Form.Select
-                                placeholder="Количество электродов"
-                            />
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Раствор"
+                                />
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Серийный номер электрода"
+                                />
+                                <Form.Select
+                                    placeholder="Количество электродов"
+                                />
+                            </Form.Group>
                         </Segment>
                         <Segment>
                             <Header as="h2">Параметры измерения</Header>
-                            <Form.Field
-                                control={Datetime}
-                                inputProps={PickerStyleScan}
-                                closeOnSelect={true}
-                                timeFormat={false}
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Начальный потенциал"
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Конечный потенциал"
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Номер канала"
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Имя канала"
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Температура"
-                            />
-                            <Form.Input
-                                type="text"
-                                placeholder="Давление"
-                            />
-                            <Form.Checkbox label="Прямая развертка" toggle />
-                            <Form.Input
-                                type="text"
-                                placeholder="Скорость развертки"
-                            />
+                            <Form.Group widths="equal">
+                                <Form.Field
+                                    control={Datetime}
+                                    inputProps={PickerStyleScan}
+                                    closeOnSelect={true}
+                                    timeFormat={false}
+                                />
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Начальный потенциал"
+                                />
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Конечный потенциал"
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Номер канала"
+                                />
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Имя канала"
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Температура"
+                                />
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Давление"
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Checkbox label="Прямая развертка" toggle />
+                                <Form.Input
+                                    type="text"
+                                    placeholder="Скорость развертки"
+                                />
+                            </Form.Group>
                             <Form.Checkbox label="Мешалка" toggle />
                             {visibleStirring &&
                             <Form.Input
