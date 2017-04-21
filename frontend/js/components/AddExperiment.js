@@ -35,8 +35,8 @@ class AddExperiment extends Component {
         router: PropTypes.object.isRequired
     };
 
-    submitExperiment(data) {
-        this.props.createExperiment(data);
+    submitExperiment() {
+        this.props.createExperiment();
     }
 
     render() {

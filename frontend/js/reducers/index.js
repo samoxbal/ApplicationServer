@@ -14,7 +14,7 @@ const voltamogramms = createSimpleReducer([], ACTION_TYPES.FETCH_VOLTAMOGRAMMS_S
 
 const voltamogramm = createSimpleReducer({}, ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM_SUCCESS);
 
-const AddExperimentForm = combineReducers({
+const addExperimentForm = combineReducers({
     name: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_NAME),
     description: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_DESCRIPTION),
     start_date: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_START),
@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
     openAddVoltamogramm,
     voltamogramms,
     voltamogramm,
-    AddExperimentForm
+    addExperimentForm
 });
 
 export default rootReducer;

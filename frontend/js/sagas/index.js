@@ -1,9 +1,10 @@
-import {take, put, fork, call} from 'redux-saga/effects';
+import {take, put, fork, call, select} from 'redux-saga/effects';
 import is from 'is';
 import validator from '../utils/validator';
 import {api} from '../utils/api';
 import {mapOid} from '../utils/utils';
 import ACTION_TYPES from '../constants/actionTypes';
+import {addExperimentForm} from '../selectors/experiment';
 
 function* fetchExperiments() {
     while(true) {
@@ -18,9 +19,9 @@ function* fetchExperiments() {
 
 function* createExperiment() {
     while(true) {
-        const action = yield take(ACTION_TYPES.ADD_EXPERIMENT);
-        const { experiment } = action;
-        const [invalidFields, experimentObj] = validator(experiment);
+        yield take(ACTION_TYPES.ADD_EXPERIMENT);
+        const form = yield select(addExperimentForm);
+        const [invalidFields, experimentObj] = validator(form);
         if(is.empty(invalidFields)) {
             yield call(api.add_experiment, experimentObj);
         } else {

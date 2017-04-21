@@ -13,10 +13,9 @@ export function selectExperiment(_id) {
     }
 }
 
-export function createExperiment(experiment) {
+export function createExperiment() {
     return {
-        type: ACTION_TYPES.ADD_EXPERIMENT,
-        experiment: experiment
+        type: ACTION_TYPES.ADD_EXPERIMENT
     }
 }
 
