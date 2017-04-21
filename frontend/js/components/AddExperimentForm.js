@@ -3,6 +3,7 @@ import {Form} from 'semantic-ui-react';
 import Datetime from 'react-datetime';
 import classNames from 'classnames';
 import is from 'is';
+import moment from 'moment';
 
 export default class AddExperimentForm extends Component {
     static propTypes = {
@@ -24,6 +25,11 @@ export default class AddExperimentForm extends Component {
         }
     }
 
+    onChangeName = (e, data) => this.props.changeName(data.value)
+    onChangeDescription = (e, data) => this.props.changeDescription(data.value)
+    onChangeStartDate = date => this.props.changeStartDate(moment(date).format())
+    onChangeEndDate = date => this.props.changeEndDate(moment(date).format())
+
     renderPickerBegin(errors, experiment, active) {
         const PickerBeginStyle = {
             className: classNames(
@@ -31,7 +37,6 @@ export default class AddExperimentForm extends Component {
                 {"parsley-error": errors.start_date}
             ),
             placeholder: "Дата начала",
-            ref: ref => this._beginDate = ref,
             disabled: !active
         };
         return (
@@ -40,6 +45,7 @@ export default class AddExperimentForm extends Component {
                 inputProps={PickerBeginStyle}
                 closeOnSelect={true}
                 timeFormat={false}
+                onChange={this.onChangeStartDate}
                 defaultValue={experiment ? experiment.start_date : ""}
             />
         );
@@ -52,7 +58,6 @@ export default class AddExperimentForm extends Component {
                 {"parsley-error": errors.end_date}
             ),
             placeholder: "Дата начала",
-            ref: ref => this._endDate = ref,
             disabled: !active
         };
         return (
@@ -61,6 +66,7 @@ export default class AddExperimentForm extends Component {
                 inputProps={PickerEndStyle}
                 closeOnSelect={true}
                 timeFormat={false}
+                onChange={this.onChangeEndDate}
                 defaultValue={experiment ? experiment.end_date : ""}
             />
         );
@@ -68,24 +74,7 @@ export default class AddExperimentForm extends Component {
 
     submitExperiment = event => {
         event.preventDefault();
-        this.props.onSubmit({
-            name: {
-                value: this._name.value,
-                type: "required"
-            },
-            description: {
-                value: this._description.value,
-                type: "required"
-            },
-            start_date: {
-                value: this._beginDate.value,
-                type: "date"
-            },
-            end_date: {
-                value: this._endDate.value,
-                type: "date"
-            }
-        })
+        this.props.onSubmit();
     }
 
     render() {
@@ -101,23 +90,23 @@ export default class AddExperimentForm extends Component {
                     type="text"
                     error={!!errors.name}
                     placeholder="Название эксперимента"
-                    ref={ref => this._name = ref}
                     defaultValue={experiment ? experiment.name : ""}
                     disabled={!active}
+                    onChange={this.onChangeName}
                 />
                 <Form.TextArea
                     error={!!errors.description}
                     placeholder="Описание эксперимента"
                     rows="4"
-                    ref={ref => this._description = ref}
                     defaultValue={experiment ? experiment.description : ""}
                     disabled={!active}
+                    onChange={this.onChangeDescription}
                 />
                 {active && <Form.Group inline>
                     <Form.Button primary basic>
                         {experiment ? 'Редактировать' : 'Создать'}
                     </Form.Button>
-                    <Form.Button basic onClick={this.onCancelClick}>
+                    <Form.Button type="button" basic onClick={this.onCancelClick}>
                         Отмена
                     </Form.Button>
                 </Form.Group>}

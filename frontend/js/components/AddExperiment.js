@@ -5,18 +5,23 @@ import {bindActionCreators} from 'redux';
 import {createExperiment} from '../actions';
 import AddExperimentForm from './AddExperimentForm';
 import {Card} from 'semantic-ui-react';
+import createFormAction from '../utils/createFormAction';
+import ACTION_TYPES from '../constants/actionTypes';
 
 const mapStateToProps = state => ({
     errors: state.errors
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    createExperiment
+    createExperiment,
+    changeName: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_NAME),
+    changeDescription: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_DESCRIPTION),
+    changeStartDate: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_START),
+    changeEndDate: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_END)
 }, dispatch);
 
 
 class AddExperiment extends Component {
-
     constructor(props) {
         super(props);
         this.submitExperiment = this.submitExperiment.bind(this);
@@ -35,16 +40,27 @@ class AddExperiment extends Component {
     }
 
     render() {
+        const {
+            changeName,
+            changeDescription,
+            changeStartDate,
+            changeEndDate
+        } = this.props;
+
         return (
             <div>
                 <Header />
                 <div className="AddExperment">
-                    <Card style={{ width: '90%' }}>
+                    <Card style={{ width: '70%' }}>
                         <Card.Content>
                             <AddExperimentForm
                                 isEdit={false}
                                 onSubmit={this.submitExperiment}
                                 errors={this.props.errors}
+                                changeName={changeName}
+                                changeDescription={changeDescription}
+                                changeStartDate={changeStartDate}
+                                changeEndDate={changeEndDate}
                             />
                         </Card.Content>
                     </Card>
