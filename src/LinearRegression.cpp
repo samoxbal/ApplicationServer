@@ -22,6 +22,8 @@ arma::vec LinearRegression::getParameters(bsoncxx::document::view &data_src)
     }
 
     auto lr = mlpack::regression::LinearRegression(data, arma::vec(y_col));
+    arma::vec predictions;
 
-    return lr.Parameters();
+    lr.Predict(data, predictions);
+    return predictions;
 }
