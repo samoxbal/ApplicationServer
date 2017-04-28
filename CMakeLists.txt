@@ -19,5 +19,8 @@ set(POCO_LIBS
         "${POCO_LIB_DIR}/libjwtxx.a"
         "${POCO_LIB_DIR}/libjansson.a")
 
+find_package(Shark)
+include(${SHARK_USE_FILE})
+
 target_include_directories(VaScan PRIVATE $(POCO_INCLUDE_DIR))
-target_link_libraries(VaScan "${POCO_LIBS}" crypto mlpack armadillo)
+target_link_libraries(VaScan "${POCO_LIBS}" crypto ${SHARK_LIBRARIES})

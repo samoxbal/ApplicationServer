@@ -4,26 +4,27 @@
 
 #include "LinearRegression.h"
 
-arma::vec LinearRegression::getParameters(bsoncxx::document::view &data_src)
+shark::LinearModel<> LinearRegression::getParameters(bsoncxx::document::view &data_src)
 {
-    std::vector<double> x_col{};
-    std::vector<double> y_col{};
+    shark::RealVector x_col{};
+    shark::RealVector y_col{};
 
     for (auto& row : data_src["points"].get_array().value) {
         x_col.push_back(row[0].get_double().value);
         y_col.push_back(row[1].get_double().value);
     }
 
-    arma::mat data(x_col.size(), 2);
+    std::vector<shark::RealVector> inputs{x_col};
+    std::vector<shark::RealVector> labels{y_col};
 
-    for (int i = 0; i < x_col.size(); ++i) {
-        data(i, 0) = x_col[i];
-        data(i, 1) = y_col[i];
-    }
+    shark::Data<shark::RealVector> inputData = shark::createDataFromRange(inputs, x_col.size());
+    shark::Data<shark::RealVector> labelData = shark::createDataFromRange(labels, y_col.size());
 
-    auto lr = mlpack::regression::LinearRegression(data, arma::vec(y_col));
-    arma::vec predictions;
+    shark::RegressionDataset dataset(inputData, labelData);
+    shark::LinearRegression trainer;
+    shark::LinearModel<> model;
 
-    lr.Predict(data, predictions);
-    return predictions;
+    trainer.train(model, dataset);
+
+    return model;
 }

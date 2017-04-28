@@ -5,13 +5,14 @@
 #ifndef VASCAN_LINEARREGRESSION_H
 #define VASCAN_LINEARREGRESSION_H
 
-#include <mlpack/methods/linear_regression/linear_regression.hpp>
+#include <shark/Data/Dataset.h>
+#include <shark/Algorithms/Trainers/LinearRegression.h>
 #include <bsoncxx/document/view.hpp>
 #include <bsoncxx/types.hpp>
 
 class LinearRegression {
 public:
-    arma::vec getParameters(bsoncxx::document::view& data_src);
+    shark::LinearModel<> getParameters(bsoncxx::document::view& data_src);
 };
 
 

@@ -39,7 +39,7 @@ function* editExperiment() {
         const { payload: { _id, ...restObj } } = action;
         const [invalidFields, experimentObj] = validator(restObj);
         if(is.empty(invalidFields)) {
-            const experiment_updated = yield call(api.edit_experiment, {_id, ...experimentObj});
+            yield call(api.edit_experiment, {_id, ...experimentObj});
         } else {
             yield put({
                 type: ACTION_TYPES.SET_ERROR,
