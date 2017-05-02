@@ -7,12 +7,13 @@
 
 #include <shark/Data/Dataset.h>
 #include <shark/Algorithms/Trainers/LinearRegression.h>
+#include <shark/ObjectiveFunctions/Loss/SquaredLoss.h>
 #include <bsoncxx/document/view.hpp>
 #include <bsoncxx/types.hpp>
 
 class LinearRegression {
 public:
-    shark::LinearModel<> getParameters(bsoncxx::document::view& data_src);
+    double getParameters(bsoncxx::document::view& data_src);
 };
 
 

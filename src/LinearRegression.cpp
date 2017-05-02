@@ -4,7 +4,7 @@
 
 #include "LinearRegression.h"
 
-shark::LinearModel<> LinearRegression::getParameters(bsoncxx::document::view &data_src)
+double LinearRegression::getParameters(bsoncxx::document::view &data_src)
 {
     shark::RealVector x_col{};
     shark::RealVector y_col{};
@@ -23,8 +23,10 @@ shark::LinearModel<> LinearRegression::getParameters(bsoncxx::document::view &da
     shark::RegressionDataset dataset(inputData, labelData);
     shark::LinearRegression trainer;
     shark::LinearModel<> model;
+    shark::SquaredLoss<> loss;
 
     trainer.train(model, dataset);
+    shark::Data<shark::RealVector> predictions = dataset.inputs();
 
-    return model;
+    return loss(dataset.labels(), predictions);
 }

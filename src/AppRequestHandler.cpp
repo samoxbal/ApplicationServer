@@ -463,9 +463,10 @@ void AppRequestHandler::computeRegression(
     if(!measure_doc.empty()) {
         LinearRegression regressor;
 
-        auto model = regressor.getParameters(measure_doc);
+        auto loss = regressor.getParameters(measure_doc);
 
         json_response << "status" << this->ok;
+        json_response << "loss" << loss;
 
     } else {
         json_response << "status" << this->failed;
