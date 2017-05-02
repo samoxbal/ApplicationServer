@@ -70,7 +70,7 @@ module.exports = {
         historyApiFallback: true,
         inline: true,
         proxy: {
-          "*": "http://localhost:3001"
+          "*": "http://localhost:3000"
         }
     }
 };

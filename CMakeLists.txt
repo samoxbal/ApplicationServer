@@ -3,7 +3,7 @@ project(VaScan)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lrt -lpthread")
-set(SOURCE_FILES main.cpp src/ApplicationServer.cpp src/ApplicationServer.h src/AppRequestHandlerFactory.cpp src/AppRequestHandlerFactory.h src/AppRequestHandler.cpp src/AppRequestHandler.h src/FileHandler.cpp src/FileHandler.h src/ValidationSchema.cpp src/ValidationSchema.h src/LinearRegression.cpp src/LinearRegression.h)
+set(SOURCE_FILES main.cpp src/ApplicationServer.cpp src/ApplicationServer.h src/AppRequestHandlerFactory.cpp src/AppRequestHandlerFactory.h src/AppRequestHandler.cpp src/AppRequestHandler.h src/FileHandler.cpp src/FileHandler.h src/ValidationSchema.cpp src/ValidationSchema.h src/LinearRegression.cpp src/LinearRegression.h src/StaticHandler.cpp src/StaticHandler.h)
 add_executable(VaScan ${SOURCE_FILES})
 
 set(POCO_PREFIX "/usr/local")
@@ -17,7 +17,8 @@ set(POCO_LIBS
         "${POCO_LIB_DIR}/libbsoncxx.so"
         "${POCO_LIB_DIR}/libmongocxx.so"
         "${POCO_LIB_DIR}/libjwtxx.a"
-        "${POCO_LIB_DIR}/libjansson.a")
+        "${POCO_LIB_DIR}/libjansson.a"
+        "${POCO_LIB_DIR}/libmstch.a")
 
 find_package(Shark)
 include(${SHARK_USE_FILE})
