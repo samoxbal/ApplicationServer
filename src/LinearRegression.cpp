@@ -6,19 +6,27 @@
 
 double LinearRegression::getParameters(bsoncxx::document::view &data_src)
 {
-    shark::RealVector x_col{};
-    shark::RealVector y_col{};
+    std::vector<double> x_col{};
+    std::vector<double> y_col{};
 
     for (auto& row : data_src["points"].get_array().value) {
         x_col.push_back(row[0].get_double().value);
         y_col.push_back(row[1].get_double().value);
     }
 
-    std::vector<shark::RealVector> inputs{x_col};
-    std::vector<shark::RealVector> labels{y_col};
+    std::size_t x_size = x_col.size();
+    std::size_t y_size = y_col.size();
 
-    shark::Data<shark::RealVector> inputData = shark::createDataFromRange(inputs, x_col.size());
-    shark::Data<shark::RealVector> labelData = shark::createDataFromRange(labels, y_col.size());
+    std::vector<shark::RealVector> inputs(x_size, shark::RealVector(1));
+    std::vector<shark::RealVector> labels(y_size, shark::RealVector(1));
+
+    for (std::size_t i = 0; i < x_size; i++) {
+        inputs[i](0) = x_col[i];
+        labels[i](0) = y_col[i];
+    }
+
+    shark::Data<shark::RealVector> inputData = shark::createDataFromRange(inputs);
+    shark::Data<shark::RealVector> labelData = shark::createDataFromRange(labels);
 
     shark::RegressionDataset dataset(inputData, labelData);
     shark::LinearRegression trainer;
