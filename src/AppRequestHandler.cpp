@@ -450,24 +450,36 @@ void AppRequestHandler::computeRegression(
 {
     auto db = this->database;
     auto messageBody = this->messageBody;
-    auto collection = db["measures"];
+    auto measure_collection = db["measures"];
+    auto regression_collection = db["regressions"];
     auto query_filter = bsoncxx::builder::stream::document{};
     auto json_response = bsoncxx::builder::stream::document{};
+    auto measure_id = (messageBody->get("_id")).toString();
 
-    query_filter << "_id" << bsoncxx::oid{(messageBody->get("_id")).toString()};
+    query_filter << "_id" << bsoncxx::oid{measure_id};
 
-    auto measure_src = collection.find_one(query_filter.view());
+    auto measure_src = measure_collection.find_one(query_filter.view());
     auto measure_opt = measure_src.value_or(bsoncxx::builder::stream::document{}.extract());
     auto measure_doc = measure_opt.view();
 
     if(!measure_doc.empty()) {
-        LinearRegression regressor;
-
+        auto regression = bsoncxx::builder::stream::document{};
         double K_matrix, B_offset, S_loss;
+
+        LinearRegression regressor;
 
         std::tie(K_matrix, B_offset, S_loss) = regressor.getParameters(measure_doc);
 
+        regression << "_measure" << measure_id
+                   << "k_matrix" << K_matrix
+                   << "b_offset" << B_offset
+                   << "loss" << S_loss;
+
+        auto result_regression = regression_collection.insert_one(regression.view());
+        auto regression_id = result_regression->inserted_id().get_oid().value;
+
         json_response << "status" << this->ok;
+        json_response << "regression_id" << regression_id.to_string();
         json_response << "K_matrix" << K_matrix;
         json_response << "B_offset" << B_offset;
         json_response << "S_loss" << S_loss;
