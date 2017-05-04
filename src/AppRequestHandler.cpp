@@ -468,6 +468,9 @@ void AppRequestHandler::computeRegression(
         std::tie(K_matrix, B_offset, S_loss) = regressor.getParameters(measure_doc);
 
         json_response << "status" << this->ok;
+        json_response << "K_matrix" << K_matrix;
+        json_response << "B_offset" << B_offset;
+        json_response << "S_loss" << S_loss;
 
     } else {
         json_response << "status" << this->failed;

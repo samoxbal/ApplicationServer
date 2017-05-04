@@ -40,5 +40,5 @@ std::tuple<double, double, double> LinearRegression::getParameters(bsoncxx::docu
     double B_offset = model.offset()(0);
     double S_loss = loss(dataset.labels(), predictions);
 
-    return std::tuple{K_matrix, B_offset, S_loss};
+    return std::make_tuple(K_matrix, B_offset, S_loss);
 }
