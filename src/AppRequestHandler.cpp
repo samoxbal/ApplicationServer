@@ -463,10 +463,11 @@ void AppRequestHandler::computeRegression(
     if(!measure_doc.empty()) {
         LinearRegression regressor;
 
-        auto loss = regressor.getParameters(measure_doc);
+        double K_matrix, B_offset, S_loss;
+
+        std::tie(K_matrix, B_offset, S_loss) = regressor.getParameters(measure_doc);
 
         json_response << "status" << this->ok;
-        json_response << "loss" << loss;
 
     } else {
         json_response << "status" << this->failed;

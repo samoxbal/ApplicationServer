@@ -10,10 +10,11 @@
 #include <shark/ObjectiveFunctions/Loss/SquaredLoss.h>
 #include <bsoncxx/document/view.hpp>
 #include <bsoncxx/types.hpp>
+#include <tuple>
 
 class LinearRegression {
 public:
-    double getParameters(bsoncxx::document::view& data_src);
+    std::tuple<double, double, double> getParameters(bsoncxx::document::view& data_src);
 };
 
 

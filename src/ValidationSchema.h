@@ -15,6 +15,7 @@ public:
     mongocxx::options::create_collection createVoltamogrammSchema();
     mongocxx::options::create_collection createScanSchema();
     mongocxx::options::create_collection createMeasureSchema();
+    mongocxx::options::create_collection createRegressionSchema();
 };
 
 

@@ -217,3 +217,46 @@ mongocxx::options::create_collection ValidationSchema::createMeasureSchema()
 
     return options;
 }
+
+mongocxx::options::create_collection ValidationSchema::createRegressionSchema()
+{
+    using bsoncxx::builder::stream::open_document;
+    using bsoncxx::builder::stream::close_document;
+
+    mongocxx::options::create_collection options;
+    mongocxx::validation_criteria validation;
+
+    validation.level(mongocxx::validation_criteria::validation_level::k_strict);
+    validation.action(mongocxx::validation_criteria::validation_action::k_error);
+
+    auto rule = bsoncxx::builder::stream::document{};
+
+    rule << "_measure" << open_document
+         << "$exists" << true
+         << "$type" << "string"
+         << "$ne" << ""
+         << close_document;
+
+    rule << "k_matrix" << open_document
+         << "$exists" << true
+         << "$type" << "double"
+         << "$ne" << ""
+         << close_document;
+
+    rule << "b_offset" << open_document
+         << "$exists" << true
+         << "$type" << "double"
+         << "$ne" << ""
+         << close_document;
+
+    rule << "loss" << open_document
+         << "$exists" << true
+         << "$type" << "double"
+         << "$ne" << ""
+         << close_document;
+
+    validation.rule(rule.extract());
+    options.validation_criteria(validation);
+
+    return options;
+}

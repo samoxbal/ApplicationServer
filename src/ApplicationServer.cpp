@@ -32,6 +32,10 @@ int ApplicationServer::main(const std::vector<std::string> &args) {
             db.create_collection("measures", validationSchema.createMeasureSchema());
         }
 
+        if(!db.has_collection("regressions")) {
+            db.create_collection("regressions", validationSchema.createRegressionSchema());
+        }
+
         Poco::Net::ServerSocket socket(3000);
         Poco::Net::HTTPServerParams* params = new Poco::Net::HTTPServerParams();
 

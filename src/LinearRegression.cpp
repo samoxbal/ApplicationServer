@@ -4,7 +4,7 @@
 
 #include "LinearRegression.h"
 
-double LinearRegression::getParameters(bsoncxx::document::view &data_src)
+std::tuple<double, double, double> LinearRegression::getParameters(bsoncxx::document::view &data_src)
 {
     std::vector<double> x_col{};
     std::vector<double> y_col{};
@@ -36,5 +36,9 @@ double LinearRegression::getParameters(bsoncxx::document::view &data_src)
     trainer.train(model, dataset);
     shark::Data<shark::RealVector> predictions = dataset.inputs();
 
-    return loss(dataset.labels(), predictions);
+    double K_matrix = model.matrix()(0,0);
+    double B_offset = model.offset()(0);
+    double S_loss = loss(dataset.labels(), predictions);
+
+    return std::tuple{K_matrix, B_offset, S_loss};
 }
