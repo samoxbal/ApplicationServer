@@ -11,7 +11,8 @@ export default class AddExperimentForm extends Component {
         onCancel: PropTypes.func,
         errors: PropTypes.object,
         experiment: PropTypes.object,
-        active: PropTypes.bool
+        active: PropTypes.bool,
+        form: PropTypes.object
     }
 
     static defaultProps = {
@@ -27,10 +28,10 @@ export default class AddExperimentForm extends Component {
 
     onChangeName = (e, data) => this.props.changeName(data.value)
     onChangeDescription = (e, data) => this.props.changeDescription(data.value)
-    onChangeStartDate = date => this.props.changeStartDate(moment(date).format())
-    onChangeEndDate = date => this.props.changeEndDate(moment(date).format())
+    onChangeStartDate = date => this.props.changeStartDate(moment(date).format("YYYY-MM-DD"))
+    onChangeEndDate = date => this.props.changeEndDate(moment(date).format("YYYY-MM-DD"))
 
-    renderPickerBegin(errors, experiment, active) {
+    renderPickerBegin(errors, experiment, active, form) {
         const PickerBeginStyle = {
             className: classNames(
                 "form-control has-feedback-left",
@@ -46,12 +47,12 @@ export default class AddExperimentForm extends Component {
                 closeOnSelect={true}
                 timeFormat={false}
                 onChange={this.onChangeStartDate}
-                defaultValue={experiment ? experiment.start_date : ""}
+                value={experiment && !form.start_date ? experiment.start_date : form.start_date}
             />
         );
     }
 
-    renderPickerEnd(errors, experiment, active) {
+    renderPickerEnd(errors, experiment, active, form) {
         const PickerEndStyle = {
             className: classNames(
                 "form-control has-feedback-left",
@@ -67,7 +68,7 @@ export default class AddExperimentForm extends Component {
                 closeOnSelect={true}
                 timeFormat={false}
                 onChange={this.onChangeEndDate}
-                defaultValue={experiment ? experiment.end_date : ""}
+                value={experiment && !form.end_date ? experiment.end_date : form.end_date}
             />
         );
     }
@@ -78,19 +79,19 @@ export default class AddExperimentForm extends Component {
     }
 
     render() {
-        const {errors, experiment, active} = this.props;
+        const {errors, experiment, active, form} = this.props;
 
         return (
             <Form onSubmit={this.submitExperiment}>
                 <Form.Group inline>
-                    {this.renderPickerBegin(errors, experiment, active)}
-                    {this.renderPickerEnd(errors, experiment, active)}
+                    {this.renderPickerBegin(errors, experiment, active, form)}
+                    {this.renderPickerEnd(errors, experiment, active, form)}
                 </Form.Group>
                 <Form.Input
                     type="text"
                     error={!!errors.name}
                     placeholder="Название эксперимента"
-                    defaultValue={experiment ? experiment.name : ""}
+                    value={experiment && !form.name ? experiment.name : form.name}
                     disabled={!active}
                     onChange={this.onChangeName}
                 />
@@ -98,7 +99,7 @@ export default class AddExperimentForm extends Component {
                     error={!!errors.description}
                     placeholder="Описание эксперимента"
                     rows="4"
-                    defaultValue={experiment ? experiment.description : ""}
+                    value={experiment && !form.description ? experiment.description : form.description}
                     disabled={!active}
                     onChange={this.onChangeDescription}
                 />

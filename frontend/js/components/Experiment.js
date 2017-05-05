@@ -12,7 +12,8 @@ import AddExperimentForm from './AddExperimentForm';
 const mapStateToProps = state => ({
     experiment: getSelectedExperiment(state),
     voltamogramms: state.voltamogramms,
-    errors: state.errors
+    errors: state.errors,
+    form: state.addExperimentForm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -43,12 +44,13 @@ class Experiment extends Component {
     }
 
     renderExperiment() {
-        const {experiment, errors} = this.props;
+        const {experiment, errors, form} = this.props;
 
         return (
             <div style={{ clear: 'both', paddingTop: 10 }}>
                 <AddExperimentForm
                     experiment={experiment}
+                    form={form}
                     errors={errors}
                     active={this.state.activeEdit}
                     onCancel={this.deactiveEditExperiment}

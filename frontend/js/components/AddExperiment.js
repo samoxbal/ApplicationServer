@@ -9,7 +9,8 @@ import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
 
 const mapStateToProps = state => ({
-    errors: state.errors
+    errors: state.errors,
+    form: state.addExperimentForm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -44,7 +45,8 @@ class AddExperiment extends Component {
             changeName,
             changeDescription,
             changeStartDate,
-            changeEndDate
+            changeEndDate,
+            form
         } = this.props;
 
         return (
@@ -61,6 +63,7 @@ class AddExperiment extends Component {
                                 changeDescription={changeDescription}
                                 changeStartDate={changeStartDate}
                                 changeEndDate={changeEndDate}
+                                form={form}
                             />
                         </Card.Content>
                     </Card>
