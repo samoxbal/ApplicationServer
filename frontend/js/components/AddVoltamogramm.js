@@ -47,6 +47,21 @@ class AddScan extends Component {
         experiment_id: PropTypes.string
     }
 
+    numberElectrodsOptions = [
+        { key: '1', text: '1', value: 1 },
+        { key: '2', text: '2', value: 2 },
+        { key: '3', text: '3', value: 3 },
+        { key: '4', text: '4', value: 4 }
+    ]
+
+    regimeOptions = [
+        { key: '01', text: 'normal', value: 'normal' },
+        { key: '02', text: 'differential', value: 'differential' },
+        { key: '03', text: 'square_wave', value: 'square_wave' },
+        { key: '04', text: 'staircase', value: 'staircase' },
+        { key: '05', text: 'ac', value: 'ac' }
+    ]
+
     handleSubmit(e) {
         e.preventDefault();
         let fileData = new FormData();
@@ -152,6 +167,7 @@ class AddScan extends Component {
                                 />
                                 <Form.Select
                                     placeholder="Количество электродов"
+                                    options={this.numberElectrodsOptions}
                                 />
                             </Form.Group>
                         </Segment>
@@ -214,6 +230,7 @@ class AddScan extends Component {
                             />}
                             <Form.Select
                                 placeholder="Тип измерения"
+                                options={this.regimeOptions}
                             />
                             <Regime
                                 regime={regime}

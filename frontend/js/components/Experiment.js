@@ -40,7 +40,10 @@ class Experiment extends Component {
 
     activeEditExperiment = () => this.setState({ activeEdit: true })
 
-    deactiveEditExperiment = () => this.setState({ activeEdit: false })
+    deactiveEditExperiment = () => {
+        this.setState({ activeEdit: false });
+        this.props.resetAddExperimentForm();
+    }
 
     editExperiment = experiment_update => {
         const { experiment: { _id }, editExperiment } = this.props;
