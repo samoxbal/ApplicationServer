@@ -12,11 +12,16 @@ export default class AddExperimentForm extends Component {
         errors: PropTypes.object,
         experiment: PropTypes.object,
         active: PropTypes.bool,
-        form: PropTypes.object
+        form: PropTypes.object,
+        resetForm: PropTypes.func
     }
 
     static defaultProps = {
         active: true
+    }
+
+    componentWillUnmount() {
+        this.props.resetForm();
     }
 
     onCancelClick = () => {

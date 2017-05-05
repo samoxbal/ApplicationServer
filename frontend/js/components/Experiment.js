@@ -5,9 +5,11 @@ import {Link} from 'react-router-dom';
 import {List} from 'semantic-ui-react';
 import AddVoltamogramm from './AddVoltamogramm';
 import {getSelectedExperiment} from '../selectors/experiment';
-import {openAddVoltamogramm, editExperiment} from '../actions/index';
+import {openAddVoltamogramm, editExperiment, resetAddExperimentForm} from '../actions/index';
 import {Button} from 'semantic-ui-react';
 import AddExperimentForm from './AddExperimentForm';
+import createFormAction from '../utils/createFormAction';
+import ACTION_TYPES from '../constants/actionTypes';
 
 const mapStateToProps = state => ({
     experiment: getSelectedExperiment(state),
@@ -18,7 +20,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     openAddVoltamogramm,
-    editExperiment
+    editExperiment,
+    resetAddExperimentForm,
+    changeName: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_NAME),
+    changeDescription: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_DESCRIPTION),
+    changeStartDate: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_START),
+    changeEndDate: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_END)
 }, dispatch);
 
 class Experiment extends Component {
@@ -44,7 +51,16 @@ class Experiment extends Component {
     }
 
     renderExperiment() {
-        const {experiment, errors, form} = this.props;
+        const {
+            experiment,
+            errors,
+            changeName,
+            changeDescription,
+            changeStartDate,
+            changeEndDate,
+            form,
+            resetAddExperimentForm
+        } = this.props;
 
         return (
             <div style={{ clear: 'both', paddingTop: 10 }}>
@@ -55,6 +71,11 @@ class Experiment extends Component {
                     active={this.state.activeEdit}
                     onCancel={this.deactiveEditExperiment}
                     onSubmit={this.editExperiment}
+                    changeName={changeName}
+                    changeDescription={changeDescription}
+                    changeStartDate={changeStartDate}
+                    changeEndDate={changeEndDate}
+                    resetForm={resetAddExperimentForm}
                 />
             </div>
         )

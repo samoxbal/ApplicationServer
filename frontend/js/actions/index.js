@@ -57,3 +57,9 @@ export function fetchSingleVoltamogramm(id) {
         }
     }
 }
+
+export function resetAddExperimentForm() {
+    return {
+        type: ACTION_TYPES.RESET_ADD_EXPERIMENT
+    }
+}

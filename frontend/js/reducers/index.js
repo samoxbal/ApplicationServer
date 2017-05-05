@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import ACTION_TYPES from '../constants/actionTypes';
-import {createSimpleReducer} from '../utils/createReducers';
+import {createSimpleReducer, createFormReducer} from '../utils/createReducers';
 
 const experiments = createSimpleReducer([], ACTION_TYPES.FETCH_EXPERIMENTS_SUCCESS);
 
@@ -15,10 +15,10 @@ const voltamogramms = createSimpleReducer([], ACTION_TYPES.FETCH_VOLTAMOGRAMMS_S
 const voltamogramm = createSimpleReducer({}, ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM_SUCCESS);
 
 const addExperimentForm = combineReducers({
-    name: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_NAME),
-    description: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_DESCRIPTION),
-    start_date: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_START),
-    end_date: createSimpleReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_END)
+    name: createFormReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_NAME, ACTION_TYPES.RESET_ADD_EXPERIMENT),
+    description: createFormReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_DESCRIPTION, ACTION_TYPES.RESET_ADD_EXPERIMENT),
+    start_date: createFormReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_START, ACTION_TYPES.RESET_ADD_EXPERIMENT),
+    end_date: createFormReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_END, ACTION_TYPES.RESET_ADD_EXPERIMENT)
 });
 
 const rootReducer = combineReducers({

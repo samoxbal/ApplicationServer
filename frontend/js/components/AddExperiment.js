@@ -2,7 +2,7 @@ import {Component, PropTypes} from 'react';
 import Header from './Header';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createExperiment} from '../actions';
+import {createExperiment, resetAddExperimentForm} from '../actions';
 import AddExperimentForm from './AddExperimentForm';
 import {Card} from 'semantic-ui-react';
 import createFormAction from '../utils/createFormAction';
@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     createExperiment,
+    resetAddExperimentForm,
     changeName: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_NAME),
     changeDescription: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_DESCRIPTION),
     changeStartDate: createFormAction(ACTION_TYPES.CHANGE_EXPERIMENT_START),
@@ -46,7 +47,9 @@ class AddExperiment extends Component {
             changeDescription,
             changeStartDate,
             changeEndDate,
-            form
+            form,
+            errors,
+            resetAddExperimentForm
         } = this.props;
 
         return (
@@ -58,12 +61,13 @@ class AddExperiment extends Component {
                             <AddExperimentForm
                                 isEdit={false}
                                 onSubmit={this.submitExperiment}
-                                errors={this.props.errors}
+                                errors={errors}
                                 changeName={changeName}
                                 changeDescription={changeDescription}
                                 changeStartDate={changeStartDate}
                                 changeEndDate={changeEndDate}
                                 form={form}
+                                resetForm={resetAddExperimentForm}
                             />
                         </Card.Content>
                     </Card>
