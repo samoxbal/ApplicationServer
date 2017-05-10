@@ -102,6 +102,11 @@ mongocxx::options::create_collection ValidationSchema::createVoltamogrammSchema(
          << "$type" << "string"
          << close_document;
 
+    rule << "_owner" << open_document
+         << "$exists" << true
+         << "$type" << "string"
+         << close_document;
+
     validation.rule(rule.extract());
     options.validation_criteria(validation);
 
@@ -182,6 +187,11 @@ mongocxx::options::create_collection ValidationSchema::createScanSchema()
          << "$type" << "object"
          << close_document;
 
+    rule << "_owner" << open_document
+         << "$exists" << true
+         << "$type" << "string"
+         << close_document;
+
     validation.rule(rule.extract());
     options.validation_criteria(validation);
 
@@ -210,6 +220,11 @@ mongocxx::options::create_collection ValidationSchema::createMeasureSchema()
     rule << "points" << open_document
          << "$exists" << true
          << "$type" << "array"
+         << close_document;
+
+    rule << "_owner" << open_document
+         << "$exists" << true
+         << "$type" << "string"
          << close_document;
 
     validation.rule(rule.extract());
@@ -253,6 +268,11 @@ mongocxx::options::create_collection ValidationSchema::createRegressionSchema()
          << "$exists" << true
          << "$type" << "double"
          << "$ne" << ""
+         << close_document;
+
+    rule << "_owner" << open_document
+         << "$exists" << true
+         << "$type" << "string"
          << close_document;
 
     validation.rule(rule.extract());
