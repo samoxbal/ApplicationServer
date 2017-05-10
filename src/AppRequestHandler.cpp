@@ -284,6 +284,7 @@ void AppRequestHandler::createScan(
 {
     auto db = this->database;
     auto messageBody = this->messageBody;
+    auto _owner = this->_user;
     auto volt_collection = db["voltamogramms"];
     auto scan_collection = db["scans"];
     auto voltamogramm = bsoncxx::builder::stream::document{};
@@ -298,7 +299,8 @@ void AppRequestHandler::createScan(
                  << "description" << (voltamogramm_src->get("description")).toString()
                  << "solution" << (voltamogramm_src->get("solution")).toString()
                  << "number_of_electrodes" << voltamogramm_src->getValue<int>("number_of_electrodes")
-                 << "equipment_id" << (voltamogramm_src->get("equipment_id")).toString();
+                 << "equipment_id" << (voltamogramm_src->get("equipment_id")).toString()
+                 << "_owner" << _owner;
 
     auto result_volt = volt_collection.insert_one(voltamogramm.view());
     auto voltamogramm_id = result_volt->inserted_id().get_oid().value;
@@ -323,7 +325,8 @@ void AppRequestHandler::createScan(
          << "channel_label" << (scan_src->get("channel_label")).toString()
          << "temperature" << scan_src->getValue<double>("temperature")
          << "pressure" << scan_src->getValue<double>("pressure")
-         << "measure_mode" << measure_mode;
+         << "measure_mode" << measure_mode
+         << "_owner" << _owner;
 
     if (!(scan_src->get("stirring_speed")).isEmpty()) {
         scan << "stirring_speed" << scan_src->getValue<double>("stirring_speed");
@@ -473,7 +476,8 @@ void AppRequestHandler::computeRegression(
         regression << "_measure" << measure_id
                    << "k_matrix" << K_matrix
                    << "b_offset" << B_offset
-                   << "loss" << S_loss;
+                   << "loss" << S_loss
+                   << "_owner" << this->_user;
 
         auto result_regression = regression_collection.insert_one(regression.view());
         auto regression_id = result_regression->inserted_id().get_oid().value;
