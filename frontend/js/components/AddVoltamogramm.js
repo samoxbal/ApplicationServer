@@ -136,51 +136,55 @@ class AddScan extends Component {
                                     inputProps={this.PickerStyleScan}
                                     closeOnSelect={true}
                                     timeFormat={false}
+                                    value={addScan.scan_datetime}
                                 />
                                 <Form.Input
                                     type="text"
                                     placeholder="Начальный потенциал"
+                                    value={addScan.start_potential}
                                 />
                                 <Form.Input
                                     type="text"
                                     placeholder="Конечный потенциал"
+                                    value={addScan.end_potential}
                                 />
                             </Form.Group>
                             <Form.Group widths="equal">
                                 <Form.Input
                                     type="text"
                                     placeholder="Номер канала"
+                                    value={addScan.channel_id}
                                 />
                                 <Form.Input
                                     type="text"
                                     placeholder="Имя канала"
+                                    value={addScan.channel_label}
                                 />
                             </Form.Group>
                             <Form.Group widths="equal">
                                 <Form.Input
                                     type="text"
                                     placeholder="Температура"
+                                    value={addScan.temperature}
                                 />
                                 <Form.Input
                                     type="text"
                                     placeholder="Давление"
+                                    value={addScan.pressure}
                                 />
                             </Form.Group>
-                            <Form.Group widths="equal">
-                                <Form.Checkbox label="Прямая развертка" toggle />
-                                <Form.Input
-                                    type="text"
-                                    placeholder="Скорость развертки"
-                                />
-                            </Form.Group>
+                            <Form.Checkbox
+                                label="Прямая развертка"
+                                toggle
+                            />
                             <Form.Checkbox label="Мешалка" toggle />
-                            {visibleStirring &&
+                            {addScan.stirring &&
                             <Form.Input
                                 type="text"
                                 placeholder="Скорость перемешивания"
                             />}
                             <Form.Checkbox label="Вращение электрода" toggle />
-                            {visibleRotate &&
+                            {addScan.rotation &&
                             <Form.Input
                                 type="text"
                                 placeholder="Скорость вращения"
