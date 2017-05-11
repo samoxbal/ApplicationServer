@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
     errors: state.errors,
     openPanel: state.openAddVoltamogramm,
     experiment_id: state.selectedExperimentId,
-    addVoltamogramm: state.addVoltamogrammForm
+    addVoltamogramm: state.addVoltamogrammForm,
+    addScan: state.addScanForm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -31,29 +32,22 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 class AddScan extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            visibleStirring: false,
-            visibleRotate: false,
-            directDirection: false,
-            cyclic: false,
-            PickerStyleVoltamogramm: {
-                className: "form-control has-feedback-left",
-                placeholder: "Дата начала",
-                ref: (ref) => this._DateVoltamogramm = ref
-            },
-            PickerStyleScan: {
-                className: "form-control has-feedback-left",
-                placeholder: "Дата начала",
-                ref: (ref) => this._DateScan = ref
-            },
-            regime: null
-        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     static propTypes = {
         createScan: PropTypes.func,
         experiment_id: PropTypes.string
+    }
+
+    PickerStyleVoltamogramm = {
+        className: "form-control has-feedback-left",
+        placeholder: "Дата начала"
+    }
+
+    PickerStyleScan = {
+        className: "form-control has-feedback-left",
+        placeholder: "Дата начала"
     }
 
     numberElectrodsOptions = [
@@ -76,71 +70,18 @@ class AddScan extends Component {
         let fileData = new FormData();
         const file = this._file.getFile();
         fileData.append('file', file);
-        const {addVoltamogramm} = this.props;
         this.props.createScan({
-            experiment_id: this.props.experiment_id,
-            scan: {
-                scan_datetime: this._DateScan.value,
-                start_potential: this._startPotential.value,
-                end_potential: this._endPotential.value,
-                reverse_direction: this.state.directDirection,
-                stirring: this.state.visibleStirring,
-                stirring_speed: this._speedStirring ? this._speedStirring.value: null,
-                rotation: this.state.visibleRotate,
-                rotation_speed: this._speedRotate ? this._speedRotate.value : null,
-                channel_id: this._numberChannel.value,
-                channel_label: this._nameChannel.value,
-                temperature: this._temperature.value,
-                pressure: this._pressure.value,
-                regime: this.state.regime,
-                measure_mode: {
-                    ...this._regime.getRegime()
-                }
-            },
-            voltamogramm: {
-                cyclic: addVoltamogramm.cyclic,
-                va_cycle_datetime: addVoltamogramm.va_cycle_datetime,
-                description: addVoltamogramm.description,
-                solution: addVoltamogramm.solution,
-                number_of_electrodes: addVoltamogramm.number_of_electrodes,
-                equipment_id: addVoltamogramm.equipment_id,
-            },
             file: fileData
         });
     }
 
-    handleStirring = () => this.setState({
-        visibleStirring: !this.state.visibleStirring
-    })
-
-    handleRotate = () => this.setState({
-        visibleRotate: !this.state.visibleRotate
-    })
-
-    handleDirection = () => this.setState({
-        directDirection: !this.state.directDirection
-    })
-
-    handleCyclic = () => this.setState({
-        cyclic: !this.state.cyclic
-    })
-
-    handleRegime = event => this.setState({
-        regime: event.target.value
-    })
-
     render() {
         const {
-            visibleStirring,
-            visibleRotate,
-            directDirection,
-            cyclic,
-            PickerStyleVoltamogramm,
-            PickerStyleScan,
-            regime
-        } = this.state;
-
-        const { openPanel, openAddVoltamogramm } = this.props;
+            openPanel,
+            openAddVoltamogramm,
+            addVoltamogramm,
+            addScan
+        } = this.props;
 
         return (
             <Modal
@@ -155,24 +96,31 @@ class AddScan extends Component {
                             <Form.Group widths="equal">
                                 <Form.Field
                                     control={Datetime}
-                                    inputProps={PickerStyleVoltamogramm}
+                                    inputProps={this.PickerStyleVoltamogramm}
                                     closeOnSelect={true}
                                     timeFormat={false}
+                                    value={addVoltamogramm.va_cycle_datetime}
                                 />
-                                <Form.Checkbox label="Цикличная вольтамперограмма" toggle />
+                                <Form.Checkbox
+                                    label="Цикличная вольтамперограмма"
+                                    toggle
+                                />
                             </Form.Group>
                             <Form.TextArea
                                 placeholder="Описание"
                                 rows="4"
+                                value={addVoltamogramm.description}
                             />
                             <Form.Group widths="equal">
                                 <Form.Input
                                     type="text"
                                     placeholder="Раствор"
+                                    value={addVoltamogramm.solution}
                                 />
                                 <Form.Input
                                     type="text"
                                     placeholder="Серийный номер электрода"
+                                    value={addVoltamogramm.equipment_id}
                                 />
                                 <Form.Select
                                     placeholder="Количество электродов"
@@ -185,7 +133,7 @@ class AddScan extends Component {
                             <Form.Group widths="equal">
                                 <Form.Field
                                     control={Datetime}
-                                    inputProps={PickerStyleScan}
+                                    inputProps={this.PickerStyleScan}
                                     closeOnSelect={true}
                                     timeFormat={false}
                                 />
@@ -241,10 +189,7 @@ class AddScan extends Component {
                                 placeholder="Тип измерения"
                                 options={this.regimeOptions}
                             />
-                            <Regime
-                                regime={regime}
-                                ref={ref => this._regime = ref}
-                            />
+                            <Regime/>
                             <FileUpload ref={ref => this._file = ref} />
                         </Segment>
                         <Form.Button primary basic>Создать</Form.Button>
