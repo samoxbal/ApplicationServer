@@ -6,16 +6,25 @@ import {bindActionCreators} from 'redux';
 import {createScan, openAddVoltamogramm} from '../actions';
 import {Modal, Form, Segment, Header} from 'semantic-ui-react';
 import Regime from './Regime';
+import createFormAction from '../utils/createFormAction';
+import ACTION_TYPES from '../constants/actionTypes';
 
 const mapStateToProps = state => ({
     errors: state.errors,
     openPanel: state.openAddVoltamogramm,
-    experiment_id: state.selectedExperimentId
+    experiment_id: state.selectedExperimentId,
+    addVoltamogramm: state.addVoltamogrammForm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     createScan,
-    openAddVoltamogramm
+    openAddVoltamogramm,
+    changeCyclic: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_CYCLIC),
+    changeVaCycleDatetime: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_DATE),
+    changeDescription: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_DESCRIPTION),
+    changeSolution: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_SOLUTION),
+    changeNumberOfElectrodes: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_ELECTROD_NUMBERS),
+    changeEquipmentId: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_EQUIPMENT_ID)
 }, dispatch);
 
 
@@ -67,6 +76,7 @@ class AddScan extends Component {
         let fileData = new FormData();
         const file = this._file.getFile();
         fileData.append('file', file);
+        const {addVoltamogramm} = this.props;
         this.props.createScan({
             experiment_id: this.props.experiment_id,
             scan: {
@@ -74,7 +84,6 @@ class AddScan extends Component {
                 start_potential: this._startPotential.value,
                 end_potential: this._endPotential.value,
                 reverse_direction: this.state.directDirection,
-                //scan_rate: DataTypes.REAL,
                 stirring: this.state.visibleStirring,
                 stirring_speed: this._speedStirring ? this._speedStirring.value: null,
                 rotation: this.state.visibleRotate,
@@ -89,12 +98,12 @@ class AddScan extends Component {
                 }
             },
             voltamogramm: {
-                cyclic: this.state.cyclic,
-                va_cycle_datetime: this._DateVoltamogramm.value,
-                description: this._description.value,
-                solution: this._solution.value,
-                number_of_electrodes: this._count.value,
-                equipment_id: this._serialNumber.value,
+                cyclic: addVoltamogramm.cyclic,
+                va_cycle_datetime: addVoltamogramm.va_cycle_datetime,
+                description: addVoltamogramm.description,
+                solution: addVoltamogramm.solution,
+                number_of_electrodes: addVoltamogramm.number_of_electrodes,
+                equipment_id: addVoltamogramm.equipment_id,
             },
             file: fileData
         });
