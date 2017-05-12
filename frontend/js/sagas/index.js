@@ -62,7 +62,7 @@ function* createScan() {
             voltamogramm,
             scan: {
                 regime,
-                ...measure_mode[regime],
+                measure_mode: measure_mode[regime],
                 ...restScan
             }
         };
