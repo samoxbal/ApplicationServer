@@ -29,7 +29,12 @@ class Regime extends Component {
 
     renderNormal() {
         const {
-            measure_mode: {normal_pulse_life, normal_pulse_period},
+            measure_mode: {
+                normal: {
+                    normal_pulse_life,
+                    normal_pulse_period
+                }
+            },
             changeNormalPulseLife,
             changeNormalPulsePeriod
         } = this.props;
@@ -54,9 +59,11 @@ class Regime extends Component {
     renderDifferential() {
         const {
             measure_mode: {
-                differential_pulse_amplitude,
-                differential_pulse_pulsewidth,
-                differential_pulse_period
+                differential: {
+                    differential_pulse_amplitude,
+                    differential_pulse_pulsewidth,
+                    differential_pulse_period
+                }
             },
             changeDifferentialPulseAmplitude,
             changeDifferentialPulsePulseWidth,
@@ -89,9 +96,11 @@ class Regime extends Component {
     renderSquare() {
         const {
             measure_mode: {
-                square_wave_amplitude,
-                square_wave_estep,
-                square_wave_time_period
+                square_wave: {
+                    square_wave_amplitude,
+                    square_wave_estep,
+                    square_wave_time_period
+                }
             },
             changeSquareWaveAmplitude,
             changeSquareWaveEstep,
@@ -124,8 +133,10 @@ class Regime extends Component {
     renderStairCase() {
         const {
             measure_mode: {
-                staircase_time_step,
-                staircase_estep
+                staircase: {
+                    staircase_time_step,
+                    staircase_estep
+                }
             },
             changeStaircaseTimeStep,
             changeStaircaseEstep
@@ -151,8 +162,10 @@ class Regime extends Component {
     renderAc() {
         const {
             measure_mode: {
-                ac_amplitude,
-                ac_frequency
+                ac: {
+                    ac_amplitude,
+                    ac_frequency
+                }
             },
             changeAcAmplitude,
             changeAcFrequency

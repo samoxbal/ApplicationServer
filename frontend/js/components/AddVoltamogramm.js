@@ -81,6 +81,7 @@ class AddScan extends Component {
         const file = this._file.getFile();
         fileData.append('file', file);
         this.props.createScan({
+            experiment_id: this.props.experiment_id,
             file: fileData
         });
     }

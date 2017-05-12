@@ -5,6 +5,7 @@ import {api} from '../utils/api';
 import {mapOid} from '../utils/utils';
 import ACTION_TYPES from '../constants/actionTypes';
 import {addExperimentForm} from '../selectors/experiment';
+import {addVoltamogrammForm, addScanForm} from '../selectors/scan';
 
 function* fetchExperiments() {
     while(true) {
@@ -53,7 +54,19 @@ function* createScan() {
     while(true) {
         const action = yield take(ACTION_TYPES.ADD_SCAN);
         const { payload } = action;
-        yield call(api.add_scan, payload);
+        const voltamogramm = yield select(addVoltamogrammForm);
+        const scan = yield select(addScanForm);
+        const { regime, measure_mode, ...restScan } = scan;
+        const data = {
+            ...payload,
+            voltamogramm,
+            scan: {
+                regime,
+                ...measure_mode[regime],
+                ...restScan
+            }
+        };
+        yield call(api.add_scan, data);
     }
 }
 
