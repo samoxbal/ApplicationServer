@@ -34,7 +34,7 @@ const addScanForm = combineReducers({
     scan_datetime: createFormReducer("", ACTION_TYPES.CHANGE_SCAN_DATETIME, ACTION_TYPES.RESET_ADD_SCAN),
     start_potential: createFormReducer("", ACTION_TYPES.CHANGE_START_POTENTIAL, ACTION_TYPES.RESET_ADD_SCAN),
     end_potential: createFormReducer("", ACTION_TYPES.CHANGE_END_POTENTIAL, ACTION_TYPES.RESET_ADD_SCAN),
-    reverse_direction: createFormReducer("", ACTION_TYPES.CHANGE_REVERSE_DIRECTION, ACTION_TYPES.RESET_ADD_SCAN),
+    reverse_direction: createFormReducer(false, ACTION_TYPES.CHANGE_REVERSE_DIRECTION, ACTION_TYPES.RESET_ADD_SCAN),
     stirring: createFormReducer(false, ACTION_TYPES.CHANGE_STIRRING, ACTION_TYPES.RESET_ADD_SCAN),
     stirring_speed: createFormReducer("", ACTION_TYPES.CHANGE_STIRRING_SPEED, ACTION_TYPES.RESET_ADD_SCAN),
     rotation: createFormReducer(false, ACTION_TYPES.CHANGE_ROTATION, ACTION_TYPES.RESET_ADD_SCAN),
