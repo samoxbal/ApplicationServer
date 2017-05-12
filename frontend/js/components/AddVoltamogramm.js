@@ -25,7 +25,20 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     changeDescription: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_DESCRIPTION),
     changeSolution: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_SOLUTION),
     changeNumberOfElectrodes: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_ELECTROD_NUMBERS),
-    changeEquipmentId: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_EQUIPMENT_ID)
+    changeEquipmentId: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_EQUIPMENT_ID),
+    changeScanDatetime: createFormAction(ACTION_TYPES.CHANGE_SCAN_DATETIME),
+    changeStartPotential: createFormAction(ACTION_TYPES.CHANGE_START_POTENTIAL),
+    changeEndPotential: createFormAction(ACTION_TYPES.CHANGE_END_POTENTIAL),
+    changeReverseDirection: createFormAction(ACTION_TYPES.CHANGE_REVERSE_DIRECTION),
+    changeStirring: createFormAction(ACTION_TYPES.CHANGE_STIRRING),
+    changeStirringSpeed: createFormAction(ACTION_TYPES.CHANGE_STIRRING_SPEED),
+    changeRotation: createFormAction(ACTION_TYPES.CHANGE_ROTATION),
+    changeRotationSpeed: createFormAction(ACTION_TYPES.CHANGE_ROTATION_SPEED),
+    changeChannelId: createFormAction(ACTION_TYPES.CHANGE_CHANNEL_ID),
+    changeChannelLabel: createFormAction(ACTION_TYPES.CHANGE_CHANNEL_LABEL),
+    changeTemperature: createFormAction(ACTION_TYPES.CHANGE_TEMPERATURE),
+    changePressure: createFormAction(ACTION_TYPES.CHANGE_PRESSURE),
+    changeRegime: createFormAction(ACTION_TYPES.CHANGE_REGIME)
 }, dispatch);
 
 
