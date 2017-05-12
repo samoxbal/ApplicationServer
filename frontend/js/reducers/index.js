@@ -44,6 +44,20 @@ const addScanForm = combineReducers({
     temperature: createFormReducer("", ACTION_TYPES.CHANGE_TEMPERATURE, ACTION_TYPES.RESET_ADD_SCAN),
     pressure: createFormReducer("", ACTION_TYPES.CHANGE_PRESSURE, ACTION_TYPES.RESET_ADD_SCAN),
     regime: createFormReducer("", ACTION_TYPES.CHANGE_REGIME, ACTION_TYPES.RESET_ADD_SCAN),
+    measure_mode: combineReducers({
+        normal_pulse_life: createSimpleReducer("", ACTION_TYPES.CHANGE_NORMAL_PULSE_LIFE),
+        normal_pulse_period: createSimpleReducer("", ACTION_TYPES.CHANGE_NORMAL_PULSE_PERIOD),
+        differential_pulse_amplitude: createSimpleReducer("", ACTION_TYPES.CHANGE_DIFFERENTIAL_PULSE_AMPLITUDE),
+        differential_pulse_pulsewidth: createSimpleReducer("", ACTION_TYPES.CHANGE_DIFFERENTIAL_PULSE_PULSEWIDTH),
+        differential_pulse_period: createSimpleReducer("", ACTION_TYPES.CHANGE_DIFFERENTIAL_PULSE_PERIOD),
+        square_wave_amplitude: createSimpleReducer("", ACTION_TYPES.CHANGE_SQUARE_WAVE_AMPLITUDE),
+        square_wave_estep: createSimpleReducer("", ACTION_TYPES.CHANGE_SQUARE_WAVE_ESTEP),
+        square_wave_time_period: createSimpleReducer("", ACTION_TYPES.CHANGE_SQUARE_WAVE_TIME_PERIOD),
+        staircase_time_step: createSimpleReducer("", ACTION_TYPES.CHANGE_STAIRCASE_TIME_STEP),
+        staircase_estep: createSimpleReducer("", ACTION_TYPES.CHANGE_STAIRCASE_ESTEP),
+        ac_amplitude: createSimpleReducer("", ACTION_TYPES.CHANGE_AC_AMPLITUDE),
+        ac_frequency: createSimpleReducer("", ACTION_TYPES.CHANGE_AC_FREQUENCY)
+    })
 });
 
 const rootReducer = combineReducers({
