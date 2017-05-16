@@ -533,3 +533,49 @@ void AppRequestHandler::fetchMeasures(
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
 }
+
+void AppRequestHandler::fetchSingleMeasure(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto collection = db.collection("measures");
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto query_filter = bsoncxx::builder::stream::document{};
+    auto measure = bsoncxx::builder::stream::document{};
+    auto measure_id = (messageBody->get("measure")).toString();
+    auto projection = bsoncxx::builder::stream::document{};
+
+    projection
+            << "_owner" << 0
+            << bsoncxx::builder::stream::finalize;
+
+    query_filter << "_id" << bsoncxx::oid{measure_id};
+
+    mongocxx::options::find options{};
+
+    options.projection(projection.view());
+
+    auto measure_src = collection.find_one(query_filter.view(), options);
+    auto measure_opt = measure_src.value_or(bsoncxx::builder::stream::document{}.extract());
+    auto measure_doc = measure_opt.view();
+
+    if (!measure_doc.empty()) {
+
+        for (auto& field : measure_doc) {
+            measure << field.key() << field.get_value();
+        }
+
+        json_response << "status" << this->ok;
+        json_response << "data" << measure;
+
+    } else {
+        json_response << "status" << this->failed;
+        json_response << "data" << ERROR_MEASURE_NOT_EXIST;
+    }
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}

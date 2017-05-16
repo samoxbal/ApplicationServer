@@ -14,6 +14,7 @@
 #define ERROR_NO_SCAN_ID "Scan id not received"
 #define ERROR_VOLTAMOGRAMM_NOT_EXIST "Voltamogramm id not exist"
 #define ERROR_EXPERIMENT_NOT_EXIST "Experiment id not exist"
+#define ERROR_MEASURE_NOT_EXIST "Measure id not exist"
 
 #include <Poco/Net/HTTPRequestHandler.h>
 #include <Poco/Net/HTTPServerRequest.h>
@@ -54,6 +55,7 @@ public:
     void editExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void computeRegression(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void fetchMeasures(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void fetchSingleMeasure(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     std::string createHash(std::string& password_str);
 
 private:
@@ -71,7 +73,8 @@ private:
         {"fetchSingleVoltamogramm", &AppRequestHandler::fetchSingleVoltamogramm},
         {"editExperiment", &AppRequestHandler::editExperiment},
         {"computeRegression", &AppRequestHandler::computeRegression},
-        {"fetchMeasures", &AppRequestHandler::fetchMeasures}
+        {"fetchMeasures", &AppRequestHandler::fetchMeasures},
+        {"fetchSingleMeasure", &AppRequestHandler::fetchSingleMeasure}
     };
 };
 
