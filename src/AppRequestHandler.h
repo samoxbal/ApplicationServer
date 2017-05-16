@@ -26,6 +26,7 @@
 #include "Poco/DateTimeFormat.h"
 #include "Poco/MD5Engine.h"
 #include <mongocxx/client.hpp>
+#include <mongocxx/options/find.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
 #include <bsoncxx/json.hpp>
@@ -52,6 +53,7 @@ public:
     void fetchSingleVoltamogramm(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void editExperiment(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     void computeRegression(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
+    void fetchMeasures(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     std::string createHash(std::string& password_str);
 
 private:
@@ -68,7 +70,8 @@ private:
         {"createScan", &AppRequestHandler::createScan},
         {"fetchSingleVoltamogramm", &AppRequestHandler::fetchSingleVoltamogramm},
         {"editExperiment", &AppRequestHandler::editExperiment},
-        {"computeRegression", &AppRequestHandler::computeRegression}
+        {"computeRegression", &AppRequestHandler::computeRegression},
+        {"fetchMeasures", &AppRequestHandler::fetchMeasures}
     };
 };
 

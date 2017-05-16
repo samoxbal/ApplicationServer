@@ -70,7 +70,8 @@ void AppRequestHandler::handleRequest(
             auto points = bsoncxx::builder::stream::array{};
 
             if (form.has("scan_id")) {
-                measure << "_scan" << form.get("scan_id");
+                measure << "_scan" << form.get("scan_id")
+                        << "_owner" << this->_user;
 
                 for (auto& p : multipartHandler.data) {
                     points << bsoncxx::builder::stream::open_array
@@ -328,13 +329,13 @@ void AppRequestHandler::createScan(
          << "measure_mode" << measure_mode
          << "_owner" << _owner;
 
-    if (!(scan_src->get("stirring_speed")).isEmpty()) {
+    if ((scan_src->get("stirring_speed")).toString() != std::string{""}) {
         scan << "stirring_speed" << scan_src->getValue<double>("stirring_speed");
     } else {
         scan << "stirring_speed" << bsoncxx::types::b_null{};
     }
 
-    if (!(scan_src->get("rotation_speed")).isEmpty()) {
+    if ((scan_src->get("rotation_speed")).toString() != std::string{""}) {
         scan << "rotation_speed" << scan_src->getValue<double>("rotation_speed");
     } else {
         scan << "rotation_speed" << bsoncxx::types::b_null{};
@@ -491,6 +492,43 @@ void AppRequestHandler::computeRegression(
     } else {
         json_response << "status" << this->failed;
     }
+
+    std::ostream& responseStream = response.send();
+    responseStream << bsoncxx::to_json(json_response);
+}
+
+void AppRequestHandler::fetchMeasures(
+        Poco::Net::HTTPServerRequest &request,
+        Poco::Net::HTTPServerResponse &response
+)
+{
+    auto db = this->database;
+    auto messageBody = this->messageBody;
+    auto collection = db.collection("measures");
+    auto measures = bsoncxx::builder::stream::array{};
+    auto json_response = bsoncxx::builder::stream::document{};
+    auto query_filter = bsoncxx::builder::stream::document{};
+    auto projection = bsoncxx::builder::stream::document{};
+
+    projection
+        << "_owner" << 0
+        << "points" << 0
+        << bsoncxx::builder::stream::finalize;
+
+    query_filter << "_scan" << (messageBody->get("scan")).toString();
+
+    mongocxx::options::find options{};
+
+    options.projection(projection.view());
+
+    auto cursor = collection.find(query_filter.view(), options);
+
+    for (auto&& doc : cursor) {
+        measures << doc;
+    }
+
+    json_response << "status" << this->ok;
+    json_response << "data" << measures;
 
     std::ostream& responseStream = response.send();
     responseStream << bsoncxx::to_json(json_response);
