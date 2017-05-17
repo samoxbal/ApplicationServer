@@ -100,8 +100,8 @@ function* fetchSingleMeasure() {
         const { payload } = action;
         const data = yield call(api.fetch_single_measure, payload);
         yield put({
-            type: ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM_SUCCESS,
-            payload: data['data']
+            type: ACTION_TYPES.FETCH_SINGLE_MEASURE_SUCCESS,
+            payload: data['data']['data']
         });
     }
 }
