@@ -98,5 +98,20 @@ export const api = {
             }
         };
         return axios(options);
+    },
+    fetch_single_measure: data => {
+        const options = {
+            method: 'post',
+            url: '/api',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
+            },
+            data: {
+                command: "fetchSingleMeasure",
+                body: data
+            }
+        };
+        return axios(options);
     }
 };

@@ -63,3 +63,12 @@ export function resetAddExperimentForm() {
         type: ACTION_TYPES.RESET_ADD_EXPERIMENT
     }
 }
+
+export function fetchSingleMeasure(id) {
+    return {
+        type: ACTION_TYPES.FETCH_SINGLE_MEASURE,
+        payload: {
+            measure: id
+        }
+    }
+}
