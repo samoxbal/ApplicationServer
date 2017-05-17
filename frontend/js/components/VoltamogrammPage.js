@@ -29,7 +29,7 @@ class VoltamogrammPage extends Component {
         const {voltamogramm} = this.props;
 
         return (
-            <div className="main_container">
+            <div>
                 <Header/>
                 <div className="VoltamogrammPage">
                     <Card className="VoltamogrammPage__Tree">

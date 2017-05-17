@@ -2,6 +2,7 @@ import {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Card} from 'semantic-ui-react';
+import d3 from 'd3';
 import Header from './Header';
 import {fetchSingleMeasure} from '../actions';
 
@@ -23,9 +24,13 @@ class MeasurePage extends Component {
         const {measure} = this.props;
 
         return (
-            <div className="main_container">
+            <div>
                 <Header/>
+                <div className="MeasurePage">
+                    <Card className="MeasurePage__ChartCard">
 
+                    </Card>
+                </div>
             </div>
         )
     }

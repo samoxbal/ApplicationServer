@@ -29,7 +29,7 @@ body {
     background-color: #2A3F54 !important;
 }
 
-.ExperimentsPage, .AddExperment, .VoltamogrammPage {
+.ExperimentsPage, .AddExperment, .VoltamogrammPage, .MeasurePage {
     display: flex;
     justify-content: space-around;
     margin-top: 40px;
@@ -44,4 +44,9 @@ body {
     width: 60% !important;
     min-height: 460px !important;
     margin: 0 !important;
+}
+
+.MeasurePage__ChartCard {
+    width: 70% !important;
+    min-height: 350px !important;
 }
