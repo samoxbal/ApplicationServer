@@ -20,21 +20,26 @@ class MeasurePage extends Component {
         fetchSingleMeasure(id);
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {points} = nextProps.measure;
+        points && this.renderChart(points);
+    }
+
     renderChart(points) {
         const margin = {top: 20, right: 15, bottom: 20, left: 60},
             width = 900 - margin.left - margin.right,
-            height = 350 - margin.top - margin.bottom;
+            height = 600 - margin.top - margin.bottom;
 
         const x = d3.scaleLinear()
-            .domain([0, d3.max(points, d => d[0])])
+            .domain([d3.min(points, d => d[0]), d3.max(points, d => d[0])])
             .range([ 0, width ]);
 
         const y = d3.scaleLinear()
-            .domain([0, d3.max(points, d => d[1])])
+            .domain([d3.min(points, d => d[1]), d3.max(points, d => d[1])])
             .range([ height, 0 ]);
 
         const chart = d3.select('.MeasurePage__Chart')
-            .append('svg:svg')
+            .append('svg')
             .attr('width', width + margin.right + margin.left)
             .attr('height', height + margin.top + margin.bottom)
             .attr('class', 'chart');
@@ -42,15 +47,14 @@ class MeasurePage extends Component {
         const main = chart.append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
             .attr('width', width)
-            .attr('height', height)
-            .attr('class', 'main');
+            .attr('height', height);
 
         const xAxis = d3.axisBottom()
             .scale(x);
 
         main.append('g')
-            .attr('transform', 'translate(0,' + height + ')')
-            .attr('class', 'main axis date')
+            .attr('transform', 'translate(0,' + y(0) + ')')
+            .attr('class', 'axis')
             .call(xAxis);
 
         const yAxis = d3.axisLeft()
@@ -58,33 +62,31 @@ class MeasurePage extends Component {
 
         main.append('g')
             .attr('transform', 'translate(0,0)')
-            .attr('class', 'main axis date')
+            .attr('class', 'axis')
             .call(yAxis);
 
         const g = main.append("svg:g");
 
         g.selectAll("scatter-dots")
             .data(points)
-            .enter().append("svg:circle")
+            .enter()
+            .append("circle")
             .attr("cx", d => x(d[0]) )
             .attr("cy", d => y(d[1]) )
-            .attr("r", 8);
+            .attr("r", 1)
+            .attr("fill", "steelblue");
     }
 
     render() {
-        const {points} = this.props.measure;
-        points && this.renderChart(points);
-
         return (
             <div>
                 <Header/>
                 <div className="MeasurePage">
-                    {points &&
                     <Card className="MeasurePage__ChartCard">
                         <div className="MeasurePage__Chart">
 
                         </div>
-                    </Card>}
+                    </Card>
                 </div>
             </div>
         )
