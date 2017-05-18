@@ -65,9 +65,8 @@ class MeasurePage extends Component {
             .attr('class', 'axis')
             .call(yAxis);
 
-        const g = main.append("svg:g");
-
-        g.selectAll("scatter-dots")
+        main.append("g")
+            .selectAll("scatter-dots")
             .data(points)
             .enter()
             .append("circle")
@@ -84,7 +83,6 @@ class MeasurePage extends Component {
                 <div className="MeasurePage">
                     <Card className="MeasurePage__ChartCard">
                         <div className="MeasurePage__Chart">
-
                         </div>
                     </Card>
                 </div>

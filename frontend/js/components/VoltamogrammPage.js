@@ -4,6 +4,8 @@ import is from 'is';
 import {bindActionCreators} from 'redux';
 import {Card} from 'semantic-ui-react';
 import Header from './Header';
+import TreeFolder from './TreeFolder';
+import AddVoltamogrammForm from './AddVoltamogrammForm';
 import {fetchSingleVoltamogramm} from '../actions';
 
 const mapStateToProps = state => ({
@@ -22,7 +24,11 @@ class VoltamogrammPage extends Component {
 
     renderTree(voltamogramm) {
         const { scans } = voltamogramm;
-
+        return (
+            <TreeFolder
+                data={scans}
+            />
+        )
     }
 
     render() {
@@ -32,6 +38,7 @@ class VoltamogrammPage extends Component {
             <div>
                 <Header/>
                 <div className="VoltamogrammPage">
+                    <AddVoltamogrammForm/>
                     <Card className="VoltamogrammPage__Tree">
                         <Card.Content>
                             {!is.empty(voltamogramm) && this.renderTree(voltamogramm)}

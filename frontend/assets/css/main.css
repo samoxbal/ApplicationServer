@@ -33,6 +33,7 @@ body {
     display: flex;
     justify-content: space-around;
     margin-top: 40px;
+    flex-wrap: wrap;
 }
 
 .ExperimentsPage__Tree, .VoltamogrammPage__Tree {
@@ -54,4 +55,8 @@ body {
 .axis path, .axis line {
     fill: none;
     shape-rendering: crispEdges;
+}
+
+.AddVoltamogrammForm {
+    width: 80% !important;
 }

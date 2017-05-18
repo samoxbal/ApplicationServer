@@ -87,9 +87,14 @@ function* fetchSingleVoltamogramm() {
         const action = yield take(ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM);
         const { payload } = action;
         const data = yield call(api.fetch_single_voltamogramm, payload);
+        const voltamogramm = mapOid(data['data']['data']);
+        const {scans} = voltamogramm;
         yield put({
             type: ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM_SUCCESS,
-            payload: data['data']
+            payload: {
+                ...voltamogramm,
+                scans: scans.map(mapOid)
+            }
         });
     }
 }
