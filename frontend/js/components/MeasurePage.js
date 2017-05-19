@@ -52,10 +52,6 @@ class MeasurePage extends Component {
             .attr('height', height + margin.top + margin.bottom)
             .attr('class', 'chart');
 
-        chart.append("g")
-            .attr("class", "brush")
-            .call(brush);
-
         const main = chart.append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
             .attr('width', width)
@@ -87,14 +83,23 @@ class MeasurePage extends Component {
             .attr("r", 1)
             .attr("fill", "steelblue");
 
+        main.append("g")
+            .attr("class", "brush")
+            .call(brush);
+
         function onBrushEnd() {
             const selection = d3.event.selection;
-            const selectionData = selection.map(x.invert);
-            const Xmax = d3.max(selectionData);
+            const [leftX, rightX] = selection.map(x.invert);
+            const selectedPoints = points
+                .filter(point => point[0] > leftX && point[0] < rightX)
+                .sort((first, second) => first[1] - second[1]);
+            const maxPoint = selectedPoints[selectedPoints.length -1];
+            d3.selectAll(".peakline").remove();
             main.append("path")
+                .attr("class", "peakline")
                 .attr("stroke", "red")
                 .attr("stroke-width", 2)
-                .attr("d", peakLine([[0, Xmax], [Xmax, 0]]));
+                .attr("d", peakLine([[maxPoint[0], 0], maxPoint]));
         }
     }
 
