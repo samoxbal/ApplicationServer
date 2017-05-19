@@ -93,7 +93,7 @@ class MeasurePage extends Component {
             const selectedPoints = points
                 .filter(point => point[0] > leftX && point[0] < rightX)
                 .sort((first, second) => first[1] - second[1]);
-            const maxPoint = selectedPoints[selectedPoints.length -1];
+            const maxPoint = selectedPoints[selectedPoints.length - 1];
             d3.selectAll(".peakline").remove();
             main.append("path")
                 .attr("class", "peakline")
