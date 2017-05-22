@@ -1,26 +1,22 @@
 import {Component} from 'react';
-import Header from './Header';
+import PageLayout from './vascan-ui/PageLayout';
 import ExperimentTree from './ExperimentTree';
 import Experiment from './Experiment';
-import {Card} from 'semantic-ui-react';
+import VACard from './vascan-ui/VACard';
 
 export default class ExperimentsPage extends Component {
-
     render() {
-        return <div className="main_container">
-            <Header />
-            <div className="ExperimentsPage">
-                <Card className="ExperimentsPage__Tree">
-                    <Card.Content>
+        return (
+            <PageLayout>
+                <div className="ExperimentsPage">
+                    <VACard className="ExperimentsPage__Tree">
                         <ExperimentTree/>
-                    </Card.Content>
-                </Card>
-                <Card className="ExperimentsPage__Item">
-                    <Card.Content>
+                    </VACard>
+                    <VACard className="ExperimentsPage__Item">
                         <Experiment/>
-                    </Card.Content>
-                </Card>
-            </div>
-        </div>
+                    </VACard>
+                </div>
+            </PageLayout>
+        )
     }
 }
