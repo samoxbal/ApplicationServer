@@ -1,10 +1,10 @@
 import {Component, PropTypes} from 'react';
-import Header from './Header';
+import PageLayout from './vascan-ui/PageLayout';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createExperiment, resetAddExperimentForm} from '../actions';
 import AddExperimentForm from './AddExperimentForm';
-import {Card} from 'semantic-ui-react';
+import VACard from './vascan-ui/VACard';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
 
@@ -53,26 +53,23 @@ class AddExperiment extends Component {
         } = this.props;
 
         return (
-            <div>
-                <Header />
+            <PageLayout>
                 <div className="AddExperment">
-                    <Card style={{ width: '70%' }}>
-                        <Card.Content>
-                            <AddExperimentForm
-                                isEdit={false}
-                                onSubmit={this.submitExperiment}
-                                errors={errors}
-                                changeName={changeName}
-                                changeDescription={changeDescription}
-                                changeStartDate={changeStartDate}
-                                changeEndDate={changeEndDate}
-                                form={form}
-                                resetForm={resetAddExperimentForm}
-                            />
-                        </Card.Content>
-                    </Card>
+                    <VACard style={{ width: '70%' }}>
+                        <AddExperimentForm
+                            isEdit={false}
+                            onSubmit={this.submitExperiment}
+                            errors={errors}
+                            changeName={changeName}
+                            changeDescription={changeDescription}
+                            changeStartDate={changeStartDate}
+                            changeEndDate={changeEndDate}
+                            form={form}
+                            resetForm={resetAddExperimentForm}
+                        />
+                    </VACard>
                 </div>
-            </div>
+            </PageLayout>
         )
     }
 }

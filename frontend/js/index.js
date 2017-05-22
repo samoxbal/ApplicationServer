@@ -5,6 +5,7 @@ import store from './store/configureStore';
 import App from './components/App';
 import '../assets/css/react-datetime.css';
 import '../assets/css/main.css';
+import '../assets/css/sierra.css';
 
 window.React = React;
 
