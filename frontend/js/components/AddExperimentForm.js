@@ -1,5 +1,6 @@
 import {Component, PropTypes} from 'react';
 import {Form} from 'semantic-ui-react';
+import {VAInput, VATextArea, VAButton} from './vascan-ui/VAForm';
 import Datetime from 'react-datetime';
 import classNames from 'classnames';
 import is from 'is';
@@ -46,7 +47,7 @@ export default class AddExperimentForm extends Component {
             disabled: !active
         };
         return (
-            <Form.Field
+            <VAInput
                 control={Datetime}
                 inputProps={PickerBeginStyle}
                 closeOnSelect={true}
@@ -67,7 +68,7 @@ export default class AddExperimentForm extends Component {
             disabled: !active
         };
         return (
-            <Form.Field
+            <VAInput
                 control={Datetime}
                 inputProps={PickerEndStyle}
                 closeOnSelect={true}
@@ -92,7 +93,7 @@ export default class AddExperimentForm extends Component {
                     {this.renderPickerBegin(errors, experiment, active, form)}
                     {this.renderPickerEnd(errors, experiment, active, form)}
                 </Form.Group>
-                <Form.Input
+                <VAInput
                     type="text"
                     error={!!errors.name}
                     placeholder="Название эксперимента"
@@ -100,7 +101,7 @@ export default class AddExperimentForm extends Component {
                     disabled={!active}
                     onChange={this.onChangeName}
                 />
-                <Form.TextArea
+                <VATextArea
                     error={!!errors.description}
                     placeholder="Описание эксперимента"
                     rows="4"
@@ -109,9 +110,9 @@ export default class AddExperimentForm extends Component {
                     onChange={this.onChangeDescription}
                 />
                 {active && <Form.Group inline>
-                    <Form.Button primary basic>
+                    <VAButton basic>
                         {experiment ? 'Редактировать' : 'Создать'}
-                    </Form.Button>
+                    </VAButton>
                     <Form.Button type="button" basic onClick={this.onCancelClick}>
                         Отмена
                     </Form.Button>

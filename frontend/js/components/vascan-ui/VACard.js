@@ -1,7 +1,7 @@
 import {Card} from 'semantic-ui-react';
 
 const VACard = ({children, ...restProps}) => (
-    <Card className="SCard" {...restProps}>
+    <Card className="VACard" {...restProps}>
         <Card.Content>
             { children }
         </Card.Content>
