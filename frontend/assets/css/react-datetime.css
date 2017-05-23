@@ -13,9 +13,9 @@
   padding: 4px;
   margin-top: 1px;
   z-index: 99999 !important;
-  background: #fff;
+  background: #2c3e50;
   box-shadow: 0 1px 3px rgba(0,0,0,.1);
-  border: 1px solid #f9f9f9;
+  border: 1px solid #2c3e50;
 }
 .rdtOpen .rdtPicker {
   display: block;
@@ -40,6 +40,8 @@
 }
 .rdtPicker td {
   cursor: pointer;
+  color: #fff;
+  font-size: 15px;
 }
 .rdtPicker td.rdtToday:hover,
 .rdtPicker td.rdtHour:hover,
@@ -97,9 +99,11 @@
 .rdtPicker .dow {
   width: 14.2857%;
   border-bottom: none;
+  color: #fff;
 }
 .rdtPicker th.rdtSwitch {
   width: 100px;
+  color: #fff;
 }
 .rdtPicker th.rdtNext,
 .rdtPicker th.rdtPrev {

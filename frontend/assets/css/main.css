@@ -26,7 +26,8 @@ body {
 }
 
 .Header {
-    background-color: #2A3F54 !important;
+    background-color: #1abc9c !important;
+    border-radius: 0 !important;
 }
 
 .ExperimentsPage, .AddExperment, .VoltamogrammPage, .MeasurePage {

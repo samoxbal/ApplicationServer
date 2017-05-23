@@ -113,9 +113,9 @@ export default class AddExperimentForm extends Component {
                     <VAButton basic>
                         {experiment ? 'Редактировать' : 'Создать'}
                     </VAButton>
-                    <Form.Button type="button" basic onClick={this.onCancelClick}>
+                    <VAButton type="button" onClick={this.onCancelClick}>
                         Отмена
-                    </Form.Button>
+                    </VAButton>
                 </Form.Group>}
             </Form>
         )

@@ -20,7 +20,7 @@ export default class Header extends Component {
 
     render() {
         return (
-            <Menu inverted={true}>
+            <Menu inverted={true} className="Header">
                 <Menu.Item
                     name="Добавить эксперимент"
                     onClick={() => this.context.router.history.push("/add")}
