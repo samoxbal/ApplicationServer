@@ -6,7 +6,7 @@ import {List} from 'semantic-ui-react';
 import AddVoltamogramm from './AddVoltamogramm';
 import {getSelectedExperiment} from '../selectors/experiment';
 import {openAddVoltamogramm, editExperiment, resetAddExperimentForm} from '../actions/index';
-import {Button} from 'semantic-ui-react';
+import {VAButton} from './vascan-ui/VAForm';
 import AddExperimentForm from './AddExperimentForm';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
@@ -107,19 +107,19 @@ class Experiment extends Component {
         return (
             <div>
                 {experiment && <div>
-                    <Button
+                    <VAButton
                         icon='plus'
                         onClick={this.openAddVoltamogramm}
                         content='Создать вольтамограмму'
                         labelPosition='left'
-                        basic={true}
+                        basic
                     />
-                    <Button
+                    <VAButton
                         icon='edit'
                         onClick={this.activeEditExperiment}
                         content='Редактировать эксперимент'
                         labelPosition='left'
-                        basic={true}
+                        basic
                     />
                     {this.renderExperiment()}
                     {!!voltamogramms.length && this.renderVoltamogramms(voltamogramms)}
