@@ -1,9 +1,9 @@
 import {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Card} from 'semantic-ui-react';
 import * as d3 from 'd3';
-import Header from './Header';
+import PageLayout from './vascan-ui/PageLayout';
+import VACard from './vascan-ui/VACard';
 import {fetchSingleMeasure} from '../actions';
 
 const mapStateToProps = state => ({
@@ -26,7 +26,7 @@ class MeasurePage extends Component {
     }
 
     renderChart(points) {
-        const margin = {top: 20, right: 15, bottom: 20, left: 60},
+        const margin = {top: 20, right: 30, bottom: 20, left: 40},
             width = 900 - margin.left - margin.right,
             height = 600 - margin.top - margin.bottom;
 
@@ -80,8 +80,8 @@ class MeasurePage extends Component {
             .append("circle")
             .attr("cx", d => x(d[0]) )
             .attr("cy", d => y(d[1]) )
-            .attr("r", 1)
-            .attr("fill", "steelblue");
+            .attr("r", 1.5)
+            .attr("fill", "#1abc9c");
 
         main.append("g")
             .attr("class", "brush")
@@ -105,15 +105,14 @@ class MeasurePage extends Component {
 
     render() {
         return (
-            <div>
-                <Header/>
+            <PageLayout>
                 <div className="MeasurePage">
-                    <Card className="MeasurePage__ChartCard">
+                    <VACard className="MeasurePage__ChartCard">
                         <div className="MeasurePage__Chart">
                         </div>
-                    </Card>
+                    </VACard>
                 </div>
-            </div>
+            </PageLayout>
         )
     }
 }
