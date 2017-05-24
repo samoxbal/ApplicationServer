@@ -9,7 +9,7 @@ export const VATextArea = props => (
 );
 
 export const VAButton = ({children, basic, ...rest}) => (
-    <Form.Button className={`VAButton${basic ? '_basic' : ''}`} {...rest}>
+    <Form.Button className={`VAFormButton${basic ? '_basic' : ''}`} {...rest}>
         { children }
     </Form.Button>
 );

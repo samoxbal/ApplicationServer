@@ -10,14 +10,22 @@
     font-size: 15px !important;
 }
 
-.VAButton_basic button {
+.VAFormButton_basic button {
     background-color: transparent !important;
     border: 1px solid #1abc9c !important;
     color: #1abc9c !important;
 }
 
-.VAButton button {
+.VAFormButton button {
     background-color: transparent !important;
     border: 1px solid #dee6ea !important;
     color: #dee6ea !important;
+}
+
+.VAButton {
+    &_basic {
+         background-color: transparent !important;
+         border: 1px solid #1abc9c !important;
+         color: #1abc9c !important;
+    }
 }

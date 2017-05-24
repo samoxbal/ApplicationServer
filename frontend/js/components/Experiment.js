@@ -6,7 +6,7 @@ import {List} from 'semantic-ui-react';
 import AddVoltamogramm from './AddVoltamogramm';
 import {getSelectedExperiment} from '../selectors/experiment';
 import {openAddVoltamogramm, editExperiment, resetAddExperimentForm} from '../actions/index';
-import {VAButton} from './vascan-ui/VAForm';
+import VAButton from './vascan-ui/VAButton';
 import AddExperimentForm from './AddExperimentForm';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
