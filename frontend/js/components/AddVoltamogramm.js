@@ -46,6 +46,7 @@ class AddScan extends Component {
             <Modal
                 open={openPanel}
                 onClose={() => openAddVoltamogramm(false)}
+                className="VAModal"
             >
                 <Modal.Header>Создать вольтамограмму</Modal.Header>
                 <Modal.Content>
