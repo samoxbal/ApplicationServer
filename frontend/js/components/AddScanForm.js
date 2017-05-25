@@ -5,7 +5,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import moment from 'moment';
 import Regime from './Regime';
-import {Form, Segment, Header} from 'semantic-ui-react';
+import {Form, Header} from 'semantic-ui-react';
+import VASegment from './vascan-ui/VASegment';
+import {VAInput, VASelect, VACheckbox} from './vascan-ui/VAForm';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
 
@@ -57,10 +59,10 @@ class AddScanForm extends Component {
 
         return (
             <Form>
-                <Segment>
+                <VASegment>
                     <Header as="h2">Параметры измерения</Header>
                     <Form.Group widths="equal">
-                        <Form.Field
+                        <VAInput
                             control={Datetime}
                             inputProps={this.PickerStyleScan}
                             closeOnSelect={true}
@@ -68,13 +70,13 @@ class AddScanForm extends Component {
                             value={addScan.scan_datetime}
                             onChange={date => this.props.changeScanDatetime(moment(date).format("YYYY-MM-DD"))}
                         />
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Начальный потенциал"
                             value={addScan.start_potential}
                             onChange={(e, data) => this.props.changeStartPotential(data.value)}
                         />
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Конечный потенциал"
                             value={addScan.end_potential}
@@ -82,13 +84,13 @@ class AddScanForm extends Component {
                         />
                     </Form.Group>
                     <Form.Group widths="equal">
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Номер канала"
                             value={addScan.channel_id}
                             onChange={(e, data) => this.props.changeChannelId(data.value)}
                         />
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Имя канала"
                             value={addScan.channel_label}
@@ -96,52 +98,52 @@ class AddScanForm extends Component {
                         />
                     </Form.Group>
                     <Form.Group widths="equal">
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Температура"
                             value={addScan.temperature}
                             onChange={(e, data) => this.props.changeTemperature(data.value)}
                         />
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Давление"
                             value={addScan.pressure}
                             onChange={(e, data) => this.props.changePressure(data.value)}
                         />
                     </Form.Group>
-                    <Form.Checkbox
+                    <VACheckbox
                         label="Прямая развертка"
                         toggle
                         checked={addScan.reverse_direction}
                         onChange={(e, data) => this.props.changeReverseDirection(!addScan.reverse_direction)}
                     />
-                    <Form.Checkbox
+                    <VACheckbox
                         label="Мешалка"
                         toggle
                         checked={addScan.stirring}
                         onChange={(e, data) => this.props.changeStirring(!addScan.stirring)}
                     />
                     {addScan.stirring &&
-                    <Form.Input
+                    <VAInput
                         type="text"
                         placeholder="Скорость перемешивания"
                         value={addScan.stirring_speed}
                         onChange={(e, data) => this.props.changeStirringSpeed(data.value)}
                     />}
-                    <Form.Checkbox
+                    <VACheckbox
                         label="Вращение электрода"
                         toggle
                         checked={addScan.rotation}
                         onChange={(e, data) => this.props.changeRotation(!addScan.rotation)}
                     />
                     {addScan.rotation &&
-                    <Form.Input
+                    <VAInput
                         type="text"
                         placeholder="Скорость вращения"
                         value={addScan.rotation_speed}
                         onChange={(e, data) => this.props.changeRotationSpeed(data.value)}
                     />}
-                    <Form.Select
+                    <VASelect
                         placeholder="Тип измерения"
                         options={this.regimeOptions}
                         value={addScan.regime}
@@ -149,7 +151,7 @@ class AddScanForm extends Component {
                     />
                     <Regime/>
                     <FileUpload ref={ref => this._file = ref} />
-                </Segment>
+                </VASegment>
             </Form>
         );
     }

@@ -6,23 +6,21 @@ body {
     width: 100%;
     height: 100px;
     text-align: center;
-    border: 2px dashed #169F85;
-}
-
-.AddScan__inputFileUpload_over {
-    border: 2px dashed #e3e3e3;
+    border: 1px dashed #1abc9c;
+    border-radius: 4px;
+    &_over {
+        border: 1px dashed #e3e3e3;
+    }
+    h3 {
+        padding-top: 25px;
+    }
 }
 
 .AddScan__labelFileUpload {
-    color: #3c763d;
-}
-
-.AddScan__labelFileUpload_over {
-    color: #e3e3e3;
-}
-
-.AddScan__inputFileUpload h3 {
-    padding-top: 25px;
+    color: #fff;
+    &_over {
+        color: #e3e3e3;
+    }
 }
 
 .Header {
@@ -67,5 +65,13 @@ body {
         stroke: #fff;
         fill: none;
         shape-rendering: crispEdges;
+    }
+}
+
+.ListItem {
+    color: #5bc0de !important;
+    border-bottom: 0 !important;
+    & a {
+        color: #5bc0de !important;
     }
 }

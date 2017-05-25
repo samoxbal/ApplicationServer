@@ -88,7 +88,7 @@ class Experiment extends Component {
         return (
             <List divided relaxed>
                 {voltamogramms.map(item => (
-                    <List.Item key={item._id}>
+                    <List.Item key={item._id} className="ListItem">
                         <List.Icon name="file" />
                         <List.Content>
                             <List.Header>

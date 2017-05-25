@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import {Form} from 'semantic-ui-react';
+import {VAInput} from './vascan-ui/VAForm';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import createFormAction from '../utils/createFormAction';
@@ -40,13 +41,13 @@ class Regime extends Component {
         } = this.props;
         return (
             <Form.Group inline>
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Normal pulse life"
                     value={normal_pulse_life}
                     onChange={(e, data) => changeNormalPulseLife(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Normal pulse period"
                     value={normal_pulse_period}
@@ -71,19 +72,19 @@ class Regime extends Component {
         } = this.props;
         return (
             <Form.Group inline>
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Differential pulse amplitude"
                     value={differential_pulse_amplitude}
                     onChange={(e, data) => changeDifferentialPulseAmplitude(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Differential pulse pulsewidth"
                     value={differential_pulse_pulsewidth}
                     onChange={(e, data) => changeDifferentialPulsePulseWidth(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Differential pulse period"
                     value={differential_pulse_period}
@@ -108,19 +109,19 @@ class Regime extends Component {
         } = this.props;
         return (
             <Form.Group inline>
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Square wave amplitude"
                     value={square_wave_amplitude}
                     onChange={(e, data) => changeSquareWaveAmplitude(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Square wave estep"
                     value={square_wave_estep}
                     onChange={(e, data) => changeSquareWaveEstep(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Square wave time period"
                     value={square_wave_time_period}
@@ -143,13 +144,13 @@ class Regime extends Component {
         } = this.props;
         return (
             <Form.Group inline>
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Staircase time step"
                     value={staircase_time_step}
                     onChange={(e, data) => changeStaircaseTimeStep(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Staircase estep"
                     value={staircase_estep}
@@ -172,13 +173,13 @@ class Regime extends Component {
         } = this.props;
         return (
             <Form.Group inline>
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Ac amplitude"
                     value={ac_amplitude}
                     onChange={(e, data) => changeAcAmplitude(data.value)}
                 />
-                <Form.Input
+                <VAInput
                     type="text"
                     placeholder="Ac frequency"
                     value={ac_frequency}
