@@ -17,3 +17,7 @@ export const VAButton = ({children, basic, ...rest}) => (
 export const VASelect = props => (
     <Form.Select className="VASelect" {...props} />
 );
+
+export const VACheckbox = props => (
+    <Form.Checkbox className="VACheckbox" {...props} />
+);

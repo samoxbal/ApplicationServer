@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import moment from 'moment';
 import {Form, Header} from 'semantic-ui-react';
-import {VAInput, VATextArea, VASelect} from './vascan-ui/VAForm';
+import {VAInput, VATextArea, VASelect, VACheckbox} from './vascan-ui/VAForm';
 import VASegment from './vascan-ui/VASegment';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
@@ -52,7 +52,7 @@ class AddVoltamogrammForm extends Component {
                             value={addVoltamogramm.va_cycle_datetime}
                             onChange={date => this.props.changeVaCycleDatetime(moment(date).format("YYYY-MM-DD"))}
                         />
-                        <Form.Checkbox
+                        <VACheckbox
                             label="Цикличная вольтамперограмма"
                             toggle
                             checked={addVoltamogramm.cyclic}
