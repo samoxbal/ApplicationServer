@@ -13,3 +13,7 @@ export const VAButton = ({children, basic, ...rest}) => (
         { children }
     </Form.Button>
 );
+
+export const VASelect = props => (
+    <Form.Select className="VASelect" {...props} />
+);

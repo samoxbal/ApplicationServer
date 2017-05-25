@@ -3,7 +3,9 @@ import Datetime from 'react-datetime';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import moment from 'moment';
-import {Form, Segment, Header} from 'semantic-ui-react';
+import {Form, Header} from 'semantic-ui-react';
+import {VAInput, VATextArea, VASelect} from './vascan-ui/VAForm';
+import VASegment from './vascan-ui/VASegment';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
 
@@ -38,11 +40,11 @@ class AddVoltamogrammForm extends Component {
     render() {
         const {addVoltamogramm} = this.props;
         return (
-            <Segment className="AddVoltamogrammForm">
+            <VASegment className="AddVoltamogrammForm">
                 <Header as="h2">Параметры вольтаммограммы</Header>
                 <Form>
                     <Form.Group widths="equal">
-                        <Form.Field
+                        <VAInput
                             control={Datetime}
                             inputProps={this.PickerStyleVoltamogramm}
                             closeOnSelect={true}
@@ -57,26 +59,26 @@ class AddVoltamogrammForm extends Component {
                             onChange={(e, data) => this.props.changeCyclic(!addVoltamogramm.cyclic)}
                         />
                     </Form.Group>
-                    <Form.TextArea
+                    <VATextArea
                         placeholder="Описание"
                         rows="4"
                         value={addVoltamogramm.description}
                         onChange={(e, data) => this.props.changeDescription(data.value)}
                     />
                     <Form.Group widths="equal">
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Раствор"
                             value={addVoltamogramm.solution}
                             onChange={(e, data) => this.props.changeSolution(data.value)}
                         />
-                        <Form.Input
+                        <VAInput
                             type="text"
                             placeholder="Серийный номер электрода"
                             value={addVoltamogramm.equipment_id}
                             onChange={(e, data) => this.props.changeEquipmentId(data.value)}
                         />
-                        <Form.Select
+                        <VASelect
                             placeholder="Количество электродов"
                             options={this.numberElectrodsOptions}
                             value={addVoltamogramm.number_of_electrodes}
@@ -84,7 +86,7 @@ class AddVoltamogrammForm extends Component {
                         />
                     </Form.Group>
                 </Form>
-            </Segment>
+            </VASegment>
         )
     }
 }
