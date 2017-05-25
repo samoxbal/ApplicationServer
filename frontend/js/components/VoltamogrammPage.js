@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import is from 'is';
 import {bindActionCreators} from 'redux';
 import {Card} from 'semantic-ui-react';
-import Header from './Header';
 import TreeFolder from './TreeFolder';
 import AddVoltamogrammForm from './AddVoltamogrammForm';
 import {fetchSingleVoltamogramm} from '../actions';
@@ -36,7 +35,6 @@ class VoltamogrammPage extends Component {
 
         return (
             <div>
-                <Header/>
                 <div className="VoltamogrammPage">
                     <AddVoltamogrammForm/>
                     <Card className="VoltamogrammPage__Tree">
