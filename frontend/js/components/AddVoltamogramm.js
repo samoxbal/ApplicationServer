@@ -2,7 +2,8 @@ import {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createScan, openAddVoltamogramm} from '../actions';
-import {Modal, Button} from 'semantic-ui-react';
+import {Modal} from 'semantic-ui-react';
+import VAButton from './vascan-ui/VAButton';
 import AddVoltamogrammForm from './AddVoltamogrammForm';
 import AddScanForm from './AddScanForm';
 
@@ -52,13 +53,14 @@ class AddScan extends Component {
                 <Modal.Content>
                     <AddVoltamogrammForm/>
                     <AddScanForm ref={ref => this._scanForm = ref} />
-                    <Button
+                    <br/>
+                    <VAButton
                         primary
                         basic
                         onClick={this.handleSubmit}
                     >
                         Создать
-                    </Button>
+                    </VAButton>
                 </Modal.Content>
             </Modal>
         )

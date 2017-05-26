@@ -1,6 +1,7 @@
 import { Component, PropTypes } from 'react';
 import VAButton from '../vascan-ui/VAButton';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import BurgerMenu from 'react-burger-menu';
 
 export default class PageLayout extends Component {
 
@@ -10,6 +11,20 @@ export default class PageLayout extends Component {
         this.state = {
             visible: false
         }
+        this.menuItems = [
+            <a key="0" href="/add">
+                <Icon name='plus' />
+                <span>Добавить эксперимент</span>
+            </a>,
+            <a key="1" href="/all">
+                <Icon name='grid layout' />
+                <span>Все эксперименты</span>
+            </a>,
+            <a key="2" href="" onClick={this.logout}>
+                <Icon name='sign out' />
+                <span>Выход</span>
+            </a>
+        ];
     }
 
     static contextTypes = {
@@ -27,28 +42,27 @@ export default class PageLayout extends Component {
     })
 
     render() {
+        const Menu = BurgerMenu['elastic'];
         return (
-            <div>
-                <VAButton
-                    icon
-                    basic
-                    onClick={this.toggleVisibility}
-                    style={{ margin: '20px 0 -10px 30px' }}
+            <div id="outer-container">
+                <Menu
+                    pageWrapId="page-wrap"
+                    outerContainerId="outer-container"
+                    isOpen={this.state.visible}
                 >
-                    <Icon name='sidebar' />
-                </VAButton>
-                { this.state.visible &&
-                <Menu className="Header">
-                    <Menu.Item
-                        name="Добавить эксперимент"
-                        onClick={() => this.context.router.history.push("/add")}
-                    />
-                    <Menu.Item
-                        name="Все эксперименты"
-                        onClick={() => this.context.router.history.push("/all")}
-                    />
-                </Menu> }
-                { this.props.children }
+                    {this.menuItems}
+                </Menu>
+                <main id="page-wrap">
+                    <VAButton
+                        icon
+                        basic
+                        onClick={this.toggleVisibility}
+                        style={{ margin: '20px 0 -10px 30px' }}
+                    >
+                        <Icon name='sidebar' />
+                    </VAButton>
+                    { this.props.children }
+                </main>
             </div>
         )
     }
