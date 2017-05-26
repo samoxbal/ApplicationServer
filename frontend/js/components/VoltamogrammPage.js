@@ -4,6 +4,7 @@ import is from 'is';
 import {bindActionCreators} from 'redux';
 import PageLayout from './vascan-ui/PageLayout';
 import VACard from './vascan-ui/VACard';
+import VAButton from './vascan-ui/VAButton';
 import TreeFolder from './TreeFolder';
 import AddVoltamogrammForm from './AddVoltamogrammForm';
 import {fetchSingleVoltamogramm} from '../actions';
@@ -31,13 +32,35 @@ class VoltamogrammPage extends Component {
         )
     }
 
+    renderVoltamogrammForm() {
+        return (
+            <div className="VoltamogrammPage__voltamogrammForm">
+                <VAButton
+                    icon='plus'
+                    // onClick={this.openAddVoltamogramm}
+                    content='Создать скан'
+                    labelPosition='left'
+                    basic
+                />
+                <VAButton
+                    icon='edit'
+                    // onClick={this.activeEditExperiment}
+                    content='Редактировать вольтамограмму'
+                    labelPosition='left'
+                    basic
+                />
+                <AddVoltamogrammForm/>
+            </div>
+        )
+    }
+
     render() {
         const {voltamogramm} = this.props;
 
         return (
             <PageLayout>
                 <div className="VoltamogrammPage">
-                    <AddVoltamogrammForm/>
+                    {this.renderVoltamogrammForm()}
                     <VACard className="VoltamogrammPage__Tree">
                         {!is.empty(voltamogramm) && this.renderTree(voltamogramm)}
                     </VACard>
