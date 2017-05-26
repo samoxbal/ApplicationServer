@@ -11,7 +11,8 @@ import ACTION_TYPES from '../constants/actionTypes';
 
 const mapStateToProps = state => ({
     errors: state.errors,
-    addVoltamogramm: state.addVoltamogrammForm
+    form: state.addVoltamogrammForm,
+    voltamogramm: state.voltamogramm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -38,7 +39,7 @@ class AddVoltamogrammForm extends Component {
     ]
 
     render() {
-        const {addVoltamogramm} = this.props;
+        const {form, voltamogramm} = this.props;
         return (
             <VASegment className="AddVoltamogrammForm">
                 <Header as="h2">Параметры вольтаммограммы</Header>
@@ -49,39 +50,39 @@ class AddVoltamogrammForm extends Component {
                             inputProps={this.PickerStyleVoltamogramm}
                             closeOnSelect={true}
                             timeFormat={false}
-                            value={addVoltamogramm.va_cycle_datetime}
+                            value={voltamogramm && !form.va_cycle_datetime ? voltamogramm.va_cycle_datetime : form.va_cycle_datetime}
                             onChange={date => this.props.changeVaCycleDatetime(moment(date).format("YYYY-MM-DD"))}
                         />
                         <VACheckbox
                             label="Цикличная вольтамперограмма"
                             toggle
-                            checked={addVoltamogramm.cyclic}
-                            onChange={(e, data) => this.props.changeCyclic(!addVoltamogramm.cyclic)}
+                            checked={voltamogramm && !form.cyclic ? voltamogramm.cyclic : form.cyclic}
+                            onChange={(e, data) => this.props.changeCyclic(!form.cyclic)}
                         />
                     </Form.Group>
                     <VATextArea
                         placeholder="Описание"
                         rows="4"
-                        value={addVoltamogramm.description}
+                        value={voltamogramm && !voltamogramm.description ? voltamogramm.description : form.description}
                         onChange={(e, data) => this.props.changeDescription(data.value)}
                     />
                     <Form.Group widths="equal">
                         <VAInput
                             type="text"
                             placeholder="Раствор"
-                            value={addVoltamogramm.solution}
+                            value={voltamogramm && !form.solution ? voltamogramm.solution : form.solution}
                             onChange={(e, data) => this.props.changeSolution(data.value)}
                         />
                         <VAInput
                             type="text"
                             placeholder="Серийный номер электрода"
-                            value={addVoltamogramm.equipment_id}
+                            value={voltamogramm && !form.equipment_id ? voltamogramm.equipment_id : form.equipment_id}
                             onChange={(e, data) => this.props.changeEquipmentId(data.value)}
                         />
                         <VASelect
                             placeholder="Количество электродов"
                             options={this.numberElectrodsOptions}
-                            value={addVoltamogramm.number_of_electrodes}
+                            value={voltamogramm && !form.number_of_electrodes ? voltamogramm.number_of_electrodes : form.number_of_electrodes}
                             onChange={(e, data) => this.props.changeNumberOfElectrodes(data.value)}
                         />
                     </Form.Group>
