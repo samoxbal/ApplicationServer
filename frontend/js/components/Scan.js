@@ -3,9 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
 import {List} from 'semantic-ui-react';
+import {getSelectedScan} from '../selectors/scan';
 
 const mapStateToProps = state => ({
-    measures: state.measures
+    measures: state.measures,
+    scan: getSelectedScan(state)
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -32,11 +34,13 @@ class Scan extends Component {
     }
 
     render() {
-        const {measures} = this.props;
+        const {scan, measures} = this.props;
 
         return (
             <div>
-
+                {scan && <div>
+                    {measures.length && this.renderMeasures(measures)}
+                </div>}
             </div>
         )
     }

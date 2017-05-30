@@ -10,6 +10,7 @@ const voltamogramms = createSimpleReducer([], ACTION_TYPES.FETCH_VOLTAMOGRAMMS_S
 const voltamogramm = createSimpleReducer({}, ACTION_TYPES.FETCH_SINGLE_VOLTAMOGRAMM_SUCCESS);
 const measure = createSimpleReducer({}, ACTION_TYPES.FETCH_SINGLE_MEASURE_SUCCESS);
 const measures = createSimpleReducer([], ACTION_TYPES.FETCH_MEASURES_SUCCESS);
+const selectedScanId = createSimpleReducer("", ACTION_TYPES.SELECT_SCAN);
 
 const addExperimentForm = combineReducers({
     name: createFormReducer("", ACTION_TYPES.CHANGE_EXPERIMENT_NAME, ACTION_TYPES.RESET_ADD_EXPERIMENT),
@@ -78,7 +79,8 @@ const rootReducer = combineReducers({
     addVoltamogrammForm,
     addScanForm,
     measure,
-    measures
+    measures,
+    selectedScanId
 });
 
 export default rootReducer;

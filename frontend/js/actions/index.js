@@ -81,3 +81,10 @@ export function fetchMeasures(id) {
         }
     }
 }
+
+export function selectScan(_id) {
+    return {
+        type: ACTION_TYPES.SELECT_SCAN,
+        payload: _id
+    }
+}

@@ -118,7 +118,7 @@ function* fetchMeasures() {
         const data = yield call(api.fetch_measures, payload);
         yield put({
             type: ACTION_TYPES.FETCH_MEASURES_SUCCESS,
-            payload: data['data']['data']
+            payload: data['data']['data'].map(mapOid)
         });
     }
 }

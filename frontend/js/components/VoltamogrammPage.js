@@ -6,8 +6,9 @@ import PageLayout from './vascan-ui/PageLayout';
 import VACard from './vascan-ui/VACard';
 import VAButton from './vascan-ui/VAButton';
 import TreeFolder from './TreeFolder';
+import Scan from './Scan';
 import AddVoltamogrammForm from './AddVoltamogrammForm';
-import {fetchSingleVoltamogramm, fetchMeasures} from '../actions';
+import {fetchSingleVoltamogramm, fetchMeasures, selectScan} from '../actions';
 
 const mapStateToProps = state => ({
     voltamogramm: state.voltamogramm,
@@ -16,7 +17,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     fetchSingleVoltamogramm,
-    fetchMeasures
+    fetchMeasures,
+    selectScan
 }, dispatch);
 
 class VoltamogrammPage extends Component {
@@ -30,7 +32,10 @@ class VoltamogrammPage extends Component {
         return (
             <TreeFolder
                 data={scans}
-                onClickItem={_id => this.props.fetchMeasures(_id)}
+                onClickItem={_id => {
+                    this.props.selectScan(_id);
+                    this.props.fetchMeasures(_id);
+                }}
             />
         )
     }
@@ -68,7 +73,7 @@ class VoltamogrammPage extends Component {
                         {!is.empty(voltamogramm) && this.renderTree(voltamogramm)}
                     </VACard>
                     <VACard className="x_panel VoltamogrammPage__Scan">
-
+                        <Scan/>
                     </VACard>
                 </div>
             </PageLayout>
