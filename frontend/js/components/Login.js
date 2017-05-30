@@ -1,6 +1,8 @@
 import {Component, PropTypes} from 'react';
 import axios from 'axios';
 import {Form} from 'semantic-ui-react';
+import {VAInput, VAButton} from './vascan-ui/VAForm';
+import VACard from './vascan-ui/VACard';
 
 class Login extends Component {
 
@@ -81,12 +83,14 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login_wrapper">
-                <Form onSubmit={this.login}>
-                    <Form.Input placeholder="Имя пользователя" onChange={this.onChangeEmail} ref={(ref) => this._email = ref} />
-                    <Form.Input type="password" placeholder="Пароль" onChange={this.onChangePassword} ref={(ref) => this._password = ref} />
-                    <Form.Button type="submit" basic>Войти</Form.Button>
-                </Form>
+            <div className="Login">
+                <VACard>
+                    <Form onSubmit={this.login}>
+                        <VAInput placeholder="Имя пользователя" onChange={this.onChangeEmail} ref={(ref) => this._email = ref} />
+                        <VAInput type="password" placeholder="Пароль" onChange={this.onChangePassword} ref={(ref) => this._password = ref} />
+                        <VAButton type="submit" basic>Войти</VAButton>
+                    </Form>
+                </VACard>
             </div>
         )
     }
