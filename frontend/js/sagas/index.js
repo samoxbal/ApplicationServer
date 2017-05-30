@@ -111,6 +111,18 @@ function* fetchSingleMeasure() {
     }
 }
 
+function* fetchMeasures() {
+    while(true) {
+        const action = yield take(ACTION_TYPES.FETCH_MEASURES);
+        const { payload } = action;
+        const data = yield call(api.fetch_measures, payload);
+        yield put({
+            type: ACTION_TYPES.FETCH_MEASURES_SUCCESS,
+            payload: data['data']['data']
+        });
+    }
+}
+
 export default function* root() {
     yield fork(fetchExperiments);
     yield fork(createExperiment);
@@ -119,4 +131,5 @@ export default function* root() {
     yield fork(fetchSingleVoltamogramm);
     yield fork(editExperiment);
     yield fork(fetchSingleMeasure);
+    yield fork(fetchMeasures);
 }

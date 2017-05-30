@@ -72,3 +72,12 @@ export function fetchSingleMeasure(id) {
         }
     }
 }
+
+export function fetchMeasures(id) {
+    return {
+        type: ACTION_TYPES.FETCH_MEASURES,
+        payload: {
+            scan: id
+        }
+    }
+}

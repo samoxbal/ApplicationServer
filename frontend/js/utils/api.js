@@ -113,5 +113,20 @@ export const api = {
             }
         };
         return axios(options);
+    },
+    fetch_measures: data => {
+        const options = {
+            method: 'post',
+            url: '/api',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
+            },
+            data: {
+                command: "fetchMeasures",
+                body: data
+            }
+        };
+        return axios(options);
     }
 };
