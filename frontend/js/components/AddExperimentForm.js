@@ -2,7 +2,6 @@ import {Component, PropTypes} from 'react';
 import {Form} from 'semantic-ui-react';
 import {VAInput, VATextArea, VAButton} from './vascan-ui/VAForm';
 import Datetime from 'react-datetime';
-import classNames from 'classnames';
 import is from 'is';
 import moment from 'moment';
 
@@ -39,10 +38,7 @@ export default class AddExperimentForm extends Component {
 
     renderPickerBegin(errors, experiment, active, form) {
         const PickerBeginStyle = {
-            className: classNames(
-                "form-control has-feedback-left",
-                {"parsley-error": errors.start_date}
-            ),
+            className: "form-control has-feedback-left",
             placeholder: "Дата начала",
             disabled: !active
         };
@@ -53,6 +49,7 @@ export default class AddExperimentForm extends Component {
                 closeOnSelect={true}
                 timeFormat={false}
                 onChange={this.onChangeStartDate}
+                error={!!errors.start_date}
                 value={experiment && !form.start_date ? experiment.start_date : form.start_date}
             />
         );
@@ -60,10 +57,7 @@ export default class AddExperimentForm extends Component {
 
     renderPickerEnd(errors, experiment, active, form) {
         const PickerEndStyle = {
-            className: classNames(
-                "form-control has-feedback-left",
-                {"parsley-error": errors.end_date}
-            ),
+            className: "form-control has-feedback-left",
             placeholder: "Дата начала",
             disabled: !active
         };
@@ -74,6 +68,7 @@ export default class AddExperimentForm extends Component {
                 closeOnSelect={true}
                 timeFormat={false}
                 onChange={this.onChangeEndDate}
+                error={!!errors.end_date}
                 value={experiment && !form.end_date ? experiment.end_date : form.end_date}
             />
         );

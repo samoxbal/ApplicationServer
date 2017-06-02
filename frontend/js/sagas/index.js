@@ -4,6 +4,7 @@ import validator from '../utils/validator';
 import {api} from '../utils/api';
 import {mapOid} from '../utils/utils';
 import ACTION_TYPES from '../constants/actionTypes';
+import {experimentRequiredFields} from '../constants/requiredFields';
 import {addExperimentForm} from '../selectors/experiment';
 import {addVoltamogrammForm, addScanForm} from '../selectors/scan';
 
@@ -22,7 +23,7 @@ function* createExperiment() {
     while(true) {
         yield take(ACTION_TYPES.ADD_EXPERIMENT);
         const form = yield select(addExperimentForm);
-        const [invalidFields, experimentObj] = validator(form);
+        const [invalidFields, experimentObj] = validator(form, experimentRequiredFields);
         if(is.empty(invalidFields)) {
             yield call(api.add_experiment, experimentObj);
         } else {
@@ -38,7 +39,7 @@ function* editExperiment() {
     while(true) {
         const action = yield take(ACTION_TYPES.EDIT_EXPERIMENT);
         const { payload: { _id, ...restObj } } = action;
-        const [invalidFields, experimentObj] = validator(restObj);
+        const [invalidFields, experimentObj] = validator(restObj, experimentRequiredFields);
         if(is.empty(invalidFields)) {
             yield call(api.edit_experiment, {_id, ...experimentObj});
         } else {

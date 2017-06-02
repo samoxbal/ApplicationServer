@@ -39,7 +39,7 @@ class AddVoltamogrammForm extends Component {
     ]
 
     render() {
-        const {form, voltamogramm} = this.props;
+        const {form, voltamogramm, errors} = this.props;
         return (
             <VASegment className="AddVoltamogrammForm">
                 <Header as="h2">Параметры вольтаммограммы</Header>
