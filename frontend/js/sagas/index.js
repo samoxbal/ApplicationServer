@@ -4,7 +4,11 @@ import validator from '../utils/validator';
 import {api} from '../utils/api';
 import {mapOid} from '../utils/utils';
 import ACTION_TYPES from '../constants/actionTypes';
-import {experimentRequiredFields} from '../constants/requiredFields';
+import {
+    experimentRequiredFields,
+    voltamogrammRequiredFields,
+    scanRequiredFields
+} from '../constants/requiredFields';
 import {addExperimentForm} from '../selectors/experiment';
 import {addVoltamogrammForm, addScanForm} from '../selectors/scan';
 
@@ -57,17 +61,29 @@ function* createScan() {
         const { payload } = action;
         const voltamogramm = yield select(addVoltamogrammForm);
         const scan = yield select(addScanForm);
-        const { regime, measure_mode, ...restScan } = scan;
-        const data = {
-            ...payload,
-            voltamogramm,
-            scan: {
-                regime,
-                measure_mode: measure_mode[regime],
-                ...restScan
-            }
-        };
-        yield call(api.add_scan, data);
+        const [invalidVoltamogrammFields] = validator(voltamogramm, voltamogrammRequiredFields);
+        const [invalidScanFields] = validator(scan, scanRequiredFields);
+        if(is.empty(invalidVoltamogrammFields) && is.empty(invalidScanFields)) {
+            const { regime, measure_mode, ...restScan } = scan;
+            const data = {
+                ...payload,
+                voltamogramm,
+                scan: {
+                    regime,
+                    measure_mode: measure_mode[regime],
+                    ...restScan
+                }
+            };
+            yield call(api.add_scan, data);
+        } else {
+            yield put({
+                type: ACTION_TYPES.SET_ERROR,
+                payload: {
+                    ...invalidVoltamogrammFields,
+                    ...invalidScanFields
+                }
+            })
+        }
     }
 }
 

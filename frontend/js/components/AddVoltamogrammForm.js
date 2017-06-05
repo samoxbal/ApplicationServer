@@ -50,6 +50,7 @@ class AddVoltamogrammForm extends Component {
                             inputProps={this.PickerStyleVoltamogramm}
                             closeOnSelect={true}
                             timeFormat={false}
+                            error={!!errors.va_cycle_datetime}
                             value={voltamogramm && !form.va_cycle_datetime ? voltamogramm.va_cycle_datetime : form.va_cycle_datetime}
                             onChange={date => this.props.changeVaCycleDatetime(moment(date).format("YYYY-MM-DD"))}
                         />
@@ -82,6 +83,7 @@ class AddVoltamogrammForm extends Component {
                         <VASelect
                             placeholder="Количество электродов"
                             options={this.numberElectrodsOptions}
+                            error={!!errors.number_of_electrodes}
                             value={voltamogramm && !form.number_of_electrodes ? voltamogramm.number_of_electrodes : form.number_of_electrodes}
                             onChange={(e, data) => this.props.changeNumberOfElectrodes(data.value)}
                         />
