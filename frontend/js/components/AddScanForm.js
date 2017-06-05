@@ -54,7 +54,8 @@ class AddScanForm extends Component {
 
     render() {
         const {
-            addScan
+            addScan,
+            errors
         } = this.props;
 
         return (
@@ -67,6 +68,7 @@ class AddScanForm extends Component {
                             inputProps={this.PickerStyleScan}
                             closeOnSelect={true}
                             timeFormat={false}
+                            error={!!errors.scan_datetime}
                             value={addScan.scan_datetime}
                             onChange={date => this.props.changeScanDatetime(moment(date).format("YYYY-MM-DD"))}
                         />
@@ -74,12 +76,14 @@ class AddScanForm extends Component {
                             type="text"
                             placeholder="Начальный потенциал"
                             value={addScan.start_potential}
+                            error={!!errors.start_potential}
                             onChange={(e, data) => this.props.changeStartPotential(data.value)}
                         />
                         <VAInput
                             type="text"
                             placeholder="Конечный потенциал"
                             value={addScan.end_potential}
+                            error={!!errors.end_potential}
                             onChange={(e, data) => this.props.changeEndPotential(data.value)}
                         />
                     </Form.Group>
@@ -102,12 +106,14 @@ class AddScanForm extends Component {
                             type="text"
                             placeholder="Температура"
                             value={addScan.temperature}
+                            error={!!errors.temperature}
                             onChange={(e, data) => this.props.changeTemperature(data.value)}
                         />
                         <VAInput
                             type="text"
                             placeholder="Давление"
                             value={addScan.pressure}
+                            error={!!errors.pressure}
                             onChange={(e, data) => this.props.changePressure(data.value)}
                         />
                     </Form.Group>
@@ -147,6 +153,7 @@ class AddScanForm extends Component {
                         placeholder="Тип измерения"
                         options={this.regimeOptions}
                         value={addScan.regime}
+                        error={!!errors.regime}
                         onChange={(e, data) => this.props.changeRegime(data.value)}
                     />
                     <Regime/>
