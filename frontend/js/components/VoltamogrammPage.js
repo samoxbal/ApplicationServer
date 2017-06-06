@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import is from 'is';
 import {bindActionCreators} from 'redux';
 import PageLayout from './vascan-ui/PageLayout';
+import {Form} from 'semantic-ui-react';
 import VACard from './vascan-ui/VACard';
 import VAButton from './vascan-ui/VAButton';
 import TreeFolder from './TreeFolder';
@@ -12,7 +13,8 @@ import {fetchSingleVoltamogramm, fetchMeasures, selectScan} from '../actions';
 
 const mapStateToProps = state => ({
     voltamogramm: state.voltamogramm,
-    measures: state.measures
+    measures: state.measures,
+    activeEdit: state.activeEditVoltamogramm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -58,6 +60,14 @@ class VoltamogrammPage extends Component {
                     basic
                 />
                 <AddVoltamogrammForm/>
+                <Form.Group inline>
+                    <VAButton basic>
+                        Редактировать
+                    </VAButton>
+                    <VAButton type="button" onClick={this.onCancelClick}>
+                        Отмена
+                    </VAButton>
+                </Form.Group>
             </div>
         )
     }

@@ -57,7 +57,8 @@ const ACTION_TYPES = keyMirror({
     FETCH_SINGLE_MEASURE_SUCCESS: null,
     FETCH_MEASURES: null,
     FETCH_MEASURES_SUCCESS: null,
-    SELECT_SCAN: null
+    SELECT_SCAN: null,
+    ACTIVE_EDIT_VOLTAMOGRAMM: null
 });
 
 export default ACTION_TYPES;

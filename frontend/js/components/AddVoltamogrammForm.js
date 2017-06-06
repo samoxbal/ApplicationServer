@@ -12,7 +12,8 @@ import ACTION_TYPES from '../constants/actionTypes';
 const mapStateToProps = state => ({
     errors: state.errors,
     form: state.addVoltamogrammForm,
-    voltamogramm: state.voltamogramm
+    voltamogramm: state.voltamogramm,
+    active: state.activeEditVoltamogramm
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -39,7 +40,7 @@ class AddVoltamogrammForm extends Component {
     ]
 
     render() {
-        const {form, voltamogramm, errors} = this.props;
+        const {form, voltamogramm, errors, active} = this.props;
         return (
             <VASegment className="AddVoltamogrammForm">
                 <Header as="h2">Параметры вольтаммограммы</Header>
@@ -50,6 +51,7 @@ class AddVoltamogrammForm extends Component {
                             inputProps={this.PickerStyleVoltamogramm}
                             closeOnSelect={true}
                             timeFormat={false}
+                            disabled={!active}
                             error={!!errors.va_cycle_datetime}
                             value={voltamogramm && !form.va_cycle_datetime ? voltamogramm.va_cycle_datetime : form.va_cycle_datetime}
                             onChange={date => this.props.changeVaCycleDatetime(moment(date).format("YYYY-MM-DD"))}
@@ -57,6 +59,7 @@ class AddVoltamogrammForm extends Component {
                         <VACheckbox
                             label="Цикличная вольтамперограмма"
                             toggle
+                            disabled={!active}
                             checked={voltamogramm && !form.cyclic ? voltamogramm.cyclic : form.cyclic}
                             onChange={(e, data) => this.props.changeCyclic(!form.cyclic)}
                         />
@@ -64,6 +67,7 @@ class AddVoltamogrammForm extends Component {
                     <VATextArea
                         placeholder="Описание"
                         rows="4"
+                        disabled={!active}
                         value={voltamogramm && !voltamogramm.description ? voltamogramm.description : form.description}
                         onChange={(e, data) => this.props.changeDescription(data.value)}
                     />
@@ -71,12 +75,14 @@ class AddVoltamogrammForm extends Component {
                         <VAInput
                             type="text"
                             placeholder="Раствор"
+                            disabled={!active}
                             value={voltamogramm && !form.solution ? voltamogramm.solution : form.solution}
                             onChange={(e, data) => this.props.changeSolution(data.value)}
                         />
                         <VAInput
                             type="text"
                             placeholder="Серийный номер электрода"
+                            disabled={!active}
                             value={voltamogramm && !form.equipment_id ? voltamogramm.equipment_id : form.equipment_id}
                             onChange={(e, data) => this.props.changeEquipmentId(data.value)}
                         />
@@ -84,6 +90,7 @@ class AddVoltamogrammForm extends Component {
                             placeholder="Количество электродов"
                             options={this.numberElectrodsOptions}
                             error={!!errors.number_of_electrodes}
+                            disabled={!active}
                             value={voltamogramm && !form.number_of_electrodes ? voltamogramm.number_of_electrodes : form.number_of_electrodes}
                             onChange={(e, data) => this.props.changeNumberOfElectrodes(data.value)}
                         />
