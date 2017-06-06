@@ -3,24 +3,28 @@ import {connect} from 'react-redux';
 import is from 'is';
 import {bindActionCreators} from 'redux';
 import PageLayout from './vascan-ui/PageLayout';
-import {Form} from 'semantic-ui-react';
 import VACard from './vascan-ui/VACard';
 import VAButton from './vascan-ui/VAButton';
 import TreeFolder from './TreeFolder';
 import Scan from './Scan';
 import AddVoltamogrammForm from './AddVoltamogrammForm';
-import {fetchSingleVoltamogramm, fetchMeasures, selectScan} from '../actions';
+import {
+    fetchSingleVoltamogramm,
+    fetchMeasures,
+    selectScan,
+    activeEditVoltamogramm
+} from '../actions';
 
 const mapStateToProps = state => ({
     voltamogramm: state.voltamogramm,
-    measures: state.measures,
-    activeEdit: state.activeEditVoltamogramm
+    measures: state.measures
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     fetchSingleVoltamogramm,
     fetchMeasures,
-    selectScan
+    selectScan,
+    activeEditVoltamogramm
 }, dispatch);
 
 class VoltamogrammPage extends Component {
@@ -43,6 +47,7 @@ class VoltamogrammPage extends Component {
     }
 
     renderVoltamogrammForm() {
+        const {activeEditVoltamogramm} = this.props;
         return (
             <div className="VoltamogrammPage__voltamogrammForm">
                 <VAButton
@@ -54,20 +59,12 @@ class VoltamogrammPage extends Component {
                 />
                 <VAButton
                     icon='edit'
-                    // onClick={this.activeEditExperiment}
+                    onClick={() => activeEditVoltamogramm(true)}
                     content='Редактировать вольтамограмму'
                     labelPosition='left'
                     basic
                 />
                 <AddVoltamogrammForm/>
-                <Form.Group inline>
-                    <VAButton basic>
-                        Редактировать
-                    </VAButton>
-                    <VAButton type="button" onClick={this.onCancelClick}>
-                        Отмена
-                    </VAButton>
-                </Form.Group>
             </div>
         )
     }

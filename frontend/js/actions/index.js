@@ -88,3 +88,10 @@ export function selectScan(_id) {
         payload: _id
     }
 }
+
+export function activeEditVoltamogramm(state) {
+    return {
+        type: ACTION_TYPES.ACTIVE_EDIT_VOLTAMOGRAMM,
+        payload: state
+    }
+}

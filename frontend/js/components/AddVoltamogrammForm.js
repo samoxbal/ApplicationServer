@@ -4,9 +4,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import moment from 'moment';
 import {Form, Header} from 'semantic-ui-react';
+import VAButton from './vascan-ui/VAButton';
 import {VAInput, VATextArea, VASelect, VACheckbox} from './vascan-ui/VAForm';
 import VASegment from './vascan-ui/VASegment';
 import createFormAction from '../utils/createFormAction';
+import {activeEditVoltamogramm} from '../actions';
 import ACTION_TYPES from '../constants/actionTypes';
 
 const mapStateToProps = state => ({
@@ -17,6 +19,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+    activeEditVoltamogramm,
     changeCyclic: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_CYCLIC),
     changeVaCycleDatetime: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_DATE),
     changeDescription: createFormAction(ACTION_TYPES.CHANGE_VOLTAMOGRAMM_DESCRIPTION),
@@ -40,7 +43,14 @@ class AddVoltamogrammForm extends Component {
     ]
 
     render() {
-        const {form, voltamogramm, errors, active} = this.props;
+        const {
+            form,
+            voltamogramm,
+            errors,
+            active,
+            activeEditVoltamogramm
+        } = this.props;
+
         return (
             <VASegment className="AddVoltamogrammForm">
                 <Header as="h2">Параметры вольтаммограммы</Header>
@@ -95,6 +105,17 @@ class AddVoltamogrammForm extends Component {
                             onChange={(e, data) => this.props.changeNumberOfElectrodes(data.value)}
                         />
                     </Form.Group>
+                    {active && <Form.Group inline>
+                        <VAButton basic>
+                            Редактировать
+                        </VAButton>
+                        <VAButton
+                            type="button"
+                            onClick={() => activeEditVoltamogramm(false)}
+                        >
+                            Отмена
+                        </VAButton>
+                    </Form.Group>}
                 </Form>
             </VASegment>
         )
