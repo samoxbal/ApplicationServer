@@ -28,6 +28,11 @@
          border: 1px solid #1abc9c !important;
          color: #1abc9c !important;
     }
+    &_simple {
+        background-color: transparent !important;
+        border: 1px solid #fff !important;
+        color: #fff !important;
+    }
 }
 
 .VAModal {
