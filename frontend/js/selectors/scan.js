@@ -12,8 +12,14 @@ const getSelectedScan = createSelector(
     }
 );
 
+const isSelectedScan = createSelector(
+    getSelectedScan,
+    scan => !!scan
+);
+
 export {
     addVoltamogrammForm,
     addScanForm,
-    getSelectedScan
+    getSelectedScan,
+    isSelectedScan
 }

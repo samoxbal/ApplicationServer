@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
 import {List} from 'semantic-ui-react';
 import {getSelectedScan} from '../selectors/scan';
+import AddScanForm from './AddScanForm';
 
 const mapStateToProps = state => ({
     measures: state.measures,
@@ -39,6 +40,7 @@ class Scan extends Component {
         return (
             <div>
                 {scan && <div>
+                    <AddScanForm/>
                     {measures.length && this.renderMeasures(measures)}
                 </div>}
             </div>

@@ -10,10 +10,13 @@ import VASegment from './vascan-ui/VASegment';
 import {VAInput, VASelect, VACheckbox} from './vascan-ui/VAForm';
 import createFormAction from '../utils/createFormAction';
 import ACTION_TYPES from '../constants/actionTypes';
+import {getSelectedScan, isSelectedScan} from '../selectors/scan';
 
 const mapStateToProps = state => ({
     errors: state.errors,
-    addScan: state.addScanForm
+    addScan: state.addScanForm,
+    scan: getSelectedScan(state),
+    isScanExist: isSelectedScan(state)
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -55,7 +58,9 @@ class AddScanForm extends Component {
     render() {
         const {
             addScan,
-            errors
+            errors,
+            scan,
+            isScanExist
         } = this.props;
 
         return (
