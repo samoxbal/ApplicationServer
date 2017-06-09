@@ -162,7 +162,7 @@ class AddScanForm extends Component {
                         onChange={(e, data) => this.props.changeRegime(data.value)}
                     />
                     <Regime/>
-                    <FileUpload ref={ref => this._file = ref} />
+                    {!isScanExist && <FileUpload ref={ref => this._file = ref} />}
                 </VASegment>
             </Form>
         );

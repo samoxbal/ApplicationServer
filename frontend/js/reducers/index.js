@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+import {routerReducer} from 'react-router-redux';
 import ACTION_TYPES from '../constants/actionTypes';
 import {createSimpleReducer, createFormReducer} from '../utils/createReducers';
 
@@ -70,6 +71,7 @@ const addScanForm = combineReducers({
 });
 
 const rootReducer = combineReducers({
+    router: routerReducer,
     experiments,
     selectedExperimentId,
     errors,

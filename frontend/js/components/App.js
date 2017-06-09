@@ -1,10 +1,12 @@
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
+import {ConnectedRouter} from 'react-router-redux';
 import AddExperiment from './AddExperiment';
 import ExperimentsPage from './ExperimentsPage';
 import VoltamogrammPage from './VoltamogrammPage';
 import MeasurePage from './MeasurePage';
 import Login from './Login';
 import {Auth} from './Auth';
+import {history} from '../store/configureStore';
 
 const renderLogin = props => {
     if(!localStorage.getItem("token")) {
@@ -15,7 +17,7 @@ const renderLogin = props => {
 };
 
 const App = () => (
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
         <div>
             <Route exact path="/" render={renderLogin} />
             <Route path="/add" component={Auth(AddExperiment)} />
@@ -23,7 +25,7 @@ const App = () => (
             <Route path="/voltamogramm/:id" component={Auth(VoltamogrammPage)} />
             <Route path="/measure/:id" component={Auth(MeasurePage)} />
         </div>
-    </BrowserRouter>
+    </ConnectedRouter>
 );
 
 export default App;

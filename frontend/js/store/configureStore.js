@@ -1,4 +1,6 @@
 import {createStore, compose, applyMiddleware} from 'redux';
+import createHistory from 'history/createBrowserHistory';
+import {routerMiddleware} from 'react-router-redux';
 import rootReducer from '../reducers';
 import root from '../sagas';
 import createSagaMiddleware from 'redux-saga';
@@ -12,6 +14,7 @@ const initialState = {
     voltamogramm: {}
 };
 
+export const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
 
 const composeEnhancers = !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
@@ -22,7 +25,7 @@ const store = createStore(
     rootReducer,
     initialState,
     composeEnhancers(
-        applyMiddleware(sagaMiddleware)
+        applyMiddleware(routerMiddleware(history), sagaMiddleware)
     )
 );
 

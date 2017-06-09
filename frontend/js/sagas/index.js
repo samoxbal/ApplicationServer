@@ -1,4 +1,5 @@
 import {take, put, fork, call, select} from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import is from 'is';
 import validator from '../utils/validator';
 import {api} from '../utils/api';
@@ -30,6 +31,7 @@ function* createExperiment() {
         const [invalidFields, experimentObj] = validator(form, experimentRequiredFields);
         if(is.empty(invalidFields)) {
             yield call(api.add_experiment, experimentObj);
+            yield put(push('/all'));
         } else {
             yield put({
                 type: ACTION_TYPES.SET_ERROR,
